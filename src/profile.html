@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль Telegram</title>
+    <link rel="stylesheet" href="style/profile.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="scripts/profile.js" defer></script>
+</head>
+<body>
+<div class="main-container">
+    <div class="container">
+        <div id="statusBlock" class="status-indicator">
+            Проверка данных...
+        </div>
+
+        <div id="profileSection" class="profile-section hidden">
+            <div class="profile-header">
+                <img id="userAvatar" class="avatar" alt="Аватар">
+                <div class="profile-info">
+                    <div id="userName" class="name"></div>
+                    <div id="premiumBadge" class="badge">Premium</div>
+                    <div class="username" id="userUsername"></div>
+                </div>
+            </div>
+
+
+            <div class="details-grid">
+                <div class="title-name">
+                    <h4>Основная информация</h4>
+                </div>
+                <div class="detail-card">
+
+                    <div class="detail-title">Telegram ID</div>
+                    <div class="detail-info"><span id="userId"></span></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Язык</div>
+                    <div class="detail-info"><span id="userLang"></span></div>
+                </div>
+                <div class="title-name">
+                    <h4>Настройки</h4>
+                </div>
+                <div class="detail-card">
+
+                    <div class="detail-title">Бот может отправлять сообщения</div>
+                    <div class="detail-info"><span id="userCanWrite"></span></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Аккаунт</div>
+                    <div class="detail-info"><span id="accountType"></span></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Высота экрана</div>
+                    <div class="detail-info"><span id="screenHeight"></span></div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">Ширина экрана</div>
+                    <div class="detail-info"><span id="screenWidth"></span></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="hidden" id="debugSection">
+            <div class="data-block">
+                <h3>Данные от Telegram:</h3>
+                <pre id="initDataRaw"></pre>
+            </div>
+
+            <div class="data-block">
+                <h3>Ответ сервера:</h3>
+                <pre id="serverResponse"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Функция обновления высоты экрана
+    function updateScreenHeight() {
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
+        document.getElementById('screenHeight').textContent = `${screenHeight}px`;
+        document.getElementById('screenWidth').textContent = `${screenWidth}px`;
+
+    }
+    // Обновляем высоту экрана при загрузке страницы
+    updateScreenHeight();
+
+    // Обновляем высоту экрана при изменении размера окна
+    window.addEventListener('resize', updateScreenHeight);
+</script>
+</body>
+</html>
