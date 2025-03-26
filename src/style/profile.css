@@ -21,6 +21,7 @@ body {
     background: linear-gradient(135deg, #331f88, #9482e3);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #f8f8f8;
+    overflow-x: hidden;
 }
 .main-container {
     display: flex;
@@ -192,15 +193,22 @@ body {
 }
 
 pre {
+    word-break: break-word;
+    white-space: pre-wrap;
     background: #f9f9f9;
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto; /* Скрыть горизонтальную прокрутку */
     overflow-y: hidden;   /* Добавлять вертикальные полосы прокрутки автоматически */
-    white-space: pre-wrap;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     margin: 0.15em 0 0.15em 0;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+}
+
+pre::-webkit-scrollbar {
+    height: 8px;
 }
 
 h1 {
