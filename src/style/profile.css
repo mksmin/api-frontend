@@ -253,3 +253,42 @@ p {
         font-size: 10px;
     }
 }
+
+
+.dev-switch {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+
+}
+
+.dev-btn {
+    background: linear-gradient(145deg, #2aabee, #1a8cd8);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(42, 171, 238, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dev-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(42, 171, 238, 0.4);
+}
+
+.dev-btn.active {
+    background: linear-gradient(145deg, #4caf50, #45a049);
+}
+
+.dev-icon {
+    font-size: 20px;
+}
