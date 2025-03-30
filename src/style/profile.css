@@ -22,6 +22,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #f8f8f8;
     overflow-x: hidden;
+    position: relative;
+    z-index: 0;
 }
 .main-container {
     display: flex;
@@ -30,6 +32,9 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    position: relative;
+    z-index: 2;
 }
 
 @media (max-width: 768px){
@@ -54,6 +59,14 @@ body {
     max-width: 800px;
     width: 100%;
     margin: 20px 0;
+
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+}
+.container > * {
+    position: relative;
+    z-index: 3;
 }
 
 @media (max-width: 768px){
@@ -335,9 +348,9 @@ p {
     50% { transform: translateY(-20px); }
 }
 .goose {
+    z-index: 2;
     position: fixed;
     font-size: 40px;
-    z-index: 0;
     user-select: none;
     pointer-events: none;
     opacity: 0;
