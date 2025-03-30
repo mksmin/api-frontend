@@ -253,14 +253,6 @@ p {
     unicode-bidi: isolate;
 }
 
-@media (max-height: 600px){
-    .profile-section {
-        font-size: 14px;
-    }
-    .detail-title {
-        font-size: 10px;
-    }
-}
 
 
 .dev-switch {
