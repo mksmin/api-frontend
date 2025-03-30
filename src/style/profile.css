@@ -314,3 +314,34 @@ p {
 .dev-icon {
     font-size: 20px;
 }
+
+@keyframes run {
+    0% {
+        transform: translateX(-100vw) scaleX(1);
+        opacity: 0;
+    }
+    5% { opacity: 0.3; }
+    50% { transform: translateX(50vw) scaleX(1); }
+    51% { transform: translateX(50vw) scaleX(-1); }
+    95% { opacity: 0.3; }
+    100% {
+        transform: translateX(150vw) scaleX(-1);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+.goose {
+    position: fixed;
+    font-size: 40px;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+    opacity: 0;
+    animation:
+    run 12s linear infinite,
+    float 3s ease-in-out infinite;
+}
