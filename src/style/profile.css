@@ -24,7 +24,7 @@ body {
     overflow-x: hidden;
 }
 .main-container {
-    display: flex;
+    display: block;
     flex-grow:1;
     padding: 2rem;
     justify-content: center;
@@ -38,6 +38,9 @@ body {
         touch-action: pan-y;
     }
     .main-container {
+        display: flex;
+        flex-direction: column;
+
         padding: 0;
         align-items: stretch;
     }
@@ -63,6 +66,8 @@ body {
         flex-grow:1;
     }
 }
+
+
 
 .hidden {
     display: none !important;
@@ -156,16 +161,36 @@ body {
     align-items: center;
     color: var(--hint-color);
 }
+.status-block {
+    background: var(--secondary-bg-color);
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 800px;
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 15px;
+
+}
 
 .status-indicator {
     padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
+    margin: 0rem 0;
     text-align: center;
     transition: all 0.3s ease;
     transform: scale(1);
 }
+@media (max-width: 768px){
+    .status-block {
+        border-radius: 0px;
 
+        margin: 0;
+    }
+    .status-indicator {
+        border-radius: 0px;
+    }
+}
 .fade-out {
     opacity: 0; /* Скрываем элемент плавно */
     margin: 0;

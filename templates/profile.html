@@ -1,0 +1,66 @@
+
+
+<div id="profileSection" class="profile-section">
+    <div class="profile-header">
+        <img src="{{ user.photo_url }}" id="userAvatar" class="avatar" alt="Аватар" onerror="this.style.display='none'">
+
+        <div class="profile-info">
+            <div id="userName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
+
+            {% if user.is_premium %}
+            <div id="premiumBadge" class="badge">Premium</div>
+            {% endif %}
+
+            <div class="username" id="userUsername">@{{ user.username }}</div>
+
+        </div>
+
+    </div>
+    <div class="details-grid">
+        <div class="title-name">
+            <h4>Основная информация</h4>
+        </div>
+        <div class="detail-card">
+
+            <div class="detail-title">Telegram ID</div>
+            <div class="detail-info"><span id="userId">{{ user.id }}</span></div>
+        </div>
+        <div class="detail-card">
+            <div class="detail-title">Язык</div>
+            <div class="detail-info"><span id="userLang">{{ user.language_code }}</span></div>
+        </div>
+        <div class="title-name">
+            <h4>Настройки</h4>
+        </div>
+        <div class="detail-card">
+
+            <div class="detail-title">Бот может отправлять сообщения</div>
+            <div class="detail-info"><span id="userCanWrite">{{ user.allows_write_to_pm }}</span></div>
+        </div>
+        <div class="detail-card">
+            <div class="detail-title">Аккаунт</div>
+            <div class="detail-info">
+                <span id="accountType">
+                    {% if user.is_premium %}
+                    Premium
+                    {% else %}
+                    Обычный
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div id="windowSize" class="">
+            <div class="detail-card">
+                <div class="detail-title">Высота экрана</div>
+                <div class="detail-info"><span id="screenHeight"></span></div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-title">Ширина экрана</div>
+                <div class="detail-info"><span id="screenWidth"></span></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
