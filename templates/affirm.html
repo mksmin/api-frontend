@@ -1,3 +1,30 @@
+<style>
+    .detail-info {
+    /* Убираем выравнивание вправо и ставим по левому краю */
+        text-align: left;
+        margin-left: 0; /* Убираем авто-отступ */
+        padding-left: 16px;
+        color: var(--hint-color);
+        /* Меняем flex на обычный блок */
+        display: block;
+        width: 100%; /* Занимает всю доступную ширину */
+    }
+
+    .detail-title {
+    /* Фиксированная ширина для всех заголовков */
+        min-width: 25px;
+        width: 25px;
+        /* Центрирование чисел */
+        text-align: center;
+        /* Сохраняем гибкость */
+        flex: 0 0 auto;
+        /* Визуальные стили */
+        font-size: 1rem;
+        margin-right: 12px;
+    }
+</style>
+
+
 <div id="profileSection" class="profile-section">
     <div class="profile-header">
         <img src="{{ user.photo_url }}" id="userAvatar" class="avatar" alt="Аватар" onerror="this.style.display='none'">
