@@ -1,0 +1,29 @@
+<div id="profileSection" class="profile-section">
+    <div class="profile-header">
+        <img src="{{ user.photo_url }}" id="userAvatar" class="avatar" alt="Аватар" onerror="this.style.display='none'">
+
+        <div class="profile-info">
+            <div id="userName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
+
+            {% if user.is_premium %}
+            <div id="premiumBadge" class="badge">Premium</div>
+            {% endif %}
+
+            <div class="username" id="userUsername">@{{ user.username }}</div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="details-grid">
+    <div class="title-name">
+        <h4>Основная информация</h4>
+    </div>
+    {{% for user in users %}
+    <div class="detail-card">
+        <div class="detail-title">Telegram ID</div>
+        <div class="detail-info"><span id="userId">{{ user.id }}</span></div>
+    </div>
+{{% endfor %}}
+</div>
