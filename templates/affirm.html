@@ -18,12 +18,20 @@
 
 <div class="details-grid">
     <div class="title-name">
-        <h4>Основная информация</h4>
+        <h4>Твои аффирмации</h4>
     </div>
 
+    <!-- Динамический вывод аффирмаций -->
+    {% if affirm %}
+    {% for task_number, task_text in affirm.items() %}
     <div class="detail-card">
-        <div class="detail-title">Telegram ID</div>
-        <div class="detail-info"><span id="userId">{{ user.id }}</span></div>
+        <div class="detail-title">Аффирмация №{{ task_number }}</div>
+        <div class="detail-info">{{ task_text }}</div>
     </div>
-
+    {% endfor %}
+    {% else %}
+    <div class="detail-card">
+        <div class="detail-info">Нет доступных аффирмаций</div>
+    </div>
+    {% endif %}
 </div>
