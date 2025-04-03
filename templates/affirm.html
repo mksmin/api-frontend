@@ -23,6 +23,14 @@
         justify-content: center;
         align-items: center;
     }
+
+    .detail-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
     .delete-btn {
         background-color: #e64d44;
         transform: scale3d(0.9, 0.9, 1);
@@ -73,7 +81,9 @@
     <div class="detail-card" data-task-id="{{ task.id }}">
         <div class="detail-title">{{ task.number }} </div>
         <div class="detail-info">{{ task.text }}</div>
-        <button class="delete-btn">Удалить</button>
+        <div class="detail-button">
+            <button class="delete-btn">X</button>
+        </div>
     </div>
     {% endfor %}
     {% else %}
