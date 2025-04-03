@@ -50,10 +50,11 @@
 
     <!-- Динамический вывод аффирмаций -->
     {% if affirm %}
-    {% for task_number, task_text in affirm.items() %}
-    <div class="detail-card">
-        <div class="detail-title">{{ task_number }}</div>
-        <div class="detail-info">{{ task_text }}</div>
+    {% for task in affirm %}
+    <div class="detail-card" data-task-id="{{ task.id }}">
+        <div class="detail-title">{{ task.number }} </div>
+        <div class="detail-info">({{ task.id }}) {{ task.text }}</div>
+        <button class="delete-btn">Удалить</button>
     </div>
     {% endfor %}
     {% else %}
