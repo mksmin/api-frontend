@@ -21,5 +21,35 @@
 </div>
 
 <script src="scripts/profile.js" defer></script>
+
+<script>
+    console.log("Аффирмации страница");
+    // Обработчик клика для динамических кнопок удаления
+    document.addEventListener('click', function(e) {
+        const deleteBtn = e.target.closest('.delete-btn');
+        if (!deleteBtn) return;
+
+        console.log('Кнопка удаления нажата!');
+
+        const popup = document.getElementById('tempPopup');
+        if (!popup) {
+            console.error('Попап не найден!');
+            return;
+        }
+
+        // Анимация появления
+        popup.style.display = 'block';
+        popup.style.animation = 'slideIn 0.5s';
+
+        // Автоматическое скрытие через 3 секунды
+        setTimeout(() => {
+            popup.style.animation = 'fadeOut 0.5s';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 500);
+        }, 3000);
+    });
+</script>
+
 </body>
 </html>
