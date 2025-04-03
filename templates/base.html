@@ -20,53 +20,6 @@
     <div class="container" id="container"></div>
 </div>
 
-<div id="tempPopup" class="custom-popup">
-    <div class="popup-content">
-        Пока я не умею удалять
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM загружен'); // Проверка загрузки скрипта
-
-        const grid = document.querySelector('.details-grid');
-        if (!grid) {
-            console.error('Контейнер .details-grid не найден!');
-            return;
-        }
-
-        grid.addEventListener('click', (e) => {
-            console.log('Клик в зоне .details-grid'); // Проверка срабатывания делегирования
-
-            const deleteBtn = e.target.closest('.delete-btn');
-            if (deleteBtn) {
-                console.log('Кнопка удаления нажата!'); // Подтверждение клика по кнопке
-
-                const popup = document.getElementById('tempPopup');
-                if (!popup) {
-                    console.error('Попап #tempPopup не найден!');
-                    return;
-                }
-
-                console.log('Показываем попап');
-                popup.style.display = 'block';
-                popup.style.animation = 'slideIn 0.5s ease-out';
-
-                setTimeout(() => {
-                    console.log('Скрываем попап через 3 сек');
-                    popup.style.animation = 'fadeOut 0.5s ease-out';
-
-                    setTimeout(() => {
-                        console.log('Попап скрыт');
-                        popup.style.display = 'none';
-                    }, 500);
-
-                }, 3000);
-            }
-        });
-    });
-</script>
 <script src="scripts/profile.js" defer></script>
 </body>
 </html>

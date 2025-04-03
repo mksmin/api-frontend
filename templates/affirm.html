@@ -166,3 +166,43 @@
     </div>
     {% endif %}
 </div>
+
+
+<div id="tempPopup" class="custom-popup">
+    <div class="popup-content">
+        Пока я не умею удалять
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Инициализация обработчика удаления');
+
+        const grid = document.querySelector('.details-grid');
+        if (!grid) {
+            console.error('Контейнер не найден!');
+            return;
+        }
+
+        grid.addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                console.log('Кнопка удаления нажата!');
+
+                const popup = document.getElementById('tempPopup');
+                if (!popup) {
+                    console.error('Попап не найден!');
+                    return;
+                }
+
+                popup.style.display = 'block';
+                popup.style.animation = 'slideIn 0.5s';
+
+                setTimeout(() => {
+                    popup.style.animation = 'fadeOut 0.5s';
+                    setTimeout(() => popup.style.display = 'none', 500);
+                }, 3000);
+            }
+        });
+    });
+</script>
