@@ -5,8 +5,6 @@
         margin-left: 0; /* Убираем авто-отступ */
         padding-left: 16px;
         color: var(--hint-color);
-        /* Меняем flex на обычный блок */
-        display: block;
         width: 100%; /* Занимает всю доступную ширину */
     }
 
@@ -21,6 +19,27 @@
         /* Визуальные стили */
         font-size: 1rem;
         margin-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .delete-btn {
+        background-color: #e64d44;
+        transform: scale3d(0.9, 0.9, 1);
+        width: 50px;
+        display: inline-block;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 6px 8px;
+        height: 32px;
+        border-radius: 7px;
+        box-sizing: border-box;
+        text-transform: uppercase;
+        color: #fff;
+        outline: none;
+        border: none;
+        align-items: center;
     }
 </style>
 
@@ -53,7 +72,7 @@
     {% for task in affirm %}
     <div class="detail-card" data-task-id="{{ task.id }}">
         <div class="detail-title">{{ task.number }} </div>
-        <div class="detail-info">({{ task.id }}) {{ task.text }}</div>
+        <div class="detail-info">{{ task.text }}</div>
         <button class="delete-btn">Удалить</button>
     </div>
     {% endfor %}
