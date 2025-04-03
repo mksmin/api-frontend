@@ -7,6 +7,33 @@
         color: var(--hint-color);
         width: 100%; /* Занимает всю доступную ширину */
     }
+    .detail-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px; /* Расстояние между заголовком и строкой */
+        padding: 16px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px; /* Расстояние между текстом и кнопкой */
+    }
+
+    .detail-info {
+        flex: 1; /* Растягивается на доступное пространство */
+        margin: 0;
+        padding: 0;
+        text-align: left;
+    }
+
+    .detail-button {
+        flex-shrink: 0; /* Запрещает уменьшение кнопки */
+    }
 
     .detail-title {
     /* Фиксированная ширина для всех заголовков */
@@ -28,6 +55,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 5px;
     }
 
     .delete-btn {
@@ -47,6 +75,46 @@
         outline: none;
         border: none;
         align-items: center;
+    }
+
+    .custom-popup {
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #e64d44;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        animation: slideIn 0.5s ease-out, fadeOut 1s 2s forwards;
+        z-index: 1000;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+        to { opacity: 0; }
+    }
+
+    .popup-content {
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .detail-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        background-color: #c43a2f;
+        transition: background 0.2s;
     }
 </style>
 
@@ -78,10 +146,14 @@
     {% if affirm %}
     {% for task in affirm %}
     <div class="detail-card" data-task-id="{{ task.id }}">
-        <div class="detail-title">{{ task.number }} </div>
-        <div class="detail-info">{{ task.text }}</div>
-        <div class="detail-button">
-            <button class="delete-btn">X</button>
+        <div class="detail-title">{{ task.number }}</div>
+
+        <!-- Обертка для текста и кнопки -->
+        <div class="detail-row">
+            <div class="detail-info">{{ task.text }}</div>
+            <div class="detail-button">
+                <button class="delete-btn">X</button>
+            </div>
         </div>
     </div>
     {% endfor %}
@@ -94,3 +166,30 @@
     </div>
     {% endif %}
 </div>
+
+<div id="tempPopup" class="custom-popup">
+    <div class="popup-content">
+        Пока я не умею удалять
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation(); // Предотвращаем всплытие события
+
+                const popup = document.getElementById('tempPopup');
+                popup.style.display = 'block';
+
+                // Автоматически скрываем через 3 секунды
+                setTimeout(() => {
+                    popup.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => popup.style.display = 'none', 500);
+                }, 3000);
+            });
+        });
+    });
+</script>
