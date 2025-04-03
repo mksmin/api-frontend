@@ -1,4 +1,4 @@
-<style>
+<style xmlns="http://www.w3.org/1999/html">
     .detail-info {
     /* Убираем выравнивание вправо и ставим по левому краю */
         text-align: left;
@@ -13,7 +13,6 @@
         gap: 12px; /* Расстояние между заголовком и строкой */
         padding: 16px;
         border-radius: 8px;
-        background: white;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
@@ -146,11 +145,9 @@
     {% if affirm %}
     {% for task in affirm %}
     <div class="detail-card" data-task-id="{{ task.id }}">
-        <div class="detail-title">{{ task.number }}</div>
-
         <!-- Обертка для текста и кнопки -->
         <div class="detail-row">
-            <div class="detail-info">{{ task.text }}</div>
+            <div class="detail-info"><p style="color: white;">{{ task.number }}</p> {{ task.text }}</div>
             <div class="detail-button">
                 <button class="delete-btn">X</button>
             </div>
