@@ -105,7 +105,6 @@
     }
 
     .detail-card:hover {
-        transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
     }
@@ -113,6 +112,9 @@
     .delete-btn:hover {
         background-color: #c43a2f;
         transition: background 0.2s;
+    }
+    .detail-button:hover {
+
     }
 </style>
 
@@ -169,23 +171,3 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation(); // Предотвращаем всплытие события
-
-                const popup = document.getElementById('tempPopup');
-                popup.style.display = 'block';
-
-                // Автоматически скрываем через 3 секунды
-                setTimeout(() => {
-                    popup.style.animation = 'fadeOut 0.5s ease-out';
-                    setTimeout(() => popup.style.display = 'none', 500);
-                }, 3000);
-            });
-        });
-    });
-</script>

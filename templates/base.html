@@ -20,7 +20,26 @@
     <div class="container" id="container"></div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
 
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation(); // Предотвращаем всплытие события
+
+                const popup = document.getElementById('tempPopup');
+                popup.style.display = 'block';
+
+                // Автоматически скрываем через 3 секунды
+                setTimeout(() => {
+                    popup.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => popup.style.display = 'none', 500);
+                }, 3000);
+            });
+        });
+    });
+</script>
 <script src="scripts/profile.js" defer></script>
 </body>
 </html>
