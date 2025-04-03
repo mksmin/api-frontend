@@ -22,21 +22,20 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation(); // Предотвращаем всплытие события
+        // Используем делегирование событий
+        document.querySelector('.details-grid').addEventListener('click', (e) => {
+            if (e.target.closest('.delete-btn')) {
+                e.stopPropagation();
 
                 const popup = document.getElementById('tempPopup');
                 popup.style.display = 'block';
+                popup.style.animation = 'slideIn 0.5s ease-out'; // Явно запускаем анимацию
 
-                // Автоматически скрываем через 3 секунды
                 setTimeout(() => {
                     popup.style.animation = 'fadeOut 0.5s ease-out';
                     setTimeout(() => popup.style.display = 'none', 500);
                 }, 3000);
-            });
+            }
         });
     });
 </script>

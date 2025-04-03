@@ -73,6 +73,7 @@
         outline: none;
         border: none;
         align-items: center;
+        transition: background 0.2s, transform 0.2s; /* Добавлено */
     }
 
     .custom-popup {
@@ -113,8 +114,9 @@
         background-color: #c43a2f;
         transition: background 0.2s;
     }
-    .detail-button:hover {
-
+    .delete-btn:active {
+        background-color: #c43a2f; /* Тот же цвет, что и при ховере */
+        transform: scale3d(0.95, 0.95, 1); /* Немного сжимаем */
     }
 </style>
 
@@ -148,7 +150,7 @@
     <div class="detail-card" data-task-id="{{ task.id }}">
         <!-- Обертка для текста и кнопки -->
         <div class="detail-row">
-            <div class="detail-info"><p style="color: white; margin-right: 8px">{{ task.number }}.</p>  {{ task.text }}</div>
+            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>
             <div class="detail-button">
                 <button class="delete-btn">X</button>
             </div>
