@@ -10,7 +10,6 @@
     .detail-card {
         display: flex;
         flex-direction: column;
-        gap: 12px; /* Расстояние между заголовком и строкой */
         padding: 16px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -147,7 +146,7 @@
     <div class="detail-card" data-task-id="{{ task.id }}">
         <!-- Обертка для текста и кнопки -->
         <div class="detail-row">
-            <div class="detail-info"><p style="color: white;">{{ task.number }}</p> {{ task.text }}</div>
+            <div class="detail-info"><p style="color: white; margin-right: 8px">{{ task.number }}.</p>  {{ task.text }}</div>
             <div class="detail-button">
                 <button class="delete-btn">X</button>
             </div>
