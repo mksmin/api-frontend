@@ -28,18 +28,40 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Используем делегирование событий
-        document.querySelector('.details-grid').addEventListener('click', (e) => {
-            if (e.target.closest('.delete-btn')) {
-                e.stopPropagation();
+        console.log('DOM загружен'); // Проверка загрузки скрипта
+
+        const grid = document.querySelector('.details-grid');
+        if (!grid) {
+            console.error('Контейнер .details-grid не найден!');
+            return;
+        }
+
+        grid.addEventListener('click', (e) => {
+            console.log('Клик в зоне .details-grid'); // Проверка срабатывания делегирования
+
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                console.log('Кнопка удаления нажата!'); // Подтверждение клика по кнопке
 
                 const popup = document.getElementById('tempPopup');
+                if (!popup) {
+                    console.error('Попап #tempPopup не найден!');
+                    return;
+                }
+
+                console.log('Показываем попап');
                 popup.style.display = 'block';
-                popup.style.animation = 'slideIn 0.5s ease-out'; // Явно запускаем анимацию
+                popup.style.animation = 'slideIn 0.5s ease-out';
 
                 setTimeout(() => {
+                    console.log('Скрываем попап через 3 сек');
                     popup.style.animation = 'fadeOut 0.5s ease-out';
-                    setTimeout(() => popup.style.display = 'none', 500);
+
+                    setTimeout(() => {
+                        console.log('Попап скрыт');
+                        popup.style.display = 'none';
+                    }, 500);
+
                 }, 3000);
             }
         });
