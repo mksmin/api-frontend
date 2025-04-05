@@ -36,8 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.dynamicLoadContent = async () => {
         try {
-            console.log("Начинаю динамическое обновление контента...")
-            const response = await fetch("/content", {
+            // Получаем текущий путь
+            const currentPath = window.location.pathname;
+            // Кодируем путь для безопасной передачи в URL
+            const encodedPath = encodeURIComponent(currentPath);
+
+            console.log("Начинаю динамическое обновление контента...", encodedPath)
+            const response = await fetch(`/content?page=${encodedPath}`, {
                 method: "GET",
             });
             // Шаг 2: Парсим JSON (но не теряем объект response)
