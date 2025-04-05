@@ -32,5 +32,31 @@
 <script src="scripts/auth.js" defer></script>
 {% endif %}
 
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Добавляем небольшую задержку для гарантии загрузки utils.js
+        await new Promise(r => setTimeout(r, 0));
+
+        try {
+            // Проверяем существование элементов
+            if (!window.elements?.statusBlock) {
+                throw new Error('Элемент statusBlock не инициализирован');
+            }
+
+
+            // Загружаем контент
+            await window.dynamicLoadContent();
+
+        } catch (error) {
+            console.error('Ошибка инициализации:', error);
+            window.elements.container.innerHTML = `
+                <div class="error-message">
+                    Критическая ошибка: ${error.message}
+                </div>
+            `;
+        }
+    });
+</script>
+
 </body>
 </html>

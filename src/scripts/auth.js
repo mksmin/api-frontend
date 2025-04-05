@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
-        const { statusBlock } = window.elements;
+        const { statusBlock } = window.elements
+
+
 
         async function loadContent() {
             try {
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 if (!requestData) {
-                    throw new Error('Не найдены данные для авторизации');
+                    return;
                 }
 
                 console.log("HTTP: ", AUTH_PATH);
@@ -50,29 +52,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                         "X-Client-Source": clientType
                     },
                     body: requestData,
-                    redirect: 'manual' // Отключаем автоматический редирект
+                    credentials: 'include'
                 });
 
-                console.log("Server Response:", response); // Логируем ответ
+                // Шаг 2: Парсим JSON (но не теряем объект response)
+                const data = await response.json();
 
-                // Обрабатываем редиректы вручную
-                if (response.status >= 300 && response.status < 400) {
-                    const redirectUrl = response.headers.get('Location');
-                    if (redirectUrl) {
-                        window.location.href = redirectUrl;
-                        return;
-                    }
-                }
+//                // Шаг 3: Логируем статус и данные
+//                console.log("Server Response Status:", response.status);
+//                console.log("Server Response Data:", data);
 
-                const responseText = await response.text(); // Всегда получаем текст ответа
+//                // Шаг 4: Обрабатываем редирект
+//                if (data.redirect) {
+//                    window.history.replaceState({}, document.title, data.redirect);
+//                    console.log('Redirect:', data.redirect);
+//                }
 
-                if (response.ok) { // status 200-299
+                // Шаг 5: Проверяем статус
+                if (response.status >= 200 && response.status < 300) {
                     elements.statusBlock.className = 'status-indicator status-success';
                     elements.statusBlock.textContent = '✅ Проверка пройдена!';
+                    window.history.replaceState({}, document.title, path);
+                    window.dynamicLoadContent();
                     window.hideResult();
                 } else {
                     elements.statusBlock.className = 'status-indicator status-error';
-                    elements.statusBlock.textContent = `❌ Ошибка ${response.status}: ${responseText || 'Нет дополнительной информации'}`;
+                    elements.statusBlock.textContent = `❌ Ошибка ${response.status}: ${data.message || 'Нет информации'}`;
                 }
 
             } catch (error) {
