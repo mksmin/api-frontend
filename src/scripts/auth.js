@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 console.log("HTTP: ", AUTH_PATH);
-                console.log("Request Data: ", requestData);
+
 
                 const response = await fetch(AUTH_PATH, {
                     method: "POST",
