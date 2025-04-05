@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
+    <script src="https://telegram.org/js/telegram-widget.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <link rel="stylesheet" href="style/profile.css">
 
 </head>
 <body>
 <div class="main-container">
+
 
     <div class="status-block">
         <div id="statusBlock" class="status-indicator">
@@ -17,39 +20,18 @@
         </div>
     </div>
 
-    <div class="container" id="container"></div>
+    <div class="container" id="container">
+        {% block content %}
+        <!-- Сюда подставляется профиль или виджет -->
+        {% endblock %}
+    </div>
 </div>
 
-<script src="scripts/profile.js" defer></script>
 
-<script>
-    console.log("Аффирмации страница");
-    // Обработчик клика для динамических кнопок удаления
-    document.addEventListener('click', function(e) {
-        const deleteBtn = e.target.closest('.delete-btn');
-        if (!deleteBtn) return;
+{% if not user %}
+<script src="scripts/auth.js" defer></script>
+{% endif %}
 
-        console.log('Кнопка удаления нажата!');
-
-        const popup = document.getElementById('tempPopup');
-        if (!popup) {
-            console.error('Попап не найден!');
-            return;
-        }
-
-        // Анимация появления
-        popup.style.display = 'block';
-        popup.style.animation = 'slideIn 0.5s';
-
-        // Автоматическое скрытие через 3 секунды
-        setTimeout(() => {
-            popup.style.animation = 'fadeOut 0.5s';
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 500);
-        }, 3000);
-    });
-</script>
 
 </body>
 </html>
