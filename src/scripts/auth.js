@@ -23,10 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 let requestData = null;
                 let clientType = null;
+                console.log("URL PARAMS: ", urlParams);
 
                 if (Telegram.WebApp.initData) {
                     requestData = Telegram.WebApp.initData;
                     clientType = "TelegramMiniApp"
+                    console.log("Init Data: ", requestData);
                 } else if (urlParams.has('id') && urlParams.has('hash') && urlParams.has('auth_date')) {
                     const queryData = new URLSearchParams();
                     urlParams.forEach((value, key) => {
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     requestData = queryData.toString();
                     clientType = "TelegramWidget"
                 }
-
+                console.log("REQUEST DATA: ", requestData);
                 if (!requestData) {
                     return;
                 }
