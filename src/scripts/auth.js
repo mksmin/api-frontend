@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Конфигурация
         const urlParams = new URLSearchParams(window.location.search);
         const path = window.location.pathname;
-        const hasAffirm = path.includes('/affirm');
+        const hasAffirm = path.includes('/affirmations');
 
         const botName = path.split('/').pop();
 
