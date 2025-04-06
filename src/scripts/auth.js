@@ -5,8 +5,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const path = window.location.pathname;
         const hasAffirm = path.includes('/affirm');
 
+        const botName = path.split('/').pop();
+
         // Настройка API endpoints
-        let AUTH_PATH = "/auth";
+        let AUTH_PATH = '/auth';
+        if (path.includes('/apps/') && botName !== '') {
+            AUTH_PATH += `/${botName}`;
+        }
 
         // Инициализация Telegram WebApp
         Telegram.WebApp.ready();
