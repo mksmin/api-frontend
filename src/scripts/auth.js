@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 // Шаг 2: Парсим JSON (но не теряем объект response)
-                const data = await response.json();
+                const data = await response.text();
 
 //                // Шаг 3: Логируем статус и данные
 //                console.log("Server Response Status:", response.status);
