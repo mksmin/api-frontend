@@ -175,7 +175,7 @@ body {
     color: var(--hint-color);
     justify-content: flex-start;
     display: flex;
-    align-items: center;
+    text-align: right;
 }
 .status-block {
     background: var(--secondary-bg-color);
