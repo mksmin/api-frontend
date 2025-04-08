@@ -3,30 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="style/index.css">
-    <title>Сайт API</title>
+    <title>Профиль разработчика</title>
+    <link rel="stylesheet" href="style/profile.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-<main>
-    <div class="container">
-        <div class="logo"></div>
-        <h1 class="title">Это API Атом-лаб.рф</h1>
-        <p class="subtitle">Сервис API недоступен публично, поэтому тут делать нечего :( </p>
-        <p class="description">
-            <a href="https://атом-лаб.рф" class="btn">
-                <span>Перейти на Атом-лаб.рф</span>
-            </a>
-        </p>
+<div class="main-container">
+    <div class="status-block">
+        <div id="statusBlock" class="status-indicator status-success">
+            🚀 Активно развиваюсь в разработке
+        </div>
     </div>
-</main>
-<!--<footer>-->
-<!--    <p>&copy; 2024 Все права защищены.</p>-->
-<!--    <ul>-->
-<!--        <li><a href="#">Контакты</a></li>-->
-<!--        <li><a href="#">О нас</a></li>-->
-<!--        <li><a href="#">Политика конфиденциальности</a></li>-->
-<!--    </ul>-->
-<!--</footer>-->
+
+    <div class="container" id="container">
+        <div id="profileSection" class="profile-section">
+            <div class="profile-header">
+                <img src="https://cdn4.cdn-telegram.org/file/usu-DSaREQDDrFmUz2QZ6cpZr7TuCTEtCFlR3VvhBcZivWk68XbJpOhFhvXa2l8dJJ6DauaVKdsGBCL4aRkmIlS6af4R1KpigoR-fbgMMjyprftthe9N96cp4qMqQwherSxvHyqj3KgHSxPAw7WFmj9Axqo6wylJOKjMVCADOXJS7spRXnyNVpuWotVG8hRXDn8dIiYfIM3-1bj_5RZThzxXhlL9xR-rT4tu9TFBWcZKyq9qQYynhcAJqEfYbLRK7jBgbAB0Y5O7ZZA1uO55qh7ZJ4oLmoRfy0kQ1eWMNczJ1NTkf-6kQWa6d2WNXjXDN8_tBeqTR27azqKb4ia_PQ.jpg"
+                     class="avatar" alt="Аватар Максима">
+                <div class="profile-info">
+                    <div class="name">Минин Максим</div>
+                    <div class="username">
+                        <a href="https://t.me/mininname"
+                           style="color: var(--accent-text-color); text-decoration: none;">
+                           @mininname
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-grid">
+                <div class="title-name">
+                    <h4>Основная информация</h4>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-title">Специализация</div>
+                    <div class="detail-info">Бэкэнд, телеграм-боты</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-title">Опыт</div>
+                    <div class="detail-info">Начинающий разработчик</div>
+                </div>
+
+                <div class="title-name">
+                    <h4>Технологии</h4>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-title">Изучаемый стек</div>
+                    <div class="detail-info">Python • FastAPI • SQLAlchemy • aiogran</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-title">Инструменты</div>
+                    <div class="detail-info">Pycharm • Git • Postman • Termius • Нейросетки</div>
+                </div>
+                <div class="title-name">
+                    <h4>Контакты</h4>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-title">ТГК</div>
+                    <div class="detail-info"><a href="https://t.me/mininwork"
+                                                style="color: var(--accent-text-color); text-decoration: none;">
+                        @mininwork
+                    </a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Динамическое обновление размеров экрана
+        const updateScreenSize = () => {
+            document.getElementById('screenHeight').textContent = `${window.innerHeight}px`;
+            document.getElementById('screenWidth').textContent = `${window.innerWidth}px`;
+        };
+
+        window.addEventListener('resize', updateScreenSize);
+        updateScreenSize();
+
+        // Анимация статус-бара
+        const statusBlock = document.getElementById('statusBlock');
+        setTimeout(() => {
+            statusBlock.style.transform = 'translateY(0)';
+            statusBlock.style.opacity = '1';
+        }, 500);
+    });
+</script>
+
 </body>
 </html>
