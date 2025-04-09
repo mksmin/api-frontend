@@ -29,11 +29,12 @@
 
 <script src="/scripts/utils.js" defer></script>
 {% if not user %}
-<script src="/scripts/auth.js" defer></script>
+<script src="/scripts/auth.js" id="authScript" defer></script>
 {% endif %}
 
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
+        const authScript = document.getElementById('authScript');
         // Добавляем небольшую задержку для гарантии загрузки utils.js
         await new Promise(r => setTimeout(r, 0));
 
@@ -43,9 +44,10 @@
                 throw new Error('Элемент statusBlock не инициализирован');
             }
 
-
-            // Загружаем контент
-            await window.dynamicLoadContent();
+            if (!authScript) {
+                // Загружаем контент
+                await window.dynamicLoadContent();
+            }
 
         } catch (error) {
             console.error('Ошибка инициализации:', error);
