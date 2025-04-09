@@ -140,25 +140,25 @@
     <div class="container" id="container">
 
         <!-- Контент разработчика -->
-            <div class="profile-section">
-                <div class="profile-header">
-                    <img src="https://cdn4.cdn-telegram.org/file/usu-DSaREQDDrFmUz2QZ6cpZr7TuCTEtCFlR3VvhBcZivWk68XbJpOhFhvXa2l8dJJ6DauaVKdsGBCL4aRkmIlS6af4R1KpigoR-fbgMMjyprftthe9N96cp4qMqQwherSxvHyqj3KgHSxPAw7WFmj9Axqo6wylJOKjMVCADOXJS7spRXnyNVpuWotVG8hRXDn8dIiYfIM3-1bj_5RZThzxXhlL9xR-rT4tu9TFBWcZKyq9qQYynhcAJqEfYbLRK7jBgbAB0Y5O7ZZA1uO55qh7ZJ4oLmoRfy0kQ1eWMNczJ1NTkf-6kQWa6d2WNXjXDN8_tBeqTR27azqKb4ia_PQ.jpg"
-                         class="avatar" alt="Аватар">
-                    <div class="profile-info">
-                        <div class="name">Минин Максим</div>
-                        <div class="badge">
-                            <span id="badgeDev">Разработка</span>
-                            <span id="badgeManager">Управление</span>
-                        </div>
-                        <div class="username">
-                            <a href="https://t.me/mininname"
-                               style="color: var(--accent-text-color); text-decoration: none;">
-                                @mininname
-                            </a>
-                        </div>
+        <div class="profile-section">
+            <div class="profile-header">
+                <img src="https://cdn4.cdn-telegram.org/file/usu-DSaREQDDrFmUz2QZ6cpZr7TuCTEtCFlR3VvhBcZivWk68XbJpOhFhvXa2l8dJJ6DauaVKdsGBCL4aRkmIlS6af4R1KpigoR-fbgMMjyprftthe9N96cp4qMqQwherSxvHyqj3KgHSxPAw7WFmj9Axqo6wylJOKjMVCADOXJS7spRXnyNVpuWotVG8hRXDn8dIiYfIM3-1bj_5RZThzxXhlL9xR-rT4tu9TFBWcZKyq9qQYynhcAJqEfYbLRK7jBgbAB0Y5O7ZZA1uO55qh7ZJ4oLmoRfy0kQ1eWMNczJ1NTkf-6kQWa6d2WNXjXDN8_tBeqTR27azqKb4ia_PQ.jpg"
+                     class="avatar" alt="Аватар">
+                <div class="profile-info">
+                    <div class="name">Минин Максим</div>
+                    <div class="badge">
+                        <span id="badgeDev">Разработка</span>
+                        <span id="badgeManager">Управление</span>
+                    </div>
+                    <div class="username">
+                        <a href="https://t.me/mininname"
+                           style="color: var(--accent-text-color); text-decoration: none;">
+                            @mininname
+                        </a>
                     </div>
                 </div>
-                <div id="developerContent" class="profile-content visible-content">
+            </div>
+            <div id="developerContent" class="profile-content visible-content">
 
                 <div class="details-grid">
                     <div class="title-name">
@@ -204,7 +204,7 @@
 
                     <div class="detail-card">
                         <div class="detail-title">Опыт</div>
-                        <div class="detail-info">11+ лет управления </div>
+                        <div class="detail-info">11+ лет управления</div>
                     </div>
 
                     <div class="title-name">
@@ -231,17 +231,19 @@
                 </div>
             </div>
         </div>
-    <div class="details-grid">
-        <div class="title-name">
-            <h4>Контакты</h4>
-        </div>
+        <div class="details-grid">
+            <div class="title-name">
+                <h4>Контакты</h4>
+            </div>
 
-        <div class="detail-card">
-            <div class="detail-title">ТГК</div>
-            <div class="detail-info"><a href="https://t.me/mininwork"
-                                        style="color: var(--accent-text-color); text-decoration: none;">
-                @mininwork
-            </a></div>
+            <div class="detail-card">
+                <div class="detail-title">ТГК</div>
+                <div class="detail-info"><a href="https://t.me/mininwork"
+                                            style="color: var(--accent-text-color); text-decoration: none;">
+                    @mininwork
+                </a></div>
+            </div>
+
             <div class="detail-card">
                 <div class="detail-title">Телеграм</div>
                 <div class="detail-info">
@@ -252,98 +254,97 @@
                 </div>
 
 
+            </div>
         </div>
     </div>
+
+    <!-- iOS Navigation Bar -->
+    <div class="ios-navbar">
+        <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">Разработка</button>
+        <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление</button>
     </div>
-</div>
 
-<!-- iOS Navigation Bar -->
-<div class="ios-navbar">
-    <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">Разработка</button>
-    <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление</button>
-</div>
+    <script>
+        function switchProfile(profileType) {
+            const developerContent = document.getElementById('developerContent');
+            const managerContent = document.getElementById('managerContent');
+            const buttons = document.querySelectorAll('.nav-button');
+            const statusManager = document.getElementById('status-manager');
+            const statusDeveloper = document.getElementById('status-developer');
+            const badgeManager = document.getElementById("badgeManager");
+            const badgeDev = document.getElementById('badgeDev');
 
-<script>
-    function switchProfile(profileType) {
-        const developerContent = document.getElementById('developerContent');
-        const managerContent = document.getElementById('managerContent');
-        const buttons = document.querySelectorAll('.nav-button');
-        const statusManager = document.getElementById('status-manager');
-        const statusDeveloper = document.getElementById('status-developer');
-        const badgeManager = document.getElementById("badgeManager");
-        const badgeDev = document.getElementById('badgeDev');
+            // Обновляем URL
+            window.history.pushState({}, '', `#${profileType}`);
 
-        // Обновляем URL
-        window.history.pushState({}, '', `#${profileType}`);
+            // Переключение контента
+            if(profileType === 'developer') {
+                managerContent.classList.remove('visible-content');
+                managerContent.classList.add('hidden-content');
+                developerContent.classList.remove('hidden-content');
+                developerContent.classList.add('visible-content');
 
-        // Переключение контента
-        if(profileType === 'developer') {
-            managerContent.classList.remove('visible-content');
-            managerContent.classList.add('hidden-content');
-            developerContent.classList.remove('hidden-content');
-            developerContent.classList.add('visible-content');
+                statusDeveloper.classList.remove('hidden-content');
+                statusDeveloper.classList.add('visible-content');
+                statusManager.classList.remove('visible-content');
+                statusManager.classList.add('hidden-content');
 
-            statusDeveloper.classList.remove('hidden-content');
-            statusDeveloper.classList.add('visible-content');
-            statusManager.classList.remove('visible-content');
-            statusManager.classList.add('hidden-content');
+                badgeDev.classList.remove('hidden-content');
+                badgeDev.classList.add('visible-content');
+                badgeManager.classList.remove('visible-content');
+                badgeManager.classList.add('hidden-content');
+            } else {
+                developerContent.classList.remove('visible-content');
+                developerContent.classList.add('hidden-content');
+                managerContent.classList.remove('hidden-content');
+                managerContent.classList.add('visible-content');
 
-            badgeDev.classList.remove('hidden-content');
-            badgeDev.classList.add('visible-content');
-            badgeManager.classList.remove('visible-content');
-            badgeManager.classList.add('hidden-content');
-        } else {
-            developerContent.classList.remove('visible-content');
-            developerContent.classList.add('hidden-content');
-            managerContent.classList.remove('hidden-content');
-            managerContent.classList.add('visible-content');
+                statusDeveloper.classList.remove('visible-content');
+                statusDeveloper.classList.add('hidden-content');
+                statusManager.classList.remove('hidden-content');
+                statusManager.classList.add('visible-content');
 
-            statusDeveloper.classList.remove('visible-content');
-            statusDeveloper.classList.add('hidden-content');
-            statusManager.classList.remove('hidden-content');
-            statusManager.classList.add('visible-content');
+                badgeDev.classList.remove('visible-content');
+                badgeDev.classList.add('hidden-content');
+                badgeManager.classList.remove('hidden-content');
+                badgeManager.classList.add('visible-content');
+            }
 
-            badgeDev.classList.remove('visible-content');
-            badgeDev.classList.add('hidden-content');
-            badgeManager.classList.remove('hidden-content');
-            badgeManager.classList.add('visible-content');
+            // Обновление кнопок
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                const btnType = btn.getAttribute('data-type');
+                if(btnType === profileType) {
+                    btn.classList.add('active');
+                }
+            });
         }
 
-        // Обновление кнопок
-        buttons.forEach(btn => {
-            btn.classList.remove('active');
-            const btnType = btn.getAttribute('data-type');
-            if(btnType === profileType) {
-                btn.classList.add('active');
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            // Определяем профиль из URL
+            const hash = window.location.hash.replace('#', '');
+            const validProfiles = ['developer', 'manager'];
+            const defaultProfile = 'developer';
+
+            const initialProfile = validProfiles.includes(hash) ? hash : defaultProfile;
+            switchProfile(initialProfile);
+
+            // Анимация статусбара
+            setTimeout(() => {
+                document.getElementById('statusBlock').style.transform = 'translateY(0)';
+                document.getElementById('statusBlock').style.opacity = '1';
+            }, 400);
+        });
+
+        // Обработчик изменения URL
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if(hash === 'developer' || hash === 'manager') {
+                switchProfile(hash);
             }
         });
-    }
-
-    // Инициализация при загрузке
-    document.addEventListener('DOMContentLoaded', () => {
-        // Определяем профиль из URL
-        const hash = window.location.hash.replace('#', '');
-        const validProfiles = ['developer', 'manager'];
-        const defaultProfile = 'developer';
-
-        const initialProfile = validProfiles.includes(hash) ? hash : defaultProfile;
-        switchProfile(initialProfile);
-
-        // Анимация статусбара
-        setTimeout(() => {
-            document.getElementById('statusBlock').style.transform = 'translateY(0)';
-            document.getElementById('statusBlock').style.opacity = '1';
-        }, 400);
-    });
-
-    // Обработчик изменения URL
-    window.addEventListener('hashchange', () => {
-        const hash = window.location.hash.replace('#', '');
-        if(hash === 'developer' || hash === 'manager') {
-            switchProfile(hash);
-        }
-    });
-</script>
+    </script>
 
 </body>
 </html>
