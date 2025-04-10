@@ -133,7 +133,7 @@
 <body>
 <div class="main-container">
     <div class="status-block">
-        <div class="status-indicator status-success visible-content">
+        <div id="status-indicator" class="status-indicator status-success visible-content">
             <span id="status-developer" class="hidden-content">🚀 Активно развиваюсь в разработке</span>
             <span id="status-manager" class="hidden-content"> 🚀 Ищу работу с интересными проектами</span>
 
@@ -282,6 +282,7 @@
             const badgeDev = document.getElementById('badgeDev');
             const userpicManager = document.getElementById('avatar-manager');
             const userpicDeveloper = document.getElementById('avatar-developer');
+            const statusIndicator = document.getElementById('status-indicator');
 
             // Обновляем URL
             window.history.pushState({}, '', `#${profileType}`);
@@ -307,6 +308,10 @@
                 userpicManager.classList.add('hidden-content');
                 userpicDeveloper.classList.remove('hidden-content');
                 userpicDeveloper.classList.add('visible-content');
+
+                statusIndicator.classList.remove('status-success');
+                statusIndicator.classList.add('status-info');
+
             } else {
                 developerContent.classList.remove('visible-content');
                 developerContent.classList.add('hidden-content');
@@ -327,6 +332,9 @@
                 userpicManager.classList.add('visible-content');
                 userpicDeveloper.classList.remove('visible-content');
                 userpicDeveloper.classList.add('hidden-content');
+
+                statusIndicator.classList.remove('status-info');
+                statusIndicator.classList.add('status-success');
             }
 
             // Обновление кнопок
