@@ -147,8 +147,10 @@
         <!-- Контент разработчика -->
         <div class="profile-section">
             <div class="profile-header">
-                <img src="https://cdn4.cdn-telegram.org/file/usu-DSaREQDDrFmUz2QZ6cpZr7TuCTEtCFlR3VvhBcZivWk68XbJpOhFhvXa2l8dJJ6DauaVKdsGBCL4aRkmIlS6af4R1KpigoR-fbgMMjyprftthe9N96cp4qMqQwherSxvHyqj3KgHSxPAw7WFmj9Axqo6wylJOKjMVCADOXJS7spRXnyNVpuWotVG8hRXDn8dIiYfIM3-1bj_5RZThzxXhlL9xR-rT4tu9TFBWcZKyq9qQYynhcAJqEfYbLRK7jBgbAB0Y5O7ZZA1uO55qh7ZJ4oLmoRfy0kQ1eWMNczJ1NTkf-6kQWa6d2WNXjXDN8_tBeqTR27azqKb4ia_PQ.jpg"
-                     class="avatar" alt="Аватар">
+                <img src="/media/manager.jpg"
+                     class="avatar" alt="Аватар" id="avatar-manager">
+                <img src="/media/developer.jpg"
+                     class="avatar" alt="Аватар" id="avatar-developer">
                 <div class="profile-info">
                     <div class="name">Минин Максим</div>
                     <div class="badge">
@@ -278,6 +280,8 @@
             const statusDeveloper = document.getElementById('status-developer');
             const badgeManager = document.getElementById("badgeManager");
             const badgeDev = document.getElementById('badgeDev');
+            const userpicManager = document.getElementById('avatar-manager');
+            const userpicDeveloper = document.getElementById('avatar-developer');
 
             // Обновляем URL
             window.history.pushState({}, '', `#${profileType}`);
@@ -298,6 +302,11 @@
                 badgeDev.classList.add('visible-content');
                 badgeManager.classList.remove('visible-content');
                 badgeManager.classList.add('hidden-content');
+
+                userpicManager.classList.remove('visible-content');
+                userpicManager.classList.add('hidden-content');
+                userpicDeveloper.classList.remove('hidden-content');
+                userpicDeveloper.classList.add('visible-content');
             } else {
                 developerContent.classList.remove('visible-content');
                 developerContent.classList.add('hidden-content');
@@ -313,6 +322,11 @@
                 badgeDev.classList.add('hidden-content');
                 badgeManager.classList.remove('hidden-content');
                 badgeManager.classList.add('visible-content');
+
+                userpicManager.classList.remove('hidden-content');
+                userpicManager.classList.add('visible-content');
+                userpicDeveloper.classList.remove('visible-content');
+                userpicDeveloper.classList.add('hidden-content');
             }
 
             // Обновление кнопок
