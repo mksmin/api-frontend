@@ -21,10 +21,11 @@
     </div>
 
     <div class="container" id="container">
-        {% include content_template %}
+        {% if content_template %}
+            {% include content_template %}
+        {% endif %}
     </div>
 </div>
-
 
 
 <script src="/scripts/utils.js" defer></script>
