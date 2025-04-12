@@ -6,6 +6,8 @@
     <title>Auth Initialization</title>
     <!-- Отключение кэширования -->
     <meta http-equiv="Cache-Control" content="no-store, max-age=0">
+    <link rel="stylesheet" href="/style/profile.css">
+
     <script>
         (async () => {
             try {
@@ -40,8 +42,14 @@
 </head>
 <body>
 <!-- Индикатор загрузки -->
-<div style="padding: 20px; text-align: center;">
-    Идет авторизация...
+<div class="main-container">
+
+<div class="status-block">
+    <div id="statusBlock" class="status-indicator status-info">
+        Идет авторизация...
+    </div>
 </div>
+</div>
+
 </body>
 </html>
