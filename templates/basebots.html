@@ -43,13 +43,29 @@
 <body>
 <!-- Индикатор загрузки -->
 <div class="main-container">
-
-<div class="status-block">
-    <div id="statusBlock" class="status-indicator status-info">
-        Идет авторизация...
+    <div class="status-block">
+        <div id="statusBlock" class="status-indicator status-info">
+            Идет авторизация...
+        </div>
     </div>
 </div>
-</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const { statusBlock } = window.elements
+            const botName = location.pathname.split('/').pop();
+            elements.statusBlock.innerText = `Телеграм авторизуется,
+             подождите... ${Telegram.WebApp.initData}
+             botname: ${botName}
+             `;
+
+
+        } catch (error) {
+
+        }
+    });
+</script>
 
 </body>
 </html>
