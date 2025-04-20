@@ -20,13 +20,12 @@
         <div class="title-name">
             <h4>Основная информация</h4>
         </div>
-        <div class="detail-card">
-
+        <div class="detail-card oneline">
             <div class="detail-title">Telegram ID</div>
             <div class="detail-info"><span id="userId">{{ user.id }}</span></div>
         </div>
         {% if user.language_code %}
-        <div class="detail-card">
+        <div class="detail-card oneline">
             <div class="detail-title">Язык</div>
             <div class="detail-info"><span id="userLang">{{ user.language_code }}</span></div>
         </div>
@@ -37,12 +36,12 @@
             <h4>Настройки</h4>
         </div>
         {% if user.allows_write_to_pm %}
-        <div class="detail-card">
+        <div class="detail-card oneline">
             <div class="detail-title">Бот может отправлять сообщения</div>
             <div class="detail-info"><span id="userCanWrite">{{ user.allows_write_to_pm }}</span></div>
         </div>
         {% endif %}
-        <div class="detail-card">
+        <div class="detail-card oneline">
             <div class="detail-title">Аккаунт</div>
             <div class="detail-info">
                 <span id="accountType">
@@ -55,11 +54,11 @@
             </div>
         </div>
         <div id="windowSize" class="">
-            <div class="detail-card">
+            <div class="detail-card oneline">
                 <div class="detail-title">Высота экрана</div>
                 <div class="detail-info"><span id="screenHeight"></span></div>
             </div>
-            <div class="detail-card">
+            <div class="detail-card oneline">
                 <div class="detail-title">Ширина экрана</div>
                 <div class="detail-info"><span id="screenWidth"></span></div>
             </div>

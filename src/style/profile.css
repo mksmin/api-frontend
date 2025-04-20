@@ -203,9 +203,13 @@ body {
     .detail-card {
         flex-direction: column;
     }
+    .detail-card.oneline {
+        flex-direction: row;
+    }
+
     .detail-info {
         margin-left: 0;
-        padding-left: 5px;
+        padding-left: 0;
         margin-top: 0.3rem;
         text-align: left;
     }
