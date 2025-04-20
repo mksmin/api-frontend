@@ -204,8 +204,8 @@ body {
         flex-direction: column;
     }
     .detail-info {
-        margin-left: 0 ;
-        padding-left: 0 ;
+        margin-left: 0;
+        padding-left: 5px;
         margin-top: 0.3rem;
         text-align: left;
     }
