@@ -1,124 +1,124 @@
-<style>
-    .detail-info {
-    /* Убираем выравнивание вправо и ставим по левому краю */
-        text-align: left;
-        margin-left: 0; /* Убираем авто-отступ */
-        padding-left: 16px;
-        color: var(--hint-color);
-        width: 100%; /* Занимает всю доступную ширину */
-    }
-    .detail-card {
-        display: flex;
-        flex-direction: column;
-        padding: 16px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+<!--<style>-->
+<!--/*    .detail-info {*/-->
+<!--/*    *//* Убираем выравнивание вправо и ставим по левому краю */-->
+<!--/*        text-align: left;*/-->
+<!--/*        margin-left: 0; *//* Убираем авто-отступ */-->
+<!--/*        padding-left: 16px;*/-->
+<!--/*        color: var(&#45;&#45;hint-color);*/-->
+<!--/*        width: 100%; *//* Занимает всю доступную ширину */-->
+<!--/*    }*/-->
+<!--/*    .detail-card {*/-->
+<!--/*        display: flex;*/-->
+<!--/*        flex-direction: column;*/-->
+<!--/*        padding: 16px;*/-->
+<!--/*        border-radius: 8px;*/-->
+<!--/*        box-shadow: 0 2px 8px rgba(0,0,0,0.05);*/-->
+<!--/*    }*/-->
 
-    .detail-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px; /* Расстояние между текстом и кнопкой */
-    }
+<!--    .detail-row {-->
+<!--        display: flex;-->
+<!--        justify-content: space-between;-->
+<!--        align-items: center;-->
+<!--        gap: 16px; /* Расстояние между текстом и кнопкой */-->
+<!--    }-->
 
-    .detail-info {
-        flex: 1; /* Растягивается на доступное пространство */
-        margin: 0;
-        padding: 0;
-        text-align: left;
-    }
+<!--    .detail-info {-->
+<!--        flex: 1; /* Растягивается на доступное пространство */-->
+<!--        margin: 0;-->
+<!--        padding: 0;-->
+<!--        text-align: left;-->
+<!--    }-->
 
-    .detail-button {
-        flex-shrink: 0; /* Запрещает уменьшение кнопки */
-    }
+<!--    .detail-button {-->
+<!--        flex-shrink: 0; /* Запрещает уменьшение кнопки */-->
+<!--    }-->
 
-    .detail-title {
-    /* Фиксированная ширина для всех заголовков */
-        min-width: 25px;
-        width: 25px;
-        /* Центрирование чисел */
-        text-align: center;
-        /* Сохраняем гибкость */
-        flex: 0 0 auto;
-        /* Визуальные стили */
-        font-size: 1rem;
-        margin-right: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+<!--    .detail-title {-->
+<!--    /* Фиксированная ширина для всех заголовков */-->
+<!--        min-width: 25px;-->
+<!--        width: 25px;-->
+<!--        /* Центрирование чисел */-->
+<!--        text-align: center;-->
+<!--        /* Сохраняем гибкость */-->
+<!--        flex: 0 0 auto;-->
+<!--        /* Визуальные стили */-->
+<!--        font-size: 1rem;-->
+<!--        margin-right: 12px;-->
+<!--        display: flex;-->
+<!--        justify-content: center;-->
+<!--        align-items: center;-->
+<!--    }-->
 
-    .detail-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 5px;
-    }
+<!--    .detail-button {-->
+<!--        display: flex;-->
+<!--        justify-content: center;-->
+<!--        align-items: center;-->
+<!--        margin-left: 5px;-->
+<!--    }-->
 
-    .delete-btn {
-        background-color: #e64d44;
-        transform: scale3d(0.9, 0.9, 1);
-        width: 50px;
-        display: inline-block;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 18px;
-        padding: 6px 8px;
-        height: 32px;
-        border-radius: 7px;
-        box-sizing: border-box;
-        text-transform: uppercase;
-        color: #fff;
-        outline: none;
-        border: none;
-        align-items: center;
-        transition: background 0.2s, transform 0.2s; /* Добавлено */
-    }
+<!--    .delete-btn {-->
+<!--        background-color: #e64d44;-->
+<!--        transform: scale3d(0.9, 0.9, 1);-->
+<!--        width: 50px;-->
+<!--        display: inline-block;-->
+<!--        font-weight: 700;-->
+<!--        font-size: 14px;-->
+<!--        line-height: 18px;-->
+<!--        padding: 6px 8px;-->
+<!--        height: 32px;-->
+<!--        border-radius: 7px;-->
+<!--        box-sizing: border-box;-->
+<!--        text-transform: uppercase;-->
+<!--        color: #fff;-->
+<!--        outline: none;-->
+<!--        border: none;-->
+<!--        align-items: center;-->
+<!--        transition: background 0.2s, transform 0.2s; /* Добавлено */-->
+<!--    }-->
 
-    .custom-popup {
-        display: none;
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #e64d44;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        animation: slideIn 0.5s ease-out, fadeOut 1s 2s forwards;
-        z-index: 1000;
-    }
+<!--    .custom-popup {-->
+<!--        display: none;-->
+<!--        position: fixed;-->
+<!--        top: 20px;-->
+<!--        right: 20px;-->
+<!--        background: #e64d44;-->
+<!--        color: white;-->
+<!--        padding: 15px 25px;-->
+<!--        border-radius: 10px;-->
+<!--        box-shadow: 0 2px 10px rgba(0,0,0,0.1);-->
+<!--        animation: slideIn 0.5s ease-out, fadeOut 1s 2s forwards;-->
+<!--        z-index: 1000;-->
+<!--    }-->
 
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
+<!--    @keyframes slideIn {-->
+<!--        from { transform: translateX(100%); opacity: 0; }-->
+<!--        to { transform: translateX(0); opacity: 1; }-->
+<!--    }-->
 
-    @keyframes fadeOut {
-        to { opacity: 0; }
-    }
+<!--    @keyframes fadeOut {-->
+<!--        to { opacity: 0; }-->
+<!--    }-->
 
-    .popup-content {
-        font-size: 14px;
-        font-weight: 600;
-        text-align: center;
-    }
+<!--    .popup-content {-->
+<!--        font-size: 14px;-->
+<!--        font-weight: 600;-->
+<!--        text-align: center;-->
+<!--    }-->
 
-    .detail-card:hover {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
+<!--    .detail-card:hover {-->
+<!--        box-shadow: 0 4px 12px rgba(0,0,0,0.1);-->
+<!--        transition: all 0.3s ease;-->
+<!--    }-->
 
-    .delete-btn:hover {
-        background-color: #c43a2f;
-        transition: background 0.2s;
-    }
-    .delete-btn:active {
-        background-color: #c43a2f; /* Тот же цвет, что и при ховере */
-        transform: scale3d(0.95, 0.95, 1); /* Немного сжимаем */
-    }
-</style>
+<!--    .delete-btn:hover {-->
+<!--        background-color: #c43a2f;-->
+<!--        transition: background 0.2s;-->
+<!--    }-->
+<!--    .delete-btn:active {-->
+<!--        background-color: #c43a2f; /* Тот же цвет, что и при ховере */-->
+<!--        transform: scale3d(0.95, 0.95, 1); /* Немного сжимаем */-->
+<!--    }-->
+<!--</style>-->
 
 
 <div id="profileSection" class="profile-section">
@@ -151,20 +151,13 @@
         <div class="text-title">
             <div class="detail-title"></div>
             <div class="detail-info">{{ task.number }}</div>
+        </div>
             <p>
                 {{ task.text }}
             </p>
         </div>
     </div>
-<!--    <div class="detail-card" data-task-id="{{ task.id }}">-->
-<!--        &lt;!&ndash; Обертка для текста и кнопки &ndash;&gt;-->
-<!--        <div class="detail-row">-->
-<!--            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>-->
-<!--            <div class="detail-button">-->
-<!--                <button class="delete-btn">X</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+
     {% endfor %}
     {% else %}
     <div class="text-section">
@@ -178,6 +171,15 @@
     </div>
 
     {% endif %}
+    <!--    <div class="detail-card" data-task-id="{{ task.id }}">-->
+    <!--        &lt;!&ndash; Обертка для текста и кнопки &ndash;&gt;-->
+    <!--        <div class="detail-row">-->
+    <!--            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>-->
+    <!--            <div class="detail-button">-->
+    <!--                <button class="delete-btn">X</button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </div>
 
 
