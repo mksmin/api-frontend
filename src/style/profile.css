@@ -21,7 +21,7 @@ body {
     justify-content: center;
     align-items: stretch;
     background: linear-gradient(135deg, #331f88, #9482e3);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Roboto , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #f8f8f8;
     overflow-x: hidden;
     position: relative;
@@ -176,7 +176,17 @@ body {
     max-width: 100%;
     flex:1;
     display: flex;
+    flex-direction: column;
 }
+
+.detail-title .sub-title {
+    font-size: 15px;
+    margin-top: 0.2em;
+    color: var(--hint-color);
+    font-weight: 200;
+
+}
+
 .detail-info {
     display: flex;
     margin-left: auto;
@@ -187,6 +197,35 @@ body {
     display: flex;
     text-align: right;
 }
+
+
+.details-grid .text-section {
+    background: var(--section-bg-color);
+    color: var(--hint-color);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-block-end: 0.3rem;
+}
+
+.text-title {
+    display: flex; /* Заголовок и info находятся в одной строке */
+    align-items: center; /* Центруем содержимое по вертикали */
+    margin: 1rem 0; /* Пространство под title */
+}
+.text-title .detail-title {
+    color: white;
+}
+
+.text-section .text-title:first-child {
+    margin-top: 0;
+}
+
+.text-section .text-title:last-child {
+    margin-bottom: 0;
+}
+
 .status-block {
     background: var(--secondary-bg-color);
     padding: 0;
@@ -403,32 +442,32 @@ p {
     transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-/* Эффект при наведении */
 .list-section .item:hover svg,
 .list-section .item:focus-within svg {
-    transform: scale(1.1); /* Немного увеличиваем иконку */
-    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+    transform: scale(1.1);
+    color: var(--accent-text-color);
 }
 
-.list-section .item:hover {
-    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+.list-section .item:hover,
+.list-section .item:focus-within {
+    color: var(--accent-text-color);
     background: var(--third-bg-color);
-    border-radius: 10px;
 }
 
-.list-section .item:first-child:hover {
-    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+.list-section .item:first-child:hover,
+.list-section .item:first-child:focus-within {
+    color: var(--accent-text-color);
     background: var(--third-bg-color);
     border-radius: 10px 10px 0 0;
 }
 
-.list-section .item:last-child:hover {
-    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+.list-section .item:last-child:hover,
+.list-section .item:last-child:focus-within{
+    color: var(--accent-text-color);
     background: var(--third-bg-color);
     border-radius: 0 0 10px 10px;
 }
 
-/* Последняя линия внизу последнего элемента скрывается */
 .list-section .item:last-child {
     border-bottom: none;
 }
