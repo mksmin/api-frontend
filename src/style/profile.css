@@ -10,6 +10,7 @@
     --secondary-bg-color: #181818;
     --third-bg-color: #1e1e1e;
     --hint-color: #aaaaaa;
+    --base-text-color:#efefef;
     --accent-text-color:#8774e1;
 }
 
@@ -122,7 +123,7 @@ body {
     display: block;
 }
 .name {
-    color: white;
+    color: var(--base-text-color);
     font-size: 1.5rem;
     margin: 0.2rem 0.4rem 0.2rem 0;
     display: inline-block;
@@ -133,7 +134,7 @@ body {
     padding: 0.25rem 0.8rem;
     border-radius: 15px;
     background: var(--color-primary);
-    color: white;
+    color: var(--base-text-color);
     font-size: 0.7rem;
     margin: 0.2rem 0.4rem 0.2rem 0;
 }
@@ -142,7 +143,7 @@ body {
     display: block;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .detail-card {
@@ -150,33 +151,22 @@ body {
     display: flex;
     border-radius: 10px;
     padding: 1rem;
-    color: white;
+    color: var(--base-text-color);
     margin-block-end: 0.3rem;
 }
 
-@media (max-width: 500px){
-    .detail-card {
-        flex-direction: column;
-    }
-    .detail-info {
-        margin-left: 0 !important;
-        padding-left: 0 !important;
-        margin-top: 0.3rem;
-    }
-}
+
 .title-name {
     color: var(--hint-color) !important;
     display: block;
     border-radius: 10px;
     padding:1rem;
     padding-bottom: 0.2rem;
-    color: white;
+    color: var(--base-text-color);
     margin-block-end: 0.3rem;
 }
 
-.title-name.accent {
-    color: var(--accent-text-color) !important;
-}
+
 
 .title-name h4 {
     font-weight: 400
@@ -209,10 +199,20 @@ body {
     text-align: right;
 }
 
-
+@media (max-width: 500px){
+    .detail-card {
+        flex-direction: column;
+    }
+    .detail-info {
+        margin-left: 0 ;
+        padding-left: 0 ;
+        margin-top: 0.3rem;
+        text-align: left;
+    }
+}
 .details-grid .text-section {
     background: var(--section-bg-color);
-    color: var(--hint-color);
+    color: var(--base-text-color);
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -226,7 +226,7 @@ body {
     margin: 1rem 0; /* Пространство под title */
 }
 .text-title .detail-title {
-    color: white;
+    color: var(--base-text-color);
 }
 
 .text-section .text-title:first-child {
@@ -274,17 +274,17 @@ body {
 
 .status-success {
     background: var(--color-success);
-    color: white;
+    color: var(--base-text-color);
 }
 
 .status-error {
     background: var(--color-error);
-    color: white;
+    color: var(--base-text-color);
 }
 
 .status-info {
     background: var(--color-info);
-    color: white;
+    color: var(--base-text-color);
 }
 
 .data-block {
@@ -371,7 +371,7 @@ p {
 
 .dev-btn {
     background: linear-gradient(145deg, #2aabee, #1a8cd8);
-    color: white;
+    color: var(--base-text-color);
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
@@ -433,7 +433,7 @@ p {
     background: var(--section-bg-color);
     display: block;
     border-radius: 10px;
-    color: white;
+    color: var(--base-text-color);
     margin-block-end: 0.3rem;
 }
 
@@ -444,7 +444,7 @@ p {
     border-bottom: 1px solid var(--secondary-bg-color);
     position: relative;
     padding: 1rem;
-    color: white;
+    color: var(--base-text-color);
     transition: all 0.2s ease-in-out;
 }
 
@@ -481,4 +481,28 @@ p {
 
 .list-section .item:last-child {
     border-bottom: none;
+}
+
+.accent {
+    color: var(--accent-text-color) !important;
+}
+.sub-text{
+    color: var(--hint-color) !important;
+}
+
+.subtitle-text {
+    color: var(--hint-color) !important;
+    display: block;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.subtitle-text.before {
+    padding-top: 0.3rem;
+    padding-bottom: 1.5rem;
+}
+.subtitle-text.after {
+    padding-bottom: 0.3rem;
+    padding-top: 1.5rem;
 }
