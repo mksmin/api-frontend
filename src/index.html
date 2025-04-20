@@ -97,7 +97,7 @@
 
         /* Плавная анимация контента */
         .profile-content {
-            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.33, 0.85, 0.56, 1.02);
+            transition: transform 0.4s cubic-bezier(0.33, 0.85, 0.56, 1.02);
             transform-origin: top center;
         }
 
@@ -106,7 +106,7 @@
             pointer-events: none;
             position: absolute;
             visibility: hidden;
-            transform: translateY(15px) scale(0.98);
+            transform: translateY(-15px) scale(1);
         }
 
         .visible-content {
@@ -168,6 +168,8 @@
             <!-- Контент разработчика -->
             <div id="developerContent" class="profile-content visible-content">
 
+
+
                 <div class="details-grid">
 
                     <div class="title-name">
@@ -198,6 +200,73 @@
                         <div class="detail-info">Pycharm • Git • Postman • Termius • Нейросетки</div>
                     </div>
 
+                    <!-- repos -->
+                    <div class="details-grid">
+
+                        <div class="title-name">
+                            <h4>Репозитории github</h4>
+                        </div>
+
+                        <div class="list-section">
+                            <a href="https://github.com/mksmin" class="item" target="_blank"
+                               style="text-decoration: none;">
+                                <span class="detail-title">Мой профиль на github</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+                                     viewBox="0 0 7 12"
+                                     class="p_ZQ v61B">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="m1 1 5 5-5 5"/>
+                                </svg>
+                            </a>
+                            <a href="https://github.com/mksmin/atomlabbot" class="item" target="_blank"
+                               style="text-decoration: none;">
+                                <span class="detail-title">Телеграм бот Атом-лаб</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+                                     viewBox="0 0 7 12"
+                                     class="p_ZQ v61B">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="m1 1 5 5-5 5"/>
+                                </svg>
+                            </a>
+                            <a href="https://github.com/mksmin/alg_struc" class="item" target="_blank"
+                               style="text-decoration: none;">
+                                <span class="detail-title">Заметки по алгоритмам и структурам данных</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+                                     viewBox="0 0 7 12"
+                                     class="p_ZQ v61B">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="m1 1 5 5-5 5"/>
+                                </svg>
+                            </a>
+
+                        </div>
+
+
+                    </div>
+                    <!-- repos -->
+
+                    <div class="details-grid">
+                        <div class="text-section">
+                            <div class="text-title">
+                                <div class="detail-title">Обо мне</div>
+                                <div class="detail-info"></div>
+                            </div>
+                            <p>Имею опыт автоматизирования рутинных задач, работы с данными и аналитики. Стремлюсь находить
+                                эффективные и надежные решения, глубоко погружаясь в проекты</p>
+
+                            <p>У меня развитые коммуникативные навыки и умение работать в команде из-за опыта управления
+                                различными проектами. Отличаюсь системным мышлением и умением организовывать процессы — от
+                                планирования до внедрения решений. Быстро адаптируюсь к новым условиям, нахожу оптимальные
+                                решения в условиях многозадачности</p>
+
+
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <!-- Контент разработчика -->
@@ -219,22 +288,55 @@
                         <h4>Места работы</h4>
                     </div>
                     <div class="detail-card">
-                        <div class="detail-title">Корпоративная академия Росатома</div>
-                        <div class="detail-info">01.2022 — 03.2025 (3 года, фриланс)</div>
+                        <div class="detail-title">Корпоративная академия Росатома
+                            <p class="sub-title">
+                                Менеджер проектов, фриланс
+                            </p>
+                        </div>
+                        <div class="detail-info">01.2022 — 03.2025 (3 года)</div>
                     </div>
                     <div class="detail-card">
-                        <div class="detail-title">Моспродюсер</div>
+                        <div class="detail-title">Моспродюсер
+                            <p class="sub-title">
+                                Менеджер проектов
+                            </p>
+                        </div>
                         <div class="detail-info">09.2019 — 01.2024 (4.5 года)</div>
                     </div>
                     <div class="detail-card">
-                        <div class="detail-title">Молодежный центр Нижневартовска</div>
+                        <div class="detail-title">Молодежный центр Нижневартовска
+                            <p class="sub-title">
+                                Специалист по работе с молодежью
+                            </p>
+                        </div>
                         <div class="detail-info">01.2018 — 08.2029 (2 года)</div>
                     </div>
                     <div class="detail-card">
-                        <div class="detail-title">Руководитель клуба «Простые парни»</div>
+                        <div class="detail-title">Клуб «Простые парни»
+                            <p class="sub-title">
+                                Руководитель проекта
+                            </p>
+                        </div>
                         <div class="detail-info">10.2013 — 09.2019 (6 лет)</div>
                     </div>
 
+                </div>
+
+                <div class="details-grid">
+                    <div class="text-section">
+                        <div class="text-title">
+                            <div class="detail-title">Обо мне</div>
+                            <div class="detail-info"></div>
+                        </div>
+                        <p>— Быстро адаптируюсь к новым задачам и эффективно взаимодействую с командами</p>
+                        <p> — Имею опыт разработки автоматизированных решений (телеграм-боты, базы данных)</p>
+                        <p> — Имею системное мышление и умение организовать процессы</p>
+                        <p> — Ищу в людях союзников</p>
+
+
+
+
+                    </div>
                 </div>
             </div>
             <!-- Контент менеджера -->
@@ -246,7 +348,7 @@
                     <h4>Контакты</h4>
                 </div>
                 <div class="detail-card">
-                    <div class="detail-title">ТГК</div>
+                    <div class="detail-title">Пишу про работу и проекты</div>
                     <div class="detail-info">
                         <a href="https://t.me/mininwork"
                            style="color: var(--accent-text-color); text-decoration: none;">
@@ -268,31 +370,6 @@
             </div>
             <!-- Блок контактов -->
 
-            <!-- FAQ -->
-            <div class="details-grid">
-
-                <div class="title-name">
-                    <h4>FAQ</h4>
-                </div>
-
-                <div class="list-section">
-                    <a href="https://t.me/mininwork" class="item" target="_blank" style="text-decoration: none;">
-                        <span class="detail-title">Как зарегистрироваться на проект?</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" class="p_ZQ v61B">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5 5-5 5"/>
-                        </svg>
-                    </a>
-                    <a href="https://t.me/mininwork" class="item" target="_blank" style="text-decoration: none;">
-                        <span class="detail-title">Как получить сертификат?</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" class="p_ZQ v61B">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5 5-5 5"/>
-                        </svg>
-                    </a>
-                </div>
-
-
-            </div>
-            <!-- FAQ -->
 
         </div>
     </div>
