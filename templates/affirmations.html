@@ -148,12 +148,10 @@
     {% for task in affirm %}
     <div class="text-section">
         <div class="text-title">
-            <div class="detail-title"></div>
+            <div class="detail-title">{{ task.text }}</div>
             <div class="detail-info">{{ task.number }}</div>
         </div>
-        <p>
-            {{ task.text }}
-        </p>
+
     </div>
     {% endfor %}
 {% else %}
