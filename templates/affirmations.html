@@ -147,23 +147,36 @@
     <!-- Динамический вывод аффирмаций -->
     {% if affirm %}
     {% for task in affirm %}
-    <div class="detail-card" data-task-id="{{ task.id }}">
-        <!-- Обертка для текста и кнопки -->
-        <div class="detail-row">
-            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>
-            <div class="detail-button">
-                <button class="delete-btn">X</button>
-            </div>
+    <div class="text-section">
+        <div class="text-title">
+            <div class="detail-title"></div>
+            <div class="detail-info">{{ task.number }}</div>
+            <p>
+                {{ task.text }}
+            </p>
         </div>
     </div>
+<!--    <div class="detail-card" data-task-id="{{ task.id }}">-->
+<!--        &lt;!&ndash; Обертка для текста и кнопки &ndash;&gt;-->
+<!--        <div class="detail-row">-->
+<!--            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>-->
+<!--            <div class="detail-button">-->
+<!--                <button class="delete-btn">X</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
     {% endfor %}
     {% else %}
-    <div class="detail-card">
-        <div class="detail-title"
-        style="min-width: 95%; width: 100%; text-align: center;">
-            Нет доступных аффирмаций
+    <div class="text-section">
+        <div class="text-title">
+            <div class="detail-title"></div>
+            <div class="detail-info">{{ task.number }}</div>
+            <p style="text-align: center;">
+                Нет доступных аффирмаций
+            </p>
         </div>
     </div>
+
     {% endif %}
 </div>
 
