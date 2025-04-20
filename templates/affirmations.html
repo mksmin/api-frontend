@@ -143,44 +143,41 @@
     <div class="title-name">
         <h4>Твои аффирмации</h4>
     </div>
-
     <!-- Динамический вывод аффирмаций -->
-    {% if affirm %}
+{% if affirm %}
     {% for task in affirm %}
     <div class="text-section">
         <div class="text-title">
             <div class="detail-title"></div>
             <div class="detail-info">{{ task.number }}</div>
         </div>
-            <p>
-                {{ task.text }}
-            </p>
-        </div>
+        <p>
+            {{ task.text }}
+        </p>
     </div>
-
     {% endfor %}
-    {% else %}
-    <div class="text-section">
-        <div class="text-title">
-            <div class="detail-title"></div>
-            <div class="detail-info">{{ task.number }}</div>
-            <p style="text-align: center;">
-                Нет доступных аффирмаций
-            </p>
-        </div>
+{% else %}
+<div class="text-section">
+    <div class="text-title">
+        <div class="detail-title"></div>
+        <div class="detail-info">{{ task.number }}</div>
+        <p style="text-align: center;">
+            Нет доступных аффирмаций
+        </p>
     </div>
-
-    {% endif %}
-    <!--    <div class="detail-card" data-task-id="{{ task.id }}">-->
-    <!--        &lt;!&ndash; Обертка для текста и кнопки &ndash;&gt;-->
-    <!--        <div class="detail-row">-->
-    <!--            <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>-->
-    <!--            <div class="detail-button">-->
-    <!--                <button class="delete-btn">X</button>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </div>
+{% endif %}
+</div>
+
+<!--        <div class="detail-card" data-task-id="{{ task.id }}">-->
+<!--            &lt;!&ndash; Обертка для текста и кнопки &ndash;&gt;-->
+<!--            <div class="detail-row">-->
+<!--                <div class="detail-info"><span style="color: white; margin-right: 8px">{{ task.number }}.</span>  {{ task.text }}</div>-->
+<!--                <div class="detail-button">-->
+<!--                    <button class="delete-btn">X</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
 <div id="tempPopup" class="custom-popup">
