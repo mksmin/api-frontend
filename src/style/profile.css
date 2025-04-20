@@ -8,6 +8,7 @@
     --section-bg-color: #212121;
     --bg-color: #212121;
     --secondary-bg-color: #181818;
+    --third-bg-color: #1e1e1e;
     --hint-color: #aaaaaa;
     --accent-text-color:#8774e1;
 }
@@ -153,7 +154,7 @@ body {
     margin-block-end: 0.3rem;
 }
 .title-name {
-    color: var(--accent-text-color) !important;
+    color: var(--hint-color) !important;
     display: block;
     border-radius: 10px;
     padding:1rem;
@@ -161,6 +162,15 @@ body {
     color: white;
     margin-block-end: 0.3rem;
 }
+
+.title-name.accent {
+    color: var(--accent-text-color) !important;
+}
+
+.title-name h4 {
+    font-weight: 400
+}
+
 .detail-title {
     font-size: 1rem;
     max-width: 100%;
@@ -367,4 +377,58 @@ p {
     animation:
     run 12s linear infinite,
     float 3s ease-in-out infinite;
+}
+
+.list-section {
+    background: var(--section-bg-color);
+    display: block;
+    border-radius: 10px;
+    color: white;
+    margin-block-end: 0.3rem;
+}
+
+.list-section .item {
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    border-bottom: 1px solid var(--secondary-bg-color);
+    position: relative;
+    padding: 1rem;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.list-section .item svg {
+    color: var(--hint-color);
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Эффект при наведении */
+.list-section .item:hover svg,
+.list-section .item:focus-within svg {
+    transform: scale(1.1); /* Немного увеличиваем иконку */
+    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+}
+
+.list-section .item:hover {
+    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+    background: var(--third-bg-color);
+    border-radius: 10px;
+}
+
+.list-section .item:first-child:hover {
+    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+    background: var(--third-bg-color);
+    border-radius: 10px 10px 0 0;
+}
+
+.list-section .item:last-child:hover {
+    color: var(--accent-text-color); /* Меняем цвет линии на оранжевый */
+    background: var(--third-bg-color);
+    border-radius: 0 0 10px 10px;
+}
+
+/* Последняя линия внизу последнего элемента скрывается */
+.list-section .item:last-child {
+    border-bottom: none;
 }
