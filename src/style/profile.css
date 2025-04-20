@@ -153,6 +153,17 @@ body {
     color: white;
     margin-block-end: 0.3rem;
 }
+
+@media (max-width: 500px){
+    .detail-card {
+        flex-direction: column;
+    }
+    .detail-info {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        margin-top: 0.3rem;
+    }
+}
 .title-name {
     color: var(--hint-color) !important;
     display: block;
