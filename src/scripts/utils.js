@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.updateScreenHeight = () => {
-        console.log('--- Вызов updateScreenHeight ---');
         const heightElement = document.getElementById('screenHeight');
         const widthElement = document.getElementById('screenWidth');
 
