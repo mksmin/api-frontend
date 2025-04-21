@@ -32,21 +32,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     };
 
-    window.updateScreenHeight = () => {
-        const heightElement = document.getElementById('screenHeight');
-        const widthElement = document.getElementById('screenWidth');
-
-        if (!heightElement || !widthElement) {
-            console.error('Элементы не найдены!');
-            return;
-        }
-
-        const screenHeight = window.innerHeight;
-        const screenWidth = window.innerWidth;
-
-        heightElement.textContent = `${screenHeight}px`;
-        widthElement.textContent = `${screenWidth}px`;
-    }
+//    window.updateScreenHeight = () => {
+//        const heightElement = document.getElementById('screenHeight');
+//        const widthElement = document.getElementById('screenWidth');
+//
+//        if (!heightElement || !widthElement) {
+//            console.error('Элементы не найдены!');
+//            return;
+//        }
+//
+//        const screenHeight = window.innerHeight;
+//        const screenWidth = window.innerWidth;
+//
+//        heightElement.textContent = `${screenHeight}px`;
+//        widthElement.textContent = `${screenWidth}px`;
+//    }
 
     window.dynamicLoadContent = async () => {
         try {
@@ -74,11 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Первичная инициализация
-    try {
-        window.updateScreenHeight();
-        window.addEventListener('resize', window.updateScreenHeight);
-    } catch (error) {
-        console.error('Ошибка инициализации:', error);
-    }
+
 });
