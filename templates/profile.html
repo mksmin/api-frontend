@@ -69,18 +69,36 @@
 </div>
 
 <script>
-    // Функция обновления высоты экрана
     function updateScreenHeight() {
+        console.log('--- Вызов updateScreenHeight ---');
+
+        // Проверка наличия элементов
+        const heightElement = document.getElementById('screenHeight');
+        const widthElement = document.getElementById('screenWidth');
+
+        if (!heightElement || !widthElement) {
+            console.error('Элементы не найдены! Проверьте их наличие в DOM');
+            return;
+        }
+
+        // Получение значений
         const screenHeight = window.innerHeight;
         const screenWidth = window.innerWidth;
-        document.getElementById('screenHeight').textContent = `${screenHeight}px`;
-        document.getElementById('screenWidth').textContent = `${screenWidth}px`;
+        console.log('Получены размеры:', { screenHeight, screenWidth });
 
+        // Обновление данных
+        heightElement.textContent = `${screenHeight}px`;
+        widthElement.textContent = `${screenWidth}px`;
+        console.log('Данные обновлены');
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    // Проверка инициализации
+    console.log('Скрипт профиля выполняется');
+    try {
         updateScreenHeight();
         window.addEventListener('resize', updateScreenHeight);
-    });
-
+        console.log('Обработчик resize успешно добавлен');
+    } catch (error) {
+        console.error('Ошибка инициализации:', error);
+    }
 </script>
