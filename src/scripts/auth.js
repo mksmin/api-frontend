@@ -28,12 +28,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 let requestData = null;
                 let clientType = null;
-                console.log("URL PARAMS: ", urlParams);
 
                 if (Telegram.WebApp.initData) {
                     requestData = Telegram.WebApp.initData;
                     clientType = "TelegramMiniApp"
-                    console.log("Init Data: ", requestData);
                 } else if (urlParams.has('id') && urlParams.has('hash') && urlParams.has('auth_date')) {
                     const queryData = new URLSearchParams();
                     urlParams.forEach((value, key) => {
@@ -44,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     requestData = queryData.toString();
                     clientType = "TelegramWidget"
                 }
-                console.log("REQUEST DATA: ", requestData);
                 if (!requestData) {
                     return;
                 }
@@ -64,16 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // Шаг 2: Парсим JSON (но не теряем объект response)
                 const data = await response.text();
-
-//                // Шаг 3: Логируем статус и данные
-//                console.log("Server Response Status:", response.status);
-//                console.log("Server Response Data:", data);
-
-//                // Шаг 4: Обрабатываем редирект
-//                if (data.redirect) {
-//                    window.history.replaceState({}, document.title, data.redirect);
-//                    console.log('Redirect:', data.redirect);
-//                }
 
                 // Шаг 5: Проверяем статус
                 if (response.status >= 200 && response.status < 300) {
