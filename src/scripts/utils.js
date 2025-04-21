@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.elements.statusBlock.className = 'status-indicator status-success';
                 window.elements.statusBlock.textContent = '✅ Проверка пройдена!';
                 window.hideResult();
-                window.initDynamicContent()
+                initDynamicContent();
 
             }
 
