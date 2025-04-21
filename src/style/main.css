@@ -183,6 +183,7 @@ body {
 
 .title-name h4 {
     font-weight: 400
+    font-size: 1rem;
 }
 
 .detail-title {
@@ -227,7 +228,7 @@ body {
     }
 }
 .text-section {
-    font-size: 1rem !important;
+    font-size: 1rem;
     background: var(--section-bg-color);
     color: var(--base-text-color);
     display: flex;
@@ -252,6 +253,10 @@ body {
 
 .text-section .text-title:last-child {
     margin-bottom: 0;
+}
+
+.text-section p {
+    font-size: 1rem;
 }
 
 .status-block {
