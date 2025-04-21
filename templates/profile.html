@@ -68,3 +68,18 @@
 
 </div>
 
+<script>
+    // Функция обновления высоты экрана
+    function updateScreenHeight() {
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
+        document.getElementById('screenHeight').textContent = `${screenHeight}px`;
+        document.getElementById('screenWidth').textContent = `${screenWidth}px`;
+
+    }
+    // Обновляем высоту экрана при загрузке страницы
+    updateScreenHeight();
+
+    // Обновляем высоту экрана при изменении размера окна
+    window.addEventListener('resize', updateScreenHeight);
+</script>
