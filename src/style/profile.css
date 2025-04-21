@@ -53,6 +53,7 @@ body {
         overflow-x: hidden; /* Скрывает горизонтальную прокрутку */
         touch-action: pan-y;
         background: var(--secondary-bg-color);
+        font-size: 15px !important;
     }
     .main-container {
         padding: 0;
