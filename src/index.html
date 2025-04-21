@@ -8,24 +8,26 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
         .ios-navbar {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
             gap: 8px;
             background: var(--section-bg-color);
             backdrop-filter: blur(20px);
             border-radius: 30px;
-            padding: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .nav-button {
-            padding: 12px 32px;
+            padding: 14px 32px;
             border: none;
             background: transparent;
             font-size: 15px;
@@ -164,6 +166,14 @@
                 </div>
             </div>
             <!-- Шапка профиля -->
+
+            <!-- iOS Navigation Bar -->
+            <div class="navbar">
+            <div class="ios-navbar">
+                <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">Разработка</button>
+                <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление</button>
+            </div></div>
+            <!-- iOS Navigation Bar -->
 
             <!-- Контент разработчика -->
             <div id="developerContent" class="profile-content visible-content">
@@ -397,11 +407,6 @@
 
         </div>
     </div>
-</div>
-<!-- iOS Navigation Bar -->
-<div class="ios-navbar">
-    <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">Разработка</button>
-    <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление</button>
 </div>
 
 <script>

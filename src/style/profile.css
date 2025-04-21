@@ -14,6 +14,11 @@
     --accent-text-color:#8774e1;
 }
 
+
+html {
+    overflow-y: scroll; /* Принудительное включение вертикальной полосы прокрутки */
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -31,11 +36,11 @@ body {
 .main-container {
     display: flex;
     flex-grow:1;
-    padding: 2rem;
-    justify-content: center;
-    align-items: center;
+    align-self: flex-start;
     flex-direction: column;
-
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
     position: relative;
     z-index: 2;
 }
