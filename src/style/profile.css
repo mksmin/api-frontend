@@ -17,7 +17,13 @@
 
 html {
     overflow-y: scroll; /* Принудительное включение вертикальной полосы прокрутки */
-    font-size:16px;
+    font-size:15px;
+}
+
+@media (min-width: 1000px){
+    html {
+        font-size:16px;
+    }
 }
 
 body {
@@ -187,6 +193,7 @@ body {
     flex:1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .detail-title .sub-title {
@@ -194,7 +201,6 @@ body {
     margin-top: 0.2em;
     color: var(--hint-color);
     font-weight: 200;
-
 }
 
 .detail-info {
