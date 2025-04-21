@@ -8,16 +8,10 @@ function initDynamicContent() {
     }
 
     // Добавляем наблюдатель за изменениями DOM
-    const observer = new MutationObserver(() => {
-        if (document.getElementById('screenHeight')) {
-            window.updateScreenHeight();
-        }
-    });
+    if (document.getElementById('screenHeight')) {
+        window.updateScreenHeight();
+    }
 
-    observer.observe(document.getElementById('container'), {
-        childList: true,
-        subtree: true
-    });
 }
 
 window.dynamic = { initDynamicContent };

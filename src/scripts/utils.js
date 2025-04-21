@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.status === 200) {
                 document.getElementById('container').innerHTML = data;
                 window.elements.statusBlock.className = 'status-indicator status-success';
-                window.elements.statusBlock.textContent = '✅ Проверка пройдена!';
+                window.elements.statusBlock.textContent = '✅ Авторизация пройдена!';
                 window.hideResult();
 
                 // Вызываем через задержку для гарантии рендера
