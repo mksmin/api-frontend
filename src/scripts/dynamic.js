@@ -3,15 +3,19 @@
 /**
  * Инициализация функций для динамического контента
  */
+
 function initDynamicContent() {
     console.log('Инициализация динамического контента');
 
-    // Вешаем обработчики
-    window.addEventListener('resize', updateScreenSize);
-    updateScreenSize();
+    // Вызываем обновление размеров
+    if (typeof window.updateScreenHeight === 'function') {
+        window.updateScreenHeight();
+        window.addEventListener('resize', window.updateScreenHeight);
+    } else {
+        console.error('Функция updateScreenHeight не найдена!');
+    }
 
-    // Другие функции для динамического контента...
+    // Другие инициализации...
 }
-
 // Экспорт для использования в других модулях
 window.dynamic = { initDynamicContent };

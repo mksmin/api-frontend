@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     window.history.replaceState({}, document.title, path);
                     window.dynamicLoadContent();
                     window.hideResult();
-                    window.initDynamicContent()
+                    initDynamicContent();
                 } else {
                     elements.statusBlock.className = 'status-indicator status-error';
                     elements.statusBlock.textContent = `❌ Ошибка ${response.status}: ${data.message || 'Неизвестная ошибка'}`;
