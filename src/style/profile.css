@@ -190,14 +190,15 @@ body {
 .detail-title {
     font-size: 1rem;
     max-width: 100%;
-    flex:1;
     display: flex;
+    flex:1;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .detail-title .sub-title {
-    font-size: 15px;
+    font-size: 0.95rem;
     margin-top: 0.2em;
     color: var(--hint-color);
     font-weight: 200;
@@ -208,9 +209,8 @@ body {
     margin-left: auto;
     padding-left: 16px;
     align-items: center;
+    justify-content: center;
     color: var(--hint-color);
-    justify-content: flex-start;
-    display: flex;
     text-align: right;
 }
 
