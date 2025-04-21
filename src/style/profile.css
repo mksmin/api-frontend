@@ -43,7 +43,7 @@ body {
     padding: 2rem;
     position: relative;
     z-index: 2;
-    height: 100vh;
+    min-height: 95vh;
 }
 
 @media (max-width: 768px){
