@@ -17,7 +17,7 @@
 
 html {
     overflow-y: scroll; /* Принудительное включение вертикальной полосы прокрутки */
-    font-size: 15px;
+    font-size: 35px;
 }
 
 @media (min-width: 1000px){
