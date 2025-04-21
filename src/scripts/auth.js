@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Шаг 5: Проверяем статус
                 if (response.status >= 200 && response.status < 300) {
                     elements.statusBlock.className = 'status-indicator status-success';
-                    elements.statusBlock.textContent = '✅ Проверка пройдена!';
+                    elements.statusBlock.textContent = '✅ Авторизация пройдена!';
                     window.history.replaceState({}, document.title, path);
                     window.dynamicLoadContent();
                     window.hideResult();
                 } else {
                     elements.statusBlock.className = 'status-indicator status-error';
-                    elements.statusBlock.textContent = `❌ Ошибка ${response.status}: ${data.message || 'Нет информации'}`;
+                    elements.statusBlock.textContent = `❌ Ошибка ${response.status}: ${data.message || 'Неизвестная ошибка'}`;
                 }
 
             } catch (error) {
