@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    window.updateScreenHeight() {
+    window.updateScreenHeight() = () => {
         console.log('--- Вызов updateScreenHeight ---');
 
         // Проверка наличия элементов
