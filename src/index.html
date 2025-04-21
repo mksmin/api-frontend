@@ -102,13 +102,18 @@
             transition: transform 0.4s cubic-bezier(0.33, 0.85, 0.56, 1.02);
             transform-origin: top center;
         }
-
+        .none-display {
+        }
         .hidden-content {
             opacity: 0;
             pointer-events: none;
             position: absolute;
             visibility: hidden;
             transform: translateY(-15px) scale(1);
+        }
+        .hidden-content > * {
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         .visible-content {
@@ -117,7 +122,6 @@
             visibility: visible;
             height: auto;
             transform: translateY(0) scale(1);
-
         }
 
         body {
@@ -428,8 +432,8 @@
         // Переключение контента
         if(profileType === 'developer') {
             managerContent.classList.remove('visible-content');
-            managerContent.classList.add('hidden-content');
-            developerContent.classList.remove('hidden-content');
+            managerContent.classList.add('hidden-content', 'none-display');
+            developerContent.classList.remove('none-display', 'hidden-content');
             developerContent.classList.add('visible-content');
 
             statusDeveloper.classList.remove('hidden-content');
@@ -452,7 +456,8 @@
 
         } else {
             developerContent.classList.remove('visible-content');
-            developerContent.classList.add('hidden-content');
+            developerContent.classList.add('hidden-content', 'none-display');
+            managerContent.classList.remove('none-display');
             managerContent.classList.remove('hidden-content');
             managerContent.classList.add('visible-content');
 
