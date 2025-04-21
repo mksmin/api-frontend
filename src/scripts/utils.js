@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.hideResult = () => {
-
         if (!elements?.statusBlock) {
             console.error('Элемент statusBlock не найден!');
             return;
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             elements.statusBlock.addEventListener('transitionend', function() {
                 this.style.transition = 'transform 0.5s ease';
-                this.style.transform = 'scale(0) ';
+                this.style.transform = 'scale(0)';
 
                 this.addEventListener('transitionend', function() {
                     this.remove();
@@ -33,26 +32,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     };
 
+    window.updateScreenHeight = () => {
+        console.log('--- Вызов updateScreenHeight ---');
+        const heightElement = document.getElementById('screenHeight');
+        const widthElement = document.getElementById('screenWidth');
+
+        if (!heightElement || !widthElement) {
+            console.error('Элементы не найдены!');
+            return;
+        }
+
+        // Используем Telegram API или стандартные значения
+        const screenHeight = window.Telegram?.WebApp?.viewportHeight || window.innerHeight;
+        const screenWidth = window.Telegram?.WebApp?.viewportWidth || window.innerWidth;
+
+        heightElement.textContent = `${screenHeight}px`;
+        widthElement.textContent = `${screenWidth}px`;
+    }
+
     window.dynamicLoadContent = async () => {
         try {
-            // Получаем текущий путь
             const currentPath = window.location.pathname;
-            // Кодируем путь для безопасной передачи в URL
             const encodedPath = encodeURIComponent(currentPath);
 
             const response = await fetch(`/content?page=${encodedPath}`, {
                 method: "GET",
             });
-            // Шаг 2: Парсим JSON (но не теряем объект response)
+
             const data = await response.text();
 
-            if (response.status == 200) {
+            if (response.status === 200) {
                 document.getElementById('container').innerHTML = data;
                 window.elements.statusBlock.className = 'status-indicator status-success';
                 window.elements.statusBlock.textContent = '✅ Проверка пройдена!';
                 window.hideResult();
-                initDynamicContent();
 
+                // Вызываем через задержку для гарантии рендера
+                setTimeout(() => window.dynamic.initDynamicContent(), 50);
             }
 
         } catch (error) {
@@ -61,42 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.statusBlock.textContent = `❌ Ошибка: ${error.message}`;
             window.hideResult();
         }
-
     }
 
-
-    window.updateScreenHeight() = () => {
-        console.log('--- Вызов updateScreenHeight ---');
-
-        // Проверка наличия элементов
-        const heightElement = document.getElementById('screenHeight');
-        const widthElement = document.getElementById('screenWidth');
-
-        if (!heightElement || !widthElement) {
-            console.error('Элементы не найдены! Проверьте их наличие в DOM');
-            return;
-        }
-
-        // Получение значений
-        const screenHeight = window.innerHeight;
-        const screenWidth = window.innerWidth;
-        console.log('Получены размеры:', { screenHeight, screenWidth });
-
-        // Обновление данных
-        heightElement.textContent = `${screenHeight}px`;
-        widthElement.textContent = `${screenWidth}px`;
-        console.log('Данные обновлены');
-    }
-
-    // Проверка инициализации
-    console.log('Скрипт профиля выполняется');
+    // Первичная инициализация
     try {
-        updateScreenHeight();
-        window.addEventListener('resize', updateScreenHeight);
-        console.log('Обработчик resize успешно добавлен');
+        window.updateScreenHeight();
+        window.addEventListener('resize', window.updateScreenHeight);
     } catch (error) {
         console.error('Ошибка инициализации:', error);
     }
-
 });
-
