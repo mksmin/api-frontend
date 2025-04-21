@@ -41,9 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Используем Telegram API или стандартные значения
-        const screenHeight = window.Telegram?.WebApp?.viewportHeight || window.innerHeight;
-        const screenWidth = window.Telegram?.WebApp?.viewportWidth || window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
 
         heightElement.textContent = `${screenHeight}px`;
         widthElement.textContent = `${screenWidth}px`;
