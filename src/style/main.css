@@ -24,11 +24,7 @@ html {
 }
 
 
-@media (orientation: landscape) {
-    html {
-        font-size: 15px !important; /* Фиксируем базовый размер */
-    }
-}
+
 
 body {
     font-size: 1rem;
@@ -538,4 +534,11 @@ p {
 .subtitle-text.after {
     padding-bottom: 0.3rem;
     padding-top: 1.5rem;
+}
+
+
+@media (orientation: landscape) {
+    html {
+        font-size: 15px !important; /* Фиксируем базовый размер */
+    }
 }
