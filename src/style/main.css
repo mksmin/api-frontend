@@ -23,9 +23,10 @@ html {
     font-size: 16px;
 }
 
-@media (max-width: 900px){
+
+@media (orientation: landscape) {
     html {
-        font-size: 15px;
+        font-size: 15px !important; /* Фиксируем базовый размер */
     }
 }
 
@@ -180,6 +181,7 @@ div {
 
 
 .title-name {
+    font-size: 1rem !important;
     color: var(--hint-color) !important;
     display: block;
     border-radius: 10px;
@@ -192,7 +194,7 @@ div {
 
 .title-name h4 {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1rem !important;
 }
 
 .detail-title {
@@ -237,7 +239,7 @@ div {
     }
 }
 .text-section {
-    font-size: 1rem;
+    font-size: 1rem !important;
     background: var(--section-bg-color);
     color: var(--base-text-color);
     display: flex;
@@ -265,7 +267,7 @@ div {
 }
 
 .text-section p {
-    font-size: 1rem;
+    font-size: 1rem !important;
 }
 
 .status-block {
