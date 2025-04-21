@@ -64,9 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.elements.statusBlock.className = 'status-indicator status-success';
                 window.elements.statusBlock.textContent = '✅ Авторизация пройдена!';
                 window.hideResult();
-
-                // Вызываем через задержку для гарантии рендера
-                setTimeout(() => window.dynamic.initDynamicContent(), 50);
             }
 
         } catch (error) {
