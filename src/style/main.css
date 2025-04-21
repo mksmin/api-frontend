@@ -182,7 +182,7 @@ body {
 
 
 .title-name h4 {
-    font-weight: 400
+    font-weight: 400;
     font-size: 1rem;
 }
 
@@ -256,7 +256,7 @@ body {
 }
 
 .text-section p {
-    font-size: 1rem;
+    font-size: 0.5rem;
 }
 
 .status-block {
