@@ -135,7 +135,7 @@ body {
 
 .username {
     color: #666;
-    font-size: var(--main-font-size);
+    font-size: 1rem;
     margin: 0.2rem 0.4rem 0.2rem 0;
     display: block;
 }
@@ -186,11 +186,11 @@ body {
 
 .title-name h4 {
     font-weight: 400;
-    font-size: var(--main-font-size);
+    font-size: 1rem;
 }
 
 .detail-title {
-    font-size: var(--main-font-size);
+    font-size: 1rem;
     max-width: 100%;
     display: flex;
     flex:1;
@@ -200,7 +200,7 @@ body {
 }
 
 .detail-title .sub-title {
-    font-size: var(--small-font-size);
+    font-size: 0.95rem;
     margin-top: 0.2em;
     color: var(--hint-color);
     font-weight: 200;
@@ -231,7 +231,7 @@ body {
     }
 }
 .text-section {
-    font-size: var(--main-font-size);
+    font-size: 1rem;
     background: var(--section-bg-color);
     color: var(--base-text-color);
     display: flex;
@@ -259,7 +259,7 @@ body {
 }
 
 .text-section p {
-    font-size: var(--main-font-size);
+    font-size: 1rem;
 }
 
 .status-block {
@@ -365,7 +365,7 @@ h3 {
 }
 h4 {
     display: block;
-    font-size: var(--main-font-size);
+    font-size: 1rem;
     margin-block-start: 0.15em;
     margin-block-end: 0.15em;
     margin-inline-start: 0px;
@@ -520,7 +520,7 @@ p {
     display: block;
     border-radius: 10px;
     padding: 0.5rem 1rem;
-    font-size: var(--small-font-size);
+    font-size: 0.95rem;
 }
 
 .subtitle-text.before {
