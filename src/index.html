@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Профиль</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -171,10 +172,14 @@
 
             <!-- iOS Navigation Bar -->
             <div class="navbar">
-            <div class="ios-navbar">
-                <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">Разработка</button>
-                <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление</button>
-            </div></div>
+                <div class="ios-navbar">
+                    <button class="nav-button active" data-type="developer" onclick="switchProfile('developer')">
+                        Разработка
+                    </button>
+                    <button class="nav-button" data-type="manager" onclick="switchProfile('manager')">Управление
+                    </button>
+                </div>
+            </div>
             <!-- iOS Navigation Bar -->
 
             <!-- Контент разработчика -->
@@ -283,6 +288,13 @@
 
 
                     </div>
+
+                    <div class="subtitle-text before" style="padding-bottom:0;">
+                        У меня скрыт основной репозиторий с API приложением, который связан с этим сайтом из-за
+                        безопасности, но на собеседованиях я могу показать некоторые примеры кода и его проектирования,
+                        чтобы показать актуальный подход в разработке
+                    </div>
+
                     <!-- repos -->
 
                     <div class="details-grid">
