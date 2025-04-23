@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (Telegram.WebApp.initData) {
                     requestData = Telegram.WebApp.initData;
                     clientType = "TelegramMiniApp"
+                    console.log("Telegram.WebApp.initData does exists ");
+
                 } else if (urlParams.has('id') && urlParams.has('hash') && urlParams.has('auth_date')) {
                     const queryData = new URLSearchParams();
                     urlParams.forEach((value, key) => {
@@ -41,12 +43,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
                     requestData = queryData.toString();
                     clientType = "TelegramWidget"
+                    console.log("Telegram.WebApp.initData doesn't exists ");
                 }
                 if (!requestData) {
                     return;
                 }
 
                 console.log("HTTP: ", AUTH_PATH);
+                console.log("requestData: ", requestData);
 
 
                 const response = await fetch(AUTH_PATH, {
