@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = null;
-    const detailContainer = null;
-    const deletePopup = null;
-    const confirmDeleteBtn = null;
-    const cancelDeleteBtn = null;
+    let mainContainer = null;
+    let detailContainer = null;
+    let deletePopup = null;
+    let confirmDeleteBtn = null;
+    let cancelDeleteBtn = null;
 
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
