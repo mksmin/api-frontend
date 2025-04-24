@@ -22,9 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             handleAffirmationClick(section);
         }
 
-        if (e.target.closest('.back-btn')) {
-            closeAffirmation();
-        }
+
     });
 
     // Обработчик клика по аффирмации
