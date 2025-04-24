@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = document.getElementById('container-affirm');
-    const detailContainer = document.getElementById('affirmation');
-    const deletePopup = document.getElementById('deletePopup');
-    const confirmDeleteBtn = document.getElementById('confirmDelete');
-    const cancelDeleteBtn = document.getElementById('cancelDelete');
+    const mainContainer = null;
+    const detailContainer = null;
+    const deletePopup = null;
+    const confirmDeleteBtn = null;
+    const cancelDeleteBtn = null;
 
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         const section = e.target.closest('.text-section.text-link');
         if (section) {
+            mainContainer = document.getElementById('container-affirm');
+            detailContainer = document.getElementById('affirmation');
+            deletePopup = document.getElementById('deletePopup');
+            confirmDeleteBtn = document.getElementById('confirmDelete');
+            cancelDeleteBtn = document.getElementById('cancelDelete');
             handleAffirmationClick(section);
         }
 
