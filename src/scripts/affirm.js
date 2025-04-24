@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Обработка клика по аффирмации
         const section = e.target.closest('.text-section.text-link');
         if (section) {
-            handleAffirmationClick(section);
             mainContainer = document.getElementById('container-affirm');
             detailContainer = document.getElementById('affirmation');
+            handleAffirmationClick(section);
         }
 
         // Обработка клика по кнопке "Назад"
