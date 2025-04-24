@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container-affrim');
     const detailContainer = document.getElementById('affirmation');
     let selectedAffirmation = null;
+    console.log('Script loaded');
+    console.log('mainContainer:', mainContainer);
 
     // Делегирование событий для динамического контента
     document.addEventListener('click', (e) => {
