@@ -141,6 +141,7 @@
         color: var(--accent-text-color)!important;
     }
 </style>
+
 <div class="inner-container" id="container-affrim">
     <div id="profileSection" class="profile-section">
         <div class="profile-header">
@@ -166,7 +167,7 @@
             <h4>Твои аффирмации</h4>
         </div>
         <!-- Динамический вывод аффирмаций -->
-        {% if affirm %}
+    {% if affirm %}
         {% for task in affirm %}
         <div class="text-section text-link" data-id="{{ task.id }}">
             <div class="text-title">
@@ -181,20 +182,20 @@
                     </svg>
                 </div>
             </div>
-
         </div>
         {% endfor %}
-        {% else %}
+    {% else %}
         <div class="text-section">
             <p style="text-align: center;">
                 Нет доступных аффирмаций
             </p>
         </div>
-    </div>
     {% endif %}
+    </div>
+
 </div>
 
-<div class="inner-container" id="affirmation"  style="display: none;">
+<div class="inner-container" id="affirmation" style="display: none;">
     <div class="title-name">
         <h4>Детали</h4>
     </div>
