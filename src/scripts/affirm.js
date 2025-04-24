@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = document.getElementById('container');
+    const mainContainer = document.getElementById('container-affrim');
     const detailContainer = document.getElementById('affirmation');
     let selectedAffirmation = null;
 
