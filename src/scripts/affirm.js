@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Удаление аффирмации
     window.deleteAffirmation = () => {
-        deletePopup.classList.add('active');
+        if (deletePopup) deletePopup.classList.add('active');
     };
 
     // Подтверждение удаления
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCSRFToken(),
+                    'X-CSRFToken': '123',
                 },
             });
 
@@ -100,10 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     };
 
-    closeAffirmationBtn.addEventListener('click', window.closeAffirmation);
+    closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
 });
 
-// Получение CSRF-токена (для Django)
-function getCSRFToken() {
-    return document.querySelector('[name=csrfmiddlewaretoken]').value;
-}
