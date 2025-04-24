@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let deletePopup = null;
     let confirmDeleteBtn = null;
     let cancelDeleteBtn = null;
+    let closeAffirmationBtn = null;
 
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deletePopup = document.getElementById('deletePopup');
             confirmDeleteBtn = document.getElementById('confirmDelete');
             cancelDeleteBtn = document.getElementById('cancelDelete');
+            closeAffirmationBtn = document.getElementById('closeAffirmation');
             handleAffirmationClick(section);
         }
 
@@ -90,14 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Закрытие окна деталей
-    window.closeAffirmation = () => {
+    closeAffirmation.addEventListener('click', () => {
         detailContainer.classList.remove('visible');
         detailContainer.addEventListener('transitionend', () => {
             detailContainer.style.display = 'none';
             mainContainer.style.display = 'block';
             mainContainer.classList.remove('hidden-container');
         }, { once: true });
-    };
+    });
 });
 
 // Получение CSRF-токена (для Django)
