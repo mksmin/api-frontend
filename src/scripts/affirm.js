@@ -14,7 +14,7 @@ function initAffirmHandlers() {
 }
 
 function handleAffirmationClick(section) {
-    const mainContainer = document.getElementById('container');
+    const mainContainer = document.getElementById('container-affrim');
     const detailContainer = document.getElementById('affirmation');
     const taskData = {
         id: section.dataset.id,

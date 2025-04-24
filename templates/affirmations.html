@@ -8,13 +8,13 @@
     }
 
     /* Исправленные стили */
-    #container {
+    #container-affrim {
         opacity: 1;
         transform: translateY(0);
         transition: opacity 0.1s ease, transform 0.3s ease;
     }
 
-    #container.hidden-container {
+    #container-affrim.hidden-container {
         opacity: 0;
         /*            transform: translateY(20px);*/
         pointer-events: none;
@@ -141,7 +141,7 @@
         color: var(--accent-text-color)!important;
     }
 </style>
-<div class="inner-container" id="container">
+<div class="inner-container" id="container-affrim">
     <div id="profileSection" class="profile-section">
         <div class="profile-header">
             <img src="{{ user.photo_url }}" id="userAvatar" class="avatar" alt="Аватар"
