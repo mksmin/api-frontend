@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mainContainer = document.getElementById('container-affrim');
-    const detailContainer = document.getElementById('affirmation');
+    let mainContainer = null;
+    let detailContainer = null;
     let selectedAffirmation = null;
     console.log('Script loaded');
     console.log('mainContainer:', mainContainer);
@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const section = e.target.closest('.text-section.text-link');
         if (section) {
             handleAffirmationClick(section);
+            mainContainer = document.getElementById('container-affirm');
+            detailContainer = document.getElementById('affirmation');
         }
 
         // Обработка клика по кнопке "Назад"
