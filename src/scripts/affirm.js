@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmDeleteBtn = document.getElementById('confirmDelete');
             cancelDeleteBtn = document.getElementById('cancelDelete');
             closeAffirmationBtn = document.getElementById('closeAffirmation');
+            closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
+
             handleAffirmationClick(section);
         }
 
@@ -40,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             section.querySelector('.detail-title').textContent;
             document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
         }, { once: true });
-
-        closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
 
 
     }
@@ -103,6 +103,5 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContainer.classList.remove('hidden-container');
         }, { once: true });
     };
-
 });
 
