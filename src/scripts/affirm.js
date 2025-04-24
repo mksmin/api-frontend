@@ -40,6 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
             section.querySelector('.detail-title').textContent;
             document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
         }, { once: true });
+
+        closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
+
+
     }
 
     // Удаление аффирмации
@@ -100,6 +104,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     };
 
-    closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
 });
 
