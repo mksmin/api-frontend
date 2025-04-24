@@ -2,57 +2,86 @@ document.addEventListener('DOMContentLoaded', () => {
     let mainContainer = null;
     let detailContainer = null;
     let deletePopup = null;
-    let confirmDeleteBtn = null;
-    let cancelDeleteBtn = null;
-    let closeAffirmationBtn = null;
-
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
 
-    // Делегирование событий
-    document.addEventListener('click', (e) => {
+    // Единственный обработчик кликов через делегирование
+    document.addEventListener('click', async (e) => {
+        // Нажатие на аффирмацию
         const section = e.target.closest('.text-section.text-link');
         if (section) {
+            // Инициализация контейнеров и попапа при первом клике
             mainContainer = document.getElementById('container-affirm');
             detailContainer = document.getElementById('affirmation');
             deletePopup = document.getElementById('deletePopup');
-            confirmDeleteBtn = document.getElementById('confirmDelete');
-            cancelDeleteBtn = document.getElementById('cancelDelete');
-            closeAffirmationBtn = document.getElementById('closeAffirmation');
-            closeAffirmationBtn?.addEventListener('click', window.closeAffirmation);
 
-            handleAffirmationClick(section);
+            selectedAffirmationElement = section;
+            selectedAffirmationId = section.dataset.id;
+
+            // Показ детали
+            mainContainer.classList.add('hidden-container');
+            mainContainer.addEventListener('transitionend', () => {
+                mainContainer.style.display = 'none';
+                detailContainer.style.display = 'block';
+                detailContainer.classList.add('visible');
+
+                document.getElementById('affirmationText').textContent =
+                section.querySelector('.detail-title').textContent;
+                document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
+            }, { once: true });
+
+            return;
         }
 
+        // Нажатие на кнопку "Назад"
+        if (e.target.closest('#closeAffirmation')) {
+            closeAffirmation();
+            return;
+        }
 
+        // Нажатие на кнопку "Удалить"
+        if (e.target.closest('.delete-btn')) {
+            openDeletePopup();
+            return;
+        }
+
+        // Подтвердить удаление
+        if (e.target.closest('#confirmDelete')) {
+            await confirmDeletion();
+            return;
+        }
+
+        // Отмена удаления
+        if (e.target.closest('#cancelDelete')) {
+            closeDeletePopup();
+            return;
+        }
+
+        // Клик вне попапа для закрытия
+        if (e.target === deletePopup) {
+            closeDeletePopup();
+            return;
+        }
     });
 
-    // Обработчик клика по аффирмации
-    function handleAffirmationClick(section) {
-        selectedAffirmationElement = section;
-        selectedAffirmationId = section.dataset.id;
-
-        mainContainer.classList.add('hidden-container');
-        mainContainer.addEventListener('transitionend', () => {
-            mainContainer.style.display = 'none';
-            detailContainer.style.display = 'block';
-            detailContainer.classList.add('visible');
-
-            document.getElementById('affirmationText').textContent =
-            section.querySelector('.detail-title').textContent;
-            document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
+    function closeAffirmation() {
+        detailContainer.classList.remove('visible');
+        detailContainer.addEventListener('transitionend', () => {
+            detailContainer.style.display = 'none';
+            mainContainer.style.display = 'block';
+            mainContainer.classList.remove('hidden-container');
         }, { once: true });
-
-
     }
 
-    // Удаление аффирмации
-    window.deleteAffirmation = () => {
-        if (deletePopup) deletePopup.classList.add('active');
-    };
+    function openDeletePopup() {
+        deletePopup.classList.add('active');
+    }
 
-    // Подтверждение удаления
-    confirmDeleteBtn.addEventListener('click', async () => {
+    function closeDeletePopup() {
+        deletePopup.classList.remove('active');
+    }
+
+    async function confirmDeletion() {
         try {
             const response = await fetch(`/api/affirmations/${selectedAffirmationId}`, {
                 method: 'DELETE',
@@ -64,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) throw new Error('Ошибка сервера');
 
+            // Анимация удаления
             if (selectedAffirmationElement) {
                 selectedAffirmationElement.style.opacity = '0';
                 setTimeout(() => {
@@ -71,37 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     closeAffirmation();
                 }, 300);
             }
-
-            deletePopup.classList.remove('active');
-
-        } catch (error) {
-            console.error('Ошибка:', error);
+        } catch (err) {
+            console.error('Ошибка:', err);
             alert('Не удалось удалить аффирмацию');
-            deletePopup.classList.remove('active');
+        } finally {
+            closeDeletePopup();
         }
-    });
-
-    // Отмена удаления
-    cancelDeleteBtn.addEventListener('click', () => {
-        deletePopup.classList.remove('active');
-    });
-
-    // Закрытие попапа по клику вне области
-    deletePopup.addEventListener('click', (e) => {
-        if (e.target === deletePopup) {
-            deletePopup.classList.remove('active');
-        }
-    });
-
-    // Закрытие окна деталей
-    window.closeAffirmation = () => {
-        console.log('Закрытие окна деталей');
-        detailContainer.classList.remove('visible');
-        detailContainer.addEventListener('transitionend', () => {
-            detailContainer.style.display = 'none';
-            mainContainer.style.display = 'block';
-            mainContainer.classList.remove('hidden-container');
-        }, { once: true });
-    };
+    }
 });
-
