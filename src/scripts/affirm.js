@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedAffirmationElement = null;
     let savedScrollY = 0;
 
+    // Функция автоподстройки высоты textarea
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
     // Делегированный обработчик кликов
     document.addEventListener('click', async (e) => {
         const section = e.target.closest('.text-section.text-link');
@@ -61,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Клик вне области удаление
+        // Клик вне области удаления
         if (deletePopup && e.target === deletePopup) {
             closeDeletePopup();
             return;
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Клик вне области редактирование
+        // Клик вне области редактирования
         if (editPopup && e.target === editPopup) {
             closeEditPopup();
             return;
@@ -134,9 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openEditPopup() {
-        // Инициализация полей
         const textarea = document.getElementById('editTextArea');
         textarea.value = document.getElementById('affirmationText').textContent;
+        // Устанавливаем минимальную высоту и скрываем скролл
+        textarea.style.minHeight = '100px';
+        textarea.style.overflowY = 'hidden';
+        // Подключаем авторазмер
+        textarea.removeEventListener('input', () => autoResize(textarea));
+        textarea.addEventListener('input', () => autoResize(textarea));
+        // Первоначальный расчёт размера
+        autoResize(textarea);
+
         editPopup.classList.add('active');
         textarea.focus();
     }
@@ -159,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ text: newText }),
             });
             if (!response.ok) throw new Error('Ошибка сервера');
-            // Обновляем текст в UI
             document.getElementById('affirmationText').textContent = newText;
             selectedAffirmationElement.querySelector('.detail-title').textContent = newText;
             closeEditPopup();
