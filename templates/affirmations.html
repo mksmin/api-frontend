@@ -172,17 +172,17 @@
     @keyframes popup-in {
         from {
             opacity: 0;
-            transform: translateY(-10%) scale(0.9);
+            transform: scale(0.9);
         }
         to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: scale(1);
         }
     }
 
     .popup-content {
-        background: var(--card-bg-color, #fff);
-    padding: 25px;
+        background: var(--secondary-bg-color);
+        padding: 25px;
         border-radius: 12px;
         width: 90%;
         max-width: 400px;
@@ -207,16 +207,18 @@
         border-radius: 8px;
         font-weight: 500;
         transition: transform 0.2s ease;
+        font-size: 1rem;
+        margin: 14px 2px 0 0;
     }
 
     .popup-confirm-btn {
-        background: var(--accent-bg-color, #e64d44);
-    color: #fff;
+        background: #e64d44;
+        color: #fff;
     }
 
     .popup-cancel-btn {
         background: var(--secondary-bg-color, #f0f0f0);
-    color: var(--text-color, #333);
+        color: var(--text-color, #333);
     }
 
     .popup-confirm-btn:hover,
