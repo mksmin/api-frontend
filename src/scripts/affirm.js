@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let mainContainer = null;
     let detailContainer = null;
     let deletePopup = null;
+    let editPopup = null;
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
     let savedScrollY = 0;
@@ -10,18 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', async (e) => {
         const section = e.target.closest('.text-section.text-link');
         if (section) {
-            // Инициализация контейнеров при первом клике
+            // Инициализация контейнеров и попапов при первом клике
             mainContainer = document.getElementById('container-affirm');
             detailContainer = document.getElementById('affirmation');
             deletePopup = document.getElementById('deletePopup');
+            editPopup = document.getElementById('editPopup');
 
-            // Сохраняем текущий скролл страницы
+            // Сохраняем текущий скролл
             savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
             selectedAffirmationElement = section;
             selectedAffirmationId = section.dataset.id;
 
-            // Показ окна деталей
+            // Показываем детали
             mainContainer.classList.add('hidden-container');
             mainContainer.addEventListener('transitionend', () => {
                 mainContainer.style.display = 'none';
@@ -32,17 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.querySelector('.detail-title').textContent;
                 document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
             }, { once: true });
-
             return;
         }
 
-        // Назад
+        // Кнопка "Назад"
         if (e.target.closest('#closeAffirmation')) {
             closeAffirmation();
             return;
         }
 
-        // Удалить
+        // Кнопка "Удалить"
         if (e.target.closest('.delete-btn')) {
             openDeletePopup();
             return;
@@ -60,9 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Клик вне попапа
-        if (e.target === deletePopup) {
+        // Клик вне области удаление
+        if (deletePopup && e.target === deletePopup) {
             closeDeletePopup();
+            return;
+        }
+
+        // Кнопка "Редактировать"
+        if (e.target.closest('.edit-btn')) {
+            openEditPopup();
+            return;
+        }
+
+        // Подтвердить редактирование
+        if (e.target.closest('#confirmEdit')) {
+            await confirmEdit();
+            return;
+        }
+
+        // Отмена редактирования
+        if (e.target.closest('#cancelEdit')) {
+            closeEditPopup();
+            return;
+        }
+
+        // Клик вне области редактирование
+        if (editPopup && e.target === editPopup) {
+            closeEditPopup();
             return;
         }
     });
@@ -73,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
             detailContainer.style.display = 'none';
             mainContainer.style.display = 'block';
             mainContainer.classList.remove('hidden-container');
-            // Восстанавливаем скролл
             window.scrollTo(0, savedScrollY);
         }, { once: true });
     }
@@ -95,21 +119,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     'X-CSRFToken': '123',
                 },
             });
-
             if (!response.ok) throw new Error('Ошибка сервера');
-
-            if (selectedAffirmationElement) {
-                selectedAffirmationElement.style.opacity = '0';
-                setTimeout(() => {
-                    selectedAffirmationElement.remove();
-                    closeAffirmation();
-                }, 300);
-            }
+            selectedAffirmationElement.style.opacity = '0';
+            setTimeout(() => {
+                selectedAffirmationElement.remove();
+                closeAffirmation();
+            }, 300);
         } catch (err) {
             console.error('Ошибка:', err);
             alert('Не удалось удалить аффирмацию');
         } finally {
             closeDeletePopup();
+        }
+    }
+
+    function openEditPopup() {
+        // Инициализация полей
+        const textarea = document.getElementById('editTextArea');
+        textarea.value = document.getElementById('affirmationText').textContent;
+        editPopup.classList.add('active');
+        textarea.focus();
+    }
+
+    function closeEditPopup() {
+        editPopup.classList.remove('active');
+    }
+
+    async function confirmEdit() {
+        const textarea = document.getElementById('editTextArea');
+        const newText = textarea.value.trim();
+        if (!newText) return;
+        try {
+            const response = await fetch(`/api/affirmations/${selectedAffirmationId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '123',
+                },
+                body: JSON.stringify({ text: newText }),
+            });
+            if (!response.ok) throw new Error('Ошибка сервера');
+            // Обновляем текст в UI
+            document.getElementById('affirmationText').textContent = newText;
+            selectedAffirmationElement.querySelector('.detail-title').textContent = newText;
+            closeEditPopup();
+        } catch (err) {
+            console.error('Ошибка:', err);
+            alert('Не удалось сохранить изменения');
         }
     }
 });
