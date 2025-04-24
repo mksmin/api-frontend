@@ -143,57 +143,87 @@
         color: var(--accent-text-color)!important;
     }
 
-    /* Стили попапа */
+
+    /* Стили для фона попапа — полупрозрачный, с плавным переходом */
     .delete-popup {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: none;
+        background: rgba(0, 0, 0, 0);
+        display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: background 0.3s ease, opacity 0.3s ease;
     }
 
+    /* Когда активен — затемнение и возможность клика */
     .delete-popup.active {
-        display: flex;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Анимация появления самого окна */
+    @keyframes popup-in {
+        from {
+            opacity: 0;
+            transform: translateY(-10%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     .popup-content {
-        background: white;
-        padding: 25px;
+        background: var(--card-bg-color, #fff);
+    padding: 25px;
         border-radius: 12px;
         width: 90%;
         max-width: 400px;
         text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        transform: translateY(-10%) scale(0.9);
+        opacity: 0;
+        animation-fill-mode: forwards;
+        /* по умолчанию готовимся к анимации, но не запускаем */
     }
 
-    .popup-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 20px;
+    /* Запускаем анимацию, когда родитель получает .active */
+    .delete-popup.active .popup-content {
+        animation: popup-in 0.4s ease-out;
+    }
+
+    /* Кнопки */
+    .popup-confirm-btn,
+    .popup-cancel-btn {
+        min-width: 100px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: transform 0.2s ease;
     }
 
     .popup-confirm-btn {
-        background: #e64d44;
-        color: white;
-        padding: 10px 25px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
+        background: var(--accent-bg-color, #e64d44);
+    color: #fff;
     }
 
     .popup-cancel-btn {
-        background: #f0f0f0;
-        color: #333;
-        padding: 10px 25px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
+        background: var(--secondary-bg-color, #f0f0f0);
+    color: var(--text-color, #333);
     }
+
+    .popup-confirm-btn:hover,
+    .popup-cancel-btn:hover {
+        transform: scale(1.05);
+    }
+
 </style>
 
 <div class="inner-container" id="container-affirm">
