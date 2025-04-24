@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Закрытие окна деталей
     window.closeAffirmation = () => {
+        console.log('Закрытие окна деталей');
         detailContainer.classList.remove('visible');
         detailContainer.addEventListener('transitionend', () => {
             detailContainer.style.display = 'none';
