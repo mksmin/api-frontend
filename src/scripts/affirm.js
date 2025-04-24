@@ -4,21 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let deletePopup = null;
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
+    let savedScrollY = 0;
 
-    // Единственный обработчик кликов через делегирование
+    // Делегированный обработчик кликов
     document.addEventListener('click', async (e) => {
-        // Нажатие на аффирмацию
         const section = e.target.closest('.text-section.text-link');
         if (section) {
-            // Инициализация контейнеров и попапа при первом клике
+            // Инициализация контейнеров при первом клике
             mainContainer = document.getElementById('container-affirm');
             detailContainer = document.getElementById('affirmation');
             deletePopup = document.getElementById('deletePopup');
 
+            // Сохраняем текущий скролл страницы
+            savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
             selectedAffirmationElement = section;
             selectedAffirmationId = section.dataset.id;
 
-            // Показ детали
+            // Показ окна деталей
             mainContainer.classList.add('hidden-container');
             mainContainer.addEventListener('transitionend', () => {
                 mainContainer.style.display = 'none';
@@ -33,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Нажатие на кнопку "Назад"
+        // Назад
         if (e.target.closest('#closeAffirmation')) {
             closeAffirmation();
             return;
         }
 
-        // Нажатие на кнопку "Удалить"
+        // Удалить
         if (e.target.closest('.delete-btn')) {
             openDeletePopup();
             return;
@@ -57,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Клик вне попапа для закрытия
+        // Клик вне попапа
         if (e.target === deletePopup) {
             closeDeletePopup();
             return;
@@ -70,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
             detailContainer.style.display = 'none';
             mainContainer.style.display = 'block';
             mainContainer.classList.remove('hidden-container');
+            // Восстанавливаем скролл
+            window.scrollTo(0, savedScrollY);
         }, { once: true });
     }
 
@@ -93,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) throw new Error('Ошибка сервера');
 
-            // Анимация удаления
             if (selectedAffirmationElement) {
                 selectedAffirmationElement.style.opacity = '0';
                 setTimeout(() => {
