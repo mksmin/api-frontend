@@ -140,6 +140,58 @@
         transition: all 0.2s ease-in-out;
         color: var(--accent-text-color)!important;
     }
+
+    /* Стили попапа */
+    .delete-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .delete-popup.active {
+        display: flex;
+    }
+
+    .popup-content {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .popup-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .popup-confirm-btn {
+        background: #e64d44;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .popup-cancel-btn {
+        background: #f0f0f0;
+        color: #333;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 </style>
 
 <div class="inner-container" id="container-affirm">
@@ -230,3 +282,13 @@
 
 </div>
 
+<!-- Кастомный попап -->
+<div id="deletePopup" class="delete-popup">
+    <div class="popup-content">
+        <h3>Удалить аффирмацию?</h3>
+        <div class="popup-buttons">
+            <button id="confirmDelete" class="popup-confirm-btn">Да, удалить</button>
+            <button id="cancelDelete" class="popup-cancel-btn">Отмена</button>
+        </div>
+    </div>
+</div>

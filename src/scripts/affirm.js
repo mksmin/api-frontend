@@ -1,61 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let mainContainer = null;
-    let detailContainer = null;
-    let selectedAffirmation = null;
-    console.log('Script loaded');
-    console.log('mainContainer:', mainContainer);
+    const mainContainer = document.getElementById('container-affirm');
+    const detailContainer = document.getElementById('affirmation');
+    const deletePopup = document.getElementById('deletePopup');
+    const confirmDeleteBtn = document.getElementById('confirmDelete');
+    const cancelDeleteBtn = document.getElementById('cancelDelete');
 
-    // Делегирование событий для динамического контента
+    let selectedAffirmationId = null;
+    let selectedAffirmationElement = null;
+
+    // Делегирование событий
     document.addEventListener('click', (e) => {
-        // Обработка клика по аффирмации
         const section = e.target.closest('.text-section.text-link');
         if (section) {
-            mainContainer = document.getElementById('container-affirm');
-            detailContainer = document.getElementById('affirmation');
             handleAffirmationClick(section);
         }
 
-        // Обработка клика по кнопке "Назад"
         if (e.target.closest('.back-btn')) {
             closeAffirmation();
         }
     });
 
-    // Функция обработки клика по аффирмации
+    // Обработчик клика по аффирмации
     function handleAffirmationClick(section) {
-        selectedAffirmation = section;
-        const taskData = {
-            id: section.dataset.id,
-            text: section.querySelector('.detail-title').textContent
-        };
+        selectedAffirmationElement = section;
+        selectedAffirmationId = section.dataset.id;
 
-        // Анимация скрытия основного контейнера
         mainContainer.classList.add('hidden-container');
         mainContainer.addEventListener('transitionend', () => {
             mainContainer.style.display = 'none';
             detailContainer.style.display = 'block';
-            void detailContainer.offsetHeight; // Принудительный рефлоу
             detailContainer.classList.add('visible');
 
-            // Заполнение данных
-            document.getElementById('affirmationText').textContent = taskData.text;
-            document.getElementById('affirmationId').textContent = `ID: ${taskData.id}`;
+            document.getElementById('affirmationText').textContent =
+            section.querySelector('.detail-title').textContent;
+            document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
         }, { once: true });
     }
 
-    // Функция закрытия детального просмотра
+    // Удаление аффирмации
+    window.deleteAffirmation = () => {
+        deletePopup.classList.add('active');
+    };
+
+    // Подтверждение удаления
+    confirmDeleteBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`/api/affirmations/${selectedAffirmationId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken(),
+                },
+            });
+
+            if (!response.ok) throw new Error('Ошибка сервера');
+
+            if (selectedAffirmationElement) {
+                selectedAffirmationElement.style.opacity = '0';
+                setTimeout(() => {
+                    selectedAffirmationElement.remove();
+                    closeAffirmation();
+                }, 300);
+            }
+
+            deletePopup.classList.remove('active');
+
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert('Не удалось удалить аффирмацию');
+            deletePopup.classList.remove('active');
+        }
+    });
+
+    // Отмена удаления
+    cancelDeleteBtn.addEventListener('click', () => {
+        deletePopup.classList.remove('active');
+    });
+
+    // Закрытие попапа по клику вне области
+    deletePopup.addEventListener('click', (e) => {
+        if (e.target === deletePopup) {
+            deletePopup.classList.remove('active');
+        }
+    });
+
+    // Закрытие окна деталей
     window.closeAffirmation = () => {
         detailContainer.classList.remove('visible');
         detailContainer.addEventListener('transitionend', () => {
             detailContainer.style.display = 'none';
             mainContainer.style.display = 'block';
-            void mainContainer.offsetHeight; // Принудительный рефлоу
             mainContainer.classList.remove('hidden-container');
         }, { once: true });
     };
-
-    // Переинициализация для динамического контента
-    window.reinitAffirm = () => {
-        selectedAffirmation = null;
-    };
 });
+
+// Получение CSRF-токена (для Django)
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
