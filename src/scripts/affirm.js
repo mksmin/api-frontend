@@ -92,14 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Закрытие окна деталей
-    closeAffirmation.addEventListener('click', () => {
+    window.closeAffirmation = () => {
         detailContainer.classList.remove('visible');
         detailContainer.addEventListener('transitionend', () => {
             detailContainer.style.display = 'none';
             mainContainer.style.display = 'block';
             mainContainer.classList.remove('hidden-container');
         }, { once: true });
-    });
+    };
+
+    closeAffirmationBtn.addEventListener('click', window.closeAffirmation);
 });
 
 // Получение CSRF-токена (для Django)
