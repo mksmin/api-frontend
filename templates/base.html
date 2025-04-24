@@ -60,6 +60,18 @@
         }
     });
 </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            if (!authScript) {
+                await window.dynamicLoadContent();
+                // Переинициализируем обработчики после загрузки контента
+                window.reinitAffirm();
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    });
+</script>
 </body>
 </html>
