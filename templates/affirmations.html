@@ -246,21 +246,19 @@
         </div>
     </div>
     {% if settings %}
-    {% for option in settings %}
     <div class="details-grid">
         <div class="title-name">
             <h4>Настройки</h4>
         </div>
         <div class="detail-card">
             <div class="detail-title">Количество аффирмаций в день</div>
-            <div class="detail-info">{{ option }}</div>
+            <div class="detail-info">{{ settings.count_tasks }}</div>
         </div>
         <div class="detail-card">
             <div class="detail-title">Время отправки (мск)</div>
-            <div class="detail-info">{{ option }}</div>
+            <div class="detail-info">{{ settings.send_time.strftime('%H:%M') }}</div>
         </div>
     </div>
-    {% endfor %}
     {% endif %}
 
 
