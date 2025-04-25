@@ -216,7 +216,7 @@
 
     .popup-cancel-btn {
         background: var(--secondary-bg-color, #f0f0f0);
-        color: var(--text-color, #333);
+    color: var(--text-color, #333);
     }
 
     .popup-confirm-btn:hover,
@@ -245,27 +245,31 @@
 
         </div>
     </div>
-
+    {% if settings %}
+    {% for option in settings %}
     <div class="details-grid">
         <div class="title-name">
             <h4>Настройки</h4>
         </div>
         <div class="detail-card">
             <div class="detail-title">Количество аффирмаций в день</div>
-            <div class="detail-info"></div>
+            <div class="detail-info">{{ option }}</div>
         </div>
         <div class="detail-card">
             <div class="detail-title">Время отправки (мск)</div>
-            <div class="detail-info"></div>
+            <div class="detail-info">{{ option }}</div>
         </div>
     </div>
+    {% endfor %}
+    {% endif %}
+
 
     <div class="details-grid">
         <div class="title-name">
             <h4>Твои аффирмации</h4>
         </div>
         <!-- Динамический вывод аффирмаций -->
-    {% if affirm %}
+        {% if affirm %}
         {% for task in affirm %}
         <div class="text-section text-link" data-id="{{ task.id }}">
             <div class="text-title">
@@ -282,13 +286,13 @@
             </div>
         </div>
         {% endfor %}
-    {% else %}
+        {% else %}
         <div class="text-section">
             <p style="text-align: center;">
                 Нет доступных аффирмаций
             </p>
         </div>
-    {% endif %}
+        {% endif %}
     </div>
 
 </div>
