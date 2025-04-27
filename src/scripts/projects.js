@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 });
 
+
+
                 if (response.status === 200) {
                     const projects = await response.json();
                     console.log('length', projects.length);
@@ -125,17 +127,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                 p.detail.style.display = 'block';
                 p.detail.classList.add('visible');
 
-                console.log('selectedProjectId', selectedProjectId);
+                let projectDetails = {
+                    name: document.getElementById('projectName'),
+                    description: document.getElementById('projectDescription'),
+                    createdAt: document.getElementById('projectCreatedAt'),
+                    id: document.getElementById('projectId'),
+                };
 
                 const project = await getProjectById(selectedProjectId)
-                console.log('project', project);
+
+                projectDetails.name.textContent = 'Загрузка...';
+                projectDetails.description.textContent = 'Загрузка...';
+                projectDetails.createdAt.textContent = 'Загрузка...';
+                projectDetails.id.textContent = '2025-01-01T00:00:00Z';
 
                 if (project) {
-                    document.getElementById('projectName').textContent = project.prj_name;
-                    document.getElementById('projectDescription').textContent = project.prj_description;
-                    document.getElementById('projectCreatedAt').textContent = formatDateHuman(project.created_at)
-                    document.getElementById('projectId').textContent = project.uuid
-
+                    setTimeout(() => {
+                        projectDetails.name.textContent = project.prj_name;
+                        projectDetails.description.textContent = project.prj_description;
+                        projectDetails.createdAt.textContent = formatDateHuman(project.created_at)
+                        projectDetails.id.textContent = project.uuid
+                    }, 50);
                 } else {
                     document.getElementById('projectName').textContent = 'Возникла ошибка';
 
