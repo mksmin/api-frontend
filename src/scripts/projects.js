@@ -123,6 +123,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Показываем детали
             p.main.classList.add('hidden-container');
             p.main.addEventListener('transitionend', async () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
                 p.main.style.display = 'none';
                 p.detail.style.display = 'block';
                 p.detail.classList.add('visible');
@@ -170,7 +174,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 p.detail.style.display = 'none';
                 p.main.style.display = 'block';
                 p.main.classList.remove('hidden-container');
-                window.scrollTo(0, savedScrollY);
+                window.scrollTo({
+                    top: savedScrollY,
+                    behavior: 'smooth'
+                });
             }, { once: true });
         }
 
