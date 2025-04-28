@@ -266,7 +266,7 @@
 
     </div>
 </div>
-
+{% if user %}
 <div class="inner-container" id="project-details" style="display: none;">
     <div class="profile-header" style="padding: 0.5rem 1rem;">
         <div class="profile-info">
@@ -295,10 +295,12 @@
     </div>
 
 </div>
-
+{% endif %}
 
 {% endblock %}
 
 {% block scripts %}
+{% if user %}
 <script src="/scripts/projects.js?v=1.0.1" defer></script>
+{% endif %}
 {% endblock %}
