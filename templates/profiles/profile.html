@@ -303,4 +303,14 @@
 {% if user %}
 <script src="/scripts/projects.js?v=1.0.1" defer></script>
 {% endif %}
+<script defer>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+        } catch (error) {}
+    });
+</script>
+
 {% endblock %}
+
