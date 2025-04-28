@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     elements.statusBlock.className = 'status-indicator status-success';
                     elements.statusBlock.textContent = '✅ Авторизация пройдена!';
                     window.history.replaceState({}, document.title, path);
+                    window.location.reload();
                     window.hideResult();
                 } else {
                     elemets.statusBlock.className = 'status-indicator status-error';
