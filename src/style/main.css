@@ -204,6 +204,7 @@ div {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    align-content: center;
 }
 
 .detail-title .sub-title {
