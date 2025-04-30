@@ -565,8 +565,16 @@ p {
 
 .big_title_block .profile-info .name {
     color: var(--base-text-color);
-    margin: 0.2rem 0.4rem 0.2rem 0;
+    margin: 0.2rem 0;
     display: inline-block;
     align-content: center;
     font-size: inherit;
+    text-align: center;
+}
+.big_title_block .profile-info .username {
+    color: #666;
+    font-size: 1rem;
+    margin: 0.2rem 0;
+    display: block;
+    text-align: center;
 }
