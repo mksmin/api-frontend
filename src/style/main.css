@@ -568,4 +568,5 @@ p {
     margin: 0.2rem 0.4rem 0.2rem 0;
     display: inline-block;
     align-content: center;
+    font-size: inherit;
 }
