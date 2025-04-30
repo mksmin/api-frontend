@@ -48,14 +48,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         function createProjectSection(project) {
             const section = document.createElement('div');
-            section.className = 'detail-card text-link project-interaction';
+            section.className = 'detail-card text-link project-interaction oneline';
             section.dataset.uuid = project.uuid;
             const createdAtDate = formatDateHuman(project.created_at);
             section.innerHTML = `
                 <div class='detail-title'>${project.prj_name}
                 <p class='sub-title'>${project.prj_description}</p>
                 </div>
-                <div class='detail-info'>${createdAtDate}
+                <div class='detail-info'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" style="margin-left: 5px;">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5 5-5 5"/>
                     </svg>
