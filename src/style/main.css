@@ -565,6 +565,7 @@ p {
     flex: 1;
     align-content: center;
     justify-items: center;
+    text-align: center;
 }
 
 .big_title_block .profile-info .name {
