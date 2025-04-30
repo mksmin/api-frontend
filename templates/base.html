@@ -63,6 +63,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         try {
+            const authScript = document.getElementById('authScript');
             if (!authScript) {
                 await window.dynamicLoadContent();
                 // Переинициализируем обработчики после загрузки контента
