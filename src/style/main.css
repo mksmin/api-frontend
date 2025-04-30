@@ -212,6 +212,8 @@ div {
     margin-top: 0.2em;
     color: var(--hint-color);
     font-weight: 200;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .detail-info {
@@ -545,4 +547,25 @@ p {
     html {
         font-size: 15px !important; /* Фиксируем базовый размер */
     }
+}
+
+.big_title_block {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+.big_title_block .profile-info {
+    font-size: 2rem;
+    flex: 1;
+    align-content: center;
+    justify-items: center;
+}
+
+.big_title_block .profile-info .name {
+    color: var(--base-text-color);
+    margin: 0.2rem 0.4rem 0.2rem 0;
+    display: inline-block;
+    align-content: center;
 }
