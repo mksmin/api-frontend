@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedAffirmationId = null;
     let selectedAffirmationElement = null;
     let savedScrollY = 0;
+    let settingsAffirmation = null;
 
     // Функция автоподстройки высоты textarea
     function autoResize(el) {
@@ -22,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             detailContainer = document.getElementById('affirmation');
             deletePopup = document.getElementById('deletePopup');
             editPopup = document.getElementById('editPopup');
+            settingsAffirmation = document.getElementById('settings');
+
 
             // Сохраняем текущий скролл
             savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -35,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainContainer.style.display = 'none';
                 detailContainer.style.display = 'block';
                 detailContainer.classList.add('visible');
+                settingsAffirmation.style.display = 'none';
 
                 document.getElementById('affirmationText').textContent =
                 section.querySelector('.detail-title').textContent;
@@ -105,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContainer.style.display = 'block';
             mainContainer.classList.remove('hidden-container');
             window.scrollTo(0, savedScrollY);
+            settingsAffirmation.style.display = 'block';
         }, { once: true });
     }
 
