@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const projectPath = '/api/v2/users/projects'
         const authPath = `${projectPath}/owner`
 
-        console.log('authPath', authPath);
-
         async function getOwnerProjects() {
             try {
                 const response = await fetch(authPath, {
@@ -25,13 +23,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
 
-
                 if (response.status === 200) {
                     const projects = await response.json();
-                    console.log('length', projects.length);
-                    if (projects.length > 0) {
-                        const profileSection = document.getElementById('profileSection');
-                        projects.forEach(project => {
+                    const projectList = Object.values(projects);
+
+                    const profileSection = document.getElementById('profileSection');
+
+                    if (projectList.length > 0) {
+                        projectList.forEach(project => {
                             const projectElement = createProjectSection(project)
                             profileSection.appendChild(projectElement)
                         });
