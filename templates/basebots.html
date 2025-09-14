@@ -1,106 +1,92 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth Initialization</title>
-    <!-- Отключение кэширования -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="/style/profile.css">
-    <meta http-equiv="Cache-Control" content="no-store, max-age=0">
+{% extends "main.html" %}
+{% block title %}Авторизация{% endblock %}
+{% import "partials/_macros_blocks.html" as details %}
 
-</head>
-<body>
-<!-- Индикатор загрузки -->
-<div class="main-container">
-    <div class="status-block">
-        <div id="statusBlock" class="status-indicator status-info">
-            Идет авторизация...
-        </div>
-    </div>
-    <div class="status-block">
-        <div id="statusAuth" class="status-indicator status-info">
-            Идет авторизация...
-        </div>
+{% block head_extra %}
+<style>
+    .main-container {
+        max-width:min(100vw, 1000px);
+        box-sizing: border-box;
+        min-height: auto;
+    }
+    .inner-container {
+        max-width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="status-block">
+    <div id="statusAuth" class="status-indicator status-info">
+        Идет авторизация...
     </div>
 </div>
+<div class="text-section">
+    <div class="text-title">
+        <div class="detail-title">Авторизация</div>
+        <div class="detail-info">Telegram MiniApp</div>
+    </div>
+    <p>Telegram data:</p>
+    <p><span id="telegramInitData" class="sub-text"></span></p>
+    <p></p>
+    <p>Bot config:</p>
+    <p><span id="botConfigPath" class="sub-text"></span></p>
+    <p></p>
 
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
 <script>
-
-    const path = window.location.pathname;
-    const botName = path.split('/').pop();
-
-    const elements = {
-        statusBlock: document.getElementById('statusBlock'),
-        statusAuth: document.getElementById('statusAuth')
-    }
-
-    // Настройка API endpoints
-    let AUTH_PATH = '/auth';
-    if (path.includes('/apps/') && botName !== '') {
-        AUTH_PATH += `/${botName}`;
-    }
-
     document.addEventListener('DOMContentLoaded', async () => {
+        const path = window.location.pathname;
+        const botName = path.split('/').pop();
+
+        const elements = {
+            statusAuth: document.getElementById('statusAuth'),
+            tgInitData: document.getElementById('telegramInitData'),
+            botConfig: document.getElementById('botConfigPath'),
+        }
+
+        // Настройка API endpoints
+        let AUTH_PATH = '/auth';
+        if (path.includes('/apps/') && botName !== '') {
+            AUTH_PATH += `/${botName}`;
+        }
+
         try {
-            console.log(statusBlock);
+            // Инициализация Telegram WebApp
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
 
-            (async () => {
-                try {
-                    // Инициализация Telegram WebApp
-                    Telegram.WebApp.ready();
-                    Telegram.WebApp.expand();
+            const botName = location.pathname.split('/').pop();
+            elements.tgInitData.innerText = Telegram.WebApp.initData;
+            elements.botConfig.innerText = botName;
 
-                    const botName = location.pathname.split('/').pop();
-                    elements.statusBlock.innerText = `Телеграм авторизуется,
-                                 подождите... ${Telegram.WebApp.initData}
-                                              botname: ${botName}
-             `;
-                    // Отправка InitData на сервер
-                    const response = await fetch(AUTH_PATH, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-Client-Source': 'TelegramMiniApp'
-                        },
-                        body: Telegram.WebApp.initData,
-                        credentials: 'include'
-                    });
+            // Отправка InitData на сервер
+            const response = await fetch(AUTH_PATH, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Client-Source': 'TelegramMiniApp'
+                },
+                body: Telegram.WebApp.initData,
+                credentials: 'include'
+            });
 
-                    // Обработка ответа
-                    if (response.ok) {
-                        window.location.replace(response.url || '/profile');
-                    } else {
-                        elements.statusAuth.className = 'status-indicator status-error';
-                        elements.statusAuth.innerText = `❌ Ошибка: ${response.status}`;
-                    }
-                } catch (error) {
-                    elements.statusAuth.className = 'status-indicator status-error';
-                    elements.statusAuth.innerText = `⚠️ Ошибка: ${error.message}`;
-                }
-            })();
-
+            // Обработка ответа
+            if (response.ok) {
+                window.location.replace(response.url || '/profile');
+            } else {
+                elements.statusAuth.className = 'status-indicator status-error';
+                elements.statusAuth.innerText = `❌ Ошибка: ${response.status}`;
+            }
         } catch (error) {
-
+            elements.statusAuth.className = 'status-indicator status-error';
+            elements.statusAuth.innerText = `⚠️ Ошибка: ${error.message}`;
         }
     });
 </script>
-<!--<script>-->
-<!--    document.addEventListener('DOMContentLoaded', async () => {-->
-<!--        try {-->
-<!--            const { statusBlock } = window.elements-->
-<!--            const botName = location.pathname.split('/').pop();-->
-<!--            elements.statusBlock.innerText = `Телеграм авторизуется,-->
-<!--             подождите... ${Telegram.WebApp.initData}-->
-<!--             botname: ${botName}-->
-<!--             `;-->
-
-
-<!--        } catch (error) {-->
-
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-</body>
-</html>
+{% endblock %}
