@@ -254,7 +254,7 @@
         </div>
 
         {{ details.title_h4("Основная информация") }}
-        {{ details.detail_card("Telegram ID", user.id, "userId", oneline=True) }}
+        {{ details.detail_card("Telegram ID", user.tg_id, "userId", oneline=True) }}
 
         {% if user.language_code %}
         {{ details.detail_card("Язык", user.language_code, "userLang") }}
