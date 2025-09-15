@@ -423,7 +423,7 @@
                     showLoader();
 
                     try {
-                        const url = "/api/v2/users/affirmations?limit=" + LIMIT + "&offset=" + offset;
+                        const url = "/api/v2/users/affirmations/?limit=" + LIMIT + "&offset=" + offset;
                         const resp = await fetch(url, { credentials: 'same-origin' });
 
                         if (!resp.ok) {
