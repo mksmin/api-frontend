@@ -136,7 +136,7 @@
     }
     .text-link {
         cursor: pointer;
-/*        transition: all 0.2s ease-in-out;*/
+        /*        transition: all 0.2s ease-in-out;*/
     }
 
 
@@ -287,277 +287,32 @@
             </div>
             {% endfor %}
         </div>
-        <button id="loadAffirmationsBtn" class="back-btn">Загрузить аффирмации</button>
+        <div class="d-grid gap-2">
+            <span
+                    id="endAffirmationsBtn"
+                    class="
+                    btn
+                    btn-lg
+                    text
+                    text-start
+                    text-secondary
+                    border-0
+                    disabled
+                    d-none"
+                    style="font-size: 1rem;"
 
-        <style>
-            /* Минимальная стилизация спиннера и анимации */
-            #loader {
-                display: none;
-                text-align: center;
-                margin: 10px 0;
-            }
-
-            .spinner {
-                display: inline-block;
-                width: 20px;
-                height: 20px;
-                border: 3px solid rgba(0,0,0,0.15);
-                border-top-color: rgba(0,0,0,0.6);
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-                vertical-align: middle;
-                margin-right: 6px;
-            }
-
-            @keyframes spin { to { transform: rotate(360deg); } }
-
-            /* Блоки аффирмаций по умолчанию будут плавно появляться (JS задаёт начальные свойства) */
-            /* Аффирмации */
-            .text-section {
-/*                opacity: 0;*/
-/*                transform: translateY(20px);*/
-/*                transition: opacity 0.4s ease, transform 0.4s ease;*/
-            }
-
-            /* Класс для появления */
-            .text-section.show {
-                opacity: 1;
-/*                transform: translateY(0);*/
-            }
-
-            /* Спиннер плавное появление */
-            #loader {
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-
-            #loader.show {
-                opacity: 1;
-            }
-
-        </style>
-
-        <div id="loader">
-            <span class="spinner" aria-hidden="true"></span><span id="loaderText">Загружаем...</span>
+            >Кажется, что это все</span>
+            <button
+                    type="button"
+                    id="loadAffirmationsBtn"
+                    class="
+                    btn
+                    btn-primary
+                    btn-lg"
+                    style="font-size: 1rem;"
+            >Загрузить аффирмации
+            </button>
         </div>
-        <script>
-            /**
-             * Скрипт для динамической подгрузки аффирмаций на страницу.
-             *
-             * Функционал:
-             * - Подгрузка аффирмаций по кнопке.
-             * - Автозагрузка при скролле, если кнопка видна.
-             * - Плавное появление аффирмаций с анимацией.
-             * - Дебаунсинг для предотвращения множества запросов.
-             * - Учет уже загруженных аффирмаций.
-             */
-
-            document.addEventListener("DOMContentLoaded", function() {
-                // Получаем основные элементы страницы
-                const button = document.getElementById("loadAffirmationsBtn"); // Кнопка подгрузки
-                const container = document.getElementById("affirm-container"); // Контейнер аффирмаций
-                const loader = document.getElementById("loader"); // Блок спиннера
-                const loaderText = document.getElementById("loaderText"); // Текст внутри спиннера
-
-                const LIMIT = 20;          // Сколько аффирмаций подгружаем за раз
-                let offset = 0;           // Смещение для пагинации
-                let loading = false;      // Флаг, что идет загрузка
-                let autoLoading = false;  // Флаг, что идет автозагрузка
-                let allLoaded = false;    // Флаг, что все аффирмации загружены
-                const loadedIds = new Set(); // Множество загруженных ID для исключения дубликатов
-
-                // -----------------------
-                // Инициализация уже существующих элементов
-                // -----------------------
-                const existing = container.querySelectorAll('.text-section[data-id]');
-                existing.forEach(function(el) {
-                    if (el.dataset.id) loadedIds.add(el.dataset.id);
-                });
-                offset = loadedIds.size;
-
-                // -----------------------
-                // Показ/скрытие спиннера
-                // -----------------------
-                function showLoader(text = "Загружаем...") {
-                    loaderText.textContent = text;
-                    loader.style.display = "block";
-                }
-
-                function hideLoader() {
-                    loader.style.display = "none";
-                }
-
-                // -----------------------
-                // Утилита для задержки
-                // -----------------------
-                function sleep(ms) {
-                    return new Promise(function(resolve){ setTimeout(resolve, ms); });
-                }
-
-                // -----------------------
-                // Проверка, находится ли элемент в области видимости экрана
-                // -----------------------
-                function isElementInViewport(el) {
-                    const rect = el.getBoundingClientRect();
-                    return rect.top < window.innerHeight && rect.bottom > 0;
-                }
-
-                // -----------------------
-                // Экранирование HTML, чтобы безопасно вставлять текст
-                // -----------------------
-                function escapeHtml(str) {
-                    return String(str)
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;')
-                        .replace(/"/g, '&quot;')
-                        .replace(/'/g, '&#039;');
-                }
-
-                // -----------------------
-                // Загрузка одной порции аффирмаций (batch)
-                // -----------------------
-                async function loadBatch() {
-                    if (loading || allLoaded) return false;
-                    loading = true;
-                    showLoader();
-
-                    try {
-                        const url = "/api/v2/users/affirmations/?limit=" + LIMIT + "&offset=" + offset;
-                        const resp = await fetch(url, { credentials: 'same-origin' });
-
-                        if (!resp.ok) {
-                            console.error("HTTP error", resp.status);
-                            loaderText.textContent = "Ошибка " + resp.status;
-                            return false;
-                        }
-
-                        const data = await resp.json();
-
-                        // Если данных нет, прекращаем подгрузку
-                        if (!Array.isArray(data) || data.length === 0) {
-                            allLoaded = true;
-//                            button.style.display = "none";
-                            button.style.visibility = "hidden";
-                            button.style.opacity = "0";
-                            button.style.pointerEvents = "none";
-                            hideLoader();
-                            return false;
-                        }
-
-                        // Перебираем каждую аффирмацию
-                        data.forEach(function(affirmation, index){
-                            const id = affirmation.id ? affirmation.id.toString() : null;
-                            if (id && loadedIds.has(id)) return; // Пропускаем дубликаты
-                            if (id) loadedIds.add(id);
-
-                            // Создаем элемент
-                            const div = document.createElement("div");
-                            div.className = "text-section text-link";
-                            if (id) div.dataset.id = id;
-
-                            // Начальное состояние для анимации
-                            div.style.opacity = "0";
-                            div.style.transform = "translateY(10px)";
-
-                            // Заполняем HTML
-                            div.innerHTML = '<div class="text-title">' +
-                            '<div class="detail-title">' + escapeHtml(affirmation.text_task || '') + '</div>' +
-                            '<div class="detail-info" style="padding-left:5px">' +
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" class="p_ZQ v61B">' +
-                            '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5 5-5 5"/>' +
-                            '</svg></div></div>';
-
-                            // Вставляем в контейнер
-                            container.appendChild(div);
-
-                            // Анимация появления с каскадом
-                            setTimeout(function(){
-                                requestAnimationFrame(function(){
-                                    div.style.transition = " transform 0.3s ease";
-                                    div.style.opacity = "1";
-                                    div.style.transform = "translateY(0)";
-                                });
-                            }, index * 50); // Каскад: каждый следующий элемент появляется чуть позже
-                        });
-
-                        offset += data.length;
-                        return true;
-                    } catch (err) {
-                        console.error("Fetch error:", err);
-                        loaderText.textContent = "Ошибка сети. Нажмите, чтобы повторить.";
-                        return false;
-                    } finally {
-                        await sleep(100); // Минимальная задержка между запросами
-                        loading = false;
-                        hideLoader();
-                    }
-                }
-
-                // -----------------------
-                // Автозагрузка, пока кнопка видна
-                // -----------------------
-                async function autoLoadWhileVisible() {
-                    if (autoLoading || allLoaded) return;
-                    autoLoading = true;
-                    try {
-                        while (!allLoaded && isElementInViewport(button)) {
-                            const ok = await loadBatch();
-                            if (!ok) break;
-                            await sleep(100);
-                        }
-                    } finally {
-                        autoLoading = false;
-                    }
-                }
-
-                // -----------------------
-                // Дебаунсинг вызова автозагрузки при скролле/resize
-                // -----------------------
-                let debounceTimer = null;
-                function tryAutoLoadDebounced() {
-                    if (debounceTimer) clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(function(){
-                        if (isElementInViewport(button)) autoLoadWhileVisible();
-                    }, 100);
-                }
-
-                // -----------------------
-                // IntersectionObserver для автоматической загрузки при появлении кнопки
-                // -----------------------
-                const observer = new IntersectionObserver(function(entries){
-                    entries.forEach(function(entry){
-                        if (entry.isIntersecting) autoLoadWhileVisible();
-                    });
-                }, { root: null, rootMargin: '0px 0px 200px 0px', threshold: 0.01 });
-
-                observer.observe(button);
-
-                // -----------------------
-                // События scroll и resize для авто-подгрузки
-                // -----------------------
-                window.addEventListener('scroll', tryAutoLoadDebounced, { passive: true });
-                window.addEventListener('resize', tryAutoLoadDebounced);
-
-                // -----------------------
-                // Обработчик клика по кнопке
-                // -----------------------
-                button.addEventListener("click", async function(){
-                    // Увеличиваем margin-top при каждом клике
-                    const currentMargin = parseInt(window.getComputedStyle(button).marginTop) || 0;
-                    button.style.marginTop = (currentMargin + 20) + "px";
-
-                    // Подгружаем следующую порцию
-                    await loadBatch();
-                });
-
-                // -----------------------
-                // Первоначальная проверка видимости кнопки и автозагрузка
-                // -----------------------
-                if (isElementInViewport(button)) autoLoadWhileVisible();
-            });
-        </script>
-
 
 
         {% else %}
@@ -572,18 +327,22 @@
 </div>
 {% endif %}
 
+<!-- Подробная информация -->
 <div class="inner-container" id="affirmation" style="display: none;">
-    <div class="title-name">
-        <h4>Детали</h4>
-    </div>
-    <div class="text-section full-view show">
-        <div class="text-title">
-            <div class="detail-title" id="affirmationText"></div>
+    <div id="affirmDetail">
+        <div class="title-name">
+            <h4>Детали</h4>
         </div>
-    </div>
-    <div class="action-buttons">
-        <div class="detail-info" id="affirmationId"></div>
-        <button class="edit-btn" onclick="editAffirmation()">
+        <div class="text-section full-view show">
+            <div class="text-title">
+                <div class="detail-title" id="affirmationText"></div>
+            </div>
+        </div>
+
+
+        <div class="action-buttons">
+            <div class="detail-info" id="affirmationId"></div>
+            <button class="edit-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30"
                          fill="currentColor">
@@ -591,9 +350,9 @@
                                 d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
                     </svg>
                 </span>
-            Редактировать
-        </button>
-        <button class="delete-btn" onclick="deleteAffirmation()">
+                Редактировать
+            </button>
+            <button class="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
                          fill="currentColor">
@@ -601,11 +360,43 @@
                                 d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
                     </svg>
                 </span>
-            Удалить
-        </button>
+                Удалить
+            </button>
+        </div>
     </div>
 
-    <button id="closeAffirmation" class="back-btn">Назад</button>
+    <!-- Блок для редактирования -->
+    <div class="d-none" id="editTextAreaBlock">
+        <div class="mb-3">
+            <label for="editTextArea" class="
+        px-3
+        pt-3
+        fs-6
+        form-label
+        text-secondary
+"
+            >Редактировать аффирмацию</label>
+            <textarea
+                    id="editTextArea"
+                    class="form-control"
+                    rows="3"
+            ></textarea>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
+            <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 mt-4">
+        <button
+                type="button"
+                id="closeAffirmation"
+                class="btn btn-primary btn-md"
+                style="--bs-btn-padding-y: .5rem;"
+        >Назад
+        </button>
+    </div>
 
 </div>
 
@@ -614,8 +405,17 @@
     <div class="popup-content">
         <h3>Удалить аффирмацию?</h3>
         <div class="popup-buttons">
-            <!--      <button id="confirmDelete" class="popup-confirm-btn">Да, удалить</button>-->
-            <button id="cancelDelete" class="popup-cancel-btn">Отмена</button>
+            <button
+                    id="confirmDelete"
+                    class="btn btn-outline-danger"
+                    disabled
+            >Да, удалить
+            </button>
+            <button
+                    id="cancelDelete"
+                    class="popup-cancel-btn text-secondary"
+            >Не удалять
+            </button>
         </div>
     </div>
 </div>
@@ -624,11 +424,9 @@
 <div id="editPopup" class="delete-popup">
     <div class="popup-content">
         <h3>Редактировать аффирмацию</h3>
-        <textarea id="editTextArea" rows="4"
-                  style="width:100%; padding:8px; font-size: 1rem; border-radius:8px; border:none; box-sizing: border-box;"></textarea>
         <div class="popup-buttons">
             <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
-            <button id="cancelEdit" class="popup-cancel-btn">Отмена</button>
+            <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
         </div>
     </div>
 </div>
@@ -638,7 +436,7 @@
 
 {% block scripts %}
 {% if user %}
-<script src="/scripts/affirm.js?v=1.0.1" defer></script>
+<script src="/scripts/affirm.js?v=1.0.2" defer></script>
 {% endif %}
 <script defer>
     document.addEventListener('DOMContentLoaded', async () => {
