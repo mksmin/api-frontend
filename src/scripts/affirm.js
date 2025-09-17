@@ -132,7 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function confirmDeletion() {
         try {
-//            TODO: Сделать запрос на удаление аффирмации
+            const response = await fetch(`/api/v2/users/affirmations/${selectedAffirmationId}`, {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            });
             if (!response.ok) throw new Error('Ошибка сервера');
             selectedAffirmationElement.style.opacity = '0';
             setTimeout(() => {
@@ -141,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         } catch (err) {
             console.error('Ошибка:', err);
-            alert('Временно недоступно');
+            alert('Возникла ошибка при удалении. Попробуйте позже.');
         } finally {
             closeDeletePopup();
         }
