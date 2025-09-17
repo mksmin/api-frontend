@@ -255,9 +255,9 @@
         {% if settings %}
         <div id="settings">
             {{ details.title_h4("Настройки") }}
+            {{ details.detail_card("Ежедневная отправка", 'Вкл', oneline=True) }}
             {{ details.detail_card("Количество аффирмаций в день", settings.count_tasks, oneline=True) }}
             {{ details.detail_card("Время отправки (мск)", settings.send_time, oneline=True) }}
-            {{ details.detail_card("Отправка включена", 'Вкл', oneline=True) }}
         </div>
         {% endif %}
 
