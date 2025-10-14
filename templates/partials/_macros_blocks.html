@@ -1,40 +1,35 @@
 {% macro title_h4(title, accent=None) %}
-{% if accent %}
-<div class="title-name accent">
-{% else %}
-<div class="title-name">
-{% endif %}
-    <h4>{{ title }}</h4>
+<div class="title-name {% if accent %}accent{% endif %}">
+  <h4>{{ title }}</h4>
 </div>
 {% endmacro %}
 
 {% macro detail_card(title, value, id=None, oneline=True) %}
-{% if oneline %}
-<div class="detail-card oneline">
-{% else %}
-<div class="detail-card">
-{% endif %}
-    <div class="detail-title">{{ title }}</div>
-    <div class="detail-info">
+<div class="
+detail-card
+{% if oneline %}oneline{% endif %}
+">
+  <div class="detail-title">{{ title }}</div>
+  <div class="detail-info">
+    <span
         {% if id %}
-        <span id="{{ id }}">{{ value }}</span>
-        {% else %}
-        <span>{{ value }}</span>
+        id="{{ id }}"
         {% endif %}
-    </div>
+    >{{ value }}</span>
+  </div>
 </div>
 {% endmacro %}
 
 {% macro text_title(title, value) %}
-    <div class="text-title">
-        <div class="detail-title">{{ title }}</div>
-        <div class="detail-info">{{ value }}</div>
-    </div>
+<div class="text-title">
+  <div class="detail-title">{{ title }}</div>
+  <div class="detail-info">{{ value }}</div>
+</div>
 {% endmacro %}
 
-    {% macro text_section(text_link=False) %}
-    <div class="text-section {% if text_link %}text_link{% endif %}">
-        {{ caller() }}
-    </div>
-    {% endmacro %}
+{% macro text_section(text_link=False) %}
+<div class="text-section {% if text_link %}text_link{% endif %}">
+  {{ caller() }}
+</div>
+{% endmacro %}
 

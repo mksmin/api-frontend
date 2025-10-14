@@ -268,8 +268,8 @@
 {% if user %}
 <div class="inner-container" id="container-affirm">
     <div class="details-grid">
-        {{ details.title_h4("Твои аффирмации", accent=True) }}
         {% if affirm %}
+        {{ details.title_h4("Твои аффирмации", accent=True) }}
         <div id="affirm-container">
             {% for affirmation in affirm %}
             <div class="text-section text-link show" data-id="{{ affirmation.id }}">
@@ -301,7 +301,6 @@
                     disabled
                     d-none"
                     style="font-size: 1rem;"
-
             >Кажется, что это все</span>
             <button
                     type="button"
@@ -315,6 +314,12 @@
             </button>
         </div>
 
+        {% elif error %}
+        <div class="text-section">
+            <p style="text-align: center;">
+                Ошибка: {{ error }}
+            </p>
+        </div>
 
         {% else %}
         <div class="text-section">
