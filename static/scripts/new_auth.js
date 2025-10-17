@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 elements.statusBlock.className = 'status-indicator status-info';
                 elements.statusBlock.textContent = '🪪 Нужна авторизация';
 
-                let rqequestData = null;
+                let requestData = null;
                 let clientType = null;
 
                 if (Telegram.WebApp.initData) {

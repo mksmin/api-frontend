@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             section.dataset.uuid = project.uuid;
             const createdAtDate = formatDateHuman(project.created_at);
             section.innerHTML = `
-                <div class='detail-title'>${project.prj_name}
-                <p class='sub-title'>${project.prj_description}</p>
+                <div class='detail-title'>${project.title}
+                <p class='sub-title'>${project.description}</p>
                 </div>
                 <div class='detail-info'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" style="margin-left: 5px;">
@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 if (project) {
                     setTimeout(() => {
-                        projectDetails.name.textContent = project.prj_name;
-                        projectDetails.description.textContent = project.prj_description;
+                        projectDetails.name.textContent = project.title;
+                        projectDetails.description.textContent = project.description;
                         projectDetails.createdAt.textContent = formatDateHuman(project.created_at)
                         projectDetails.id.textContent = project.uuid
                     }, 50);
