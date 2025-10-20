@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Здесь подгрузка проектов владельца
     try {
         const projectPath = '/api/v2/users/projects'
-        const authPath = `${projectPath}/owner`
+        const authPath = `${projectPath}/`
 
         async function getOwnerProjects() {
             try {
