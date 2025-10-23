@@ -28,7 +28,9 @@ detail-card
 {% endmacro %}
 
 {% macro text_section(text_link=False) %}
-<div class="text-section {% if text_link %}text_link{% endif %}">
+<div class="text-section
+{% if text_link %}text_link{% endif %}
+">
   {{ caller() }}
 </div>
 {% endmacro %}
