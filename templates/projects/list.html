@@ -54,7 +54,7 @@
     {% if projects %}
     {{ details.title_h4("Твои проекты", accent=True) }}
     {% for project in projects %}
-    <a href="{{ url_for('user-projects:detail', uuid=project.uuid) }}" style="text-decoration: none;" class="text-link">
+    <a href="{{ url_for('user-projects:detail', project_uuid=project.uuid) }}" style="text-decoration: none;" class="text-link">
     <div class="
         detail-card
         text-link
