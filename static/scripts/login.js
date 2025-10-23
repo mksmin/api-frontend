@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const path = window.location.pathname;
-        const AUTH_PATH = '/auth/bot3';
+        const AUTH_PATH = '/auth/bot2';
         const INITIAL_REDIRECT_KEY = 'initial_redirect';
 
         function isSafeRedirect(r) {
