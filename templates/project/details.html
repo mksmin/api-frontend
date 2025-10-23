@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% block title %}{{ project.title }}{% endblock %}
+
+{% import "partials/_macros_blocks.html" as details %}
+
+
+{% block content %}
+<div class="inner-container" id="project-details">
+{% if project %}
+  <div class="big_title_block">
+    <div class="profile-info">
+      <div id="projectName" class="name">{{ project.title }}</div>
+      <div id="projectId" class="username">{{ project.uuid }}</div>
+    </div>
+  </div>
+
+  {{ details.title_h4("Детали проекта") }}
+
+  {% call details.text_section() %}
+    {{ project.description }}
+  {% endcall %}
+
+  {{ details.title_h4("Данные о проекте") }}
+  <div class="detail-card">
+      <div class="detail-title">Дата создания</div>
+      <div class="detail-info" id="projectCreatedAt">{{ project.created_at }}</div>
+  </div>
+  {% else %}
+
+  {% call details.text_section() %}
+  <p style="text-align: center;">
+    Кажется такого проекта не существует или возникла ошибка
+  </p>
+  {% endcall %}
+
+{% endif %}
+</div>
+
+<div class="d-grid gap-2">
+  <a
+      class="btn btn-primary mt-4 py-2"
+      href="{{ url_for('user-projects:list') }}">
+    Назад
+  </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const createdAtBlock = document.getElementById('projectCreatedAt');
+
+  function formatDateHuman(dateString) {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ru-RU', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(date);
+  }
+  const createdAtDate = formatDateHuman(createdAtBlock.innerText);
+  createdAtBlock.innerText = createdAtDate;
+</script>
+{% endblock %}
