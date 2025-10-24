@@ -27,11 +27,9 @@
 {% endblock %}
 
 {% block extraBlocksTop %}
-<div class="status-block">
-  <div id="statusBlock" class="status-indicator info">
-    Пытаюсь авторизоваться...
-  </div>
-</div>
+{% set status_text = "Пытаюсь авторизоваться... 222" %}
+{% set status_block_id = "statusBlock" %}
+{% include "components/status_block.html" with context %}
 {% endblock %}
 
 {% block content %}

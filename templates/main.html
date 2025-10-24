@@ -18,31 +18,20 @@
       justify-content: center;
     }
   </style>
-
   {% block head_extra %}{% endblock %}
-
 </head>
 <body>
 
 <main>
   <div class="main-container">
-    {% block extraBlocksTop %} {% endblock %}
-
+    {% block extraBlocksTop %}{% endblock %}
     <div class="container" id="container">
       {% block content %}
       {% endblock %}
-
-      {% if auth_widget %}
-      {% include auth_widget %}
-      {% endif %}
     </div>
-    {% block extraBlocksBottom %} {% endblock %}
-
+    {% block extraBlocksBottom %}{% endblock %}
   </div>
 </main>
-
-
 {% block scripts %}{% endblock %}
-
 </body>
 </html>
