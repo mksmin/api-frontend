@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             credentials: 'include'
         });
 
-        const data = await response.json();
 
         // Обработка ответа
         if (response.ok) {
             window.location.replace(response.url || '/profile');
         } else {
+            const data = await response.json();
             elements.statusAuth.className = 'status-indicator status-error';
             elements.statusAuth.innerText = `❌ Ошибка: ${response.status}, ${data.detail || JSON.stringify(data)}`;
         }
