@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             editPopup = document.getElementById('editPopup');
             settingsAffirmation = document.getElementById('settings');
 
-
             // Сохраняем текущий скролл
             savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -274,16 +273,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             // Если данных нет, прекращаем подгрузку
-            if (!Array.isArray(data) || data.length === 0) {
+            if (!Array.isArray(data.affirmations) || data.affirmations.length === 0) {
                 allLoaded = true;
                 button.classList.add("disabled");
                 button.classList.add("d-none");
                 endButton.classList.remove("d-none");
                 return false;
             }
-
             // Перебираем каждую аффирмацию
-            data.forEach(function(affirmation, index){
+            data.affirmations.forEach(function(affirmation, index){
+
                 const id = affirmation.id ? affirmation.id.toString() : null;
                 if (id && loadedIds.has(id)) return; // Пропускаем дубликаты
                 if (id) loadedIds.add(id);
@@ -318,12 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, index * 50); // Каскад: каждый следующий элемент появляется чуть позже
             });
 
+
             button.classList.remove("disabled");
             button.classList.add("btn-primary");
             button.classList.remove("btn-outline-primary");
             button.textContent = "Загрузить аффирмации";
 
-            offset += data.length;
+            offset += data.affirmations.length;
             return true;
         } catch (err) {
             console.error("Fetch error:", err);

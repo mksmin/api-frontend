@@ -268,10 +268,10 @@
 {% if user %}
 <div class="inner-container" id="container-affirm">
     <div class="details-grid">
-        {% if affirm %}
+        {% if affirmations %}
         {{ details.title_h4("Твои аффирмации", accent=True) }}
         <div id="affirm-container">
-            {% for affirmation in affirm %}
+            {% for affirmation in affirmations %}
             <div class="text-section text-link show" data-id="{{ affirmation.id }}">
                 <div class="text-title">
                     <div class="detail-title">{{ affirmation.text_task }}</div>
