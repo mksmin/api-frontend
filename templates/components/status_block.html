@@ -1,5 +1,5 @@
-<div class="status-block">
-  <div id="{{ status_block_id }}" class="status-indicator status-info">
+<div class="status-block" id="statusBlockGeneralDiv">
+  <div id="{{ status_block_id }}" class="status-indicator status-{{ status if status else 'info' }}">
     {% if status_text %}
     {{ status_text }}
     {% else %}
@@ -7,3 +7,10 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+  setTimeout(() => {
+    const statusBlock = document.getElementById('statusBlockGeneralDiv');
+    statusBlock.style.display = 'none';
+  }, 5000);
+</script>

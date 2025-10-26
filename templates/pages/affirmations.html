@@ -235,7 +235,15 @@
 
 </style>
 {% endblock %}
+{% block extraBlocksTop %}
 
+{% for msg in get_flashed_messages(request) %}
+{% with status_text=msg.message, status_block_id="statusBlock", status=msg.category %}
+{% include "components/status_block.html" %}
+{% endwith %}
+{% endfor %}
+
+{% endblock %}
 {% block content %}
 <div class="inner-container">
     <div id="profileSection" class="profile-section">
@@ -336,17 +344,18 @@
 <!-- Подробная информация -->
 <div class="inner-container" id="affirmation" style="display: none;">
     <div id="affirmDetail">
-        <div class="title-name">
-            <h4>Детали</h4>
-        </div>
-        <div class="text-section full-view show">
-            <div class="text-title">
-                <div
-                        class="detail-title"
-                        id="affirmationText"
-                        style="white-space: pre-wrap;"></div>
-            </div>
-        </div>
+
+
+        <figure id="affirmQuote" >
+            <blockquote
+                class="blockquote p-3 fs-3"
+                id="affirmQuoteText"
+                style="white-space: break-spaces;">
+            </blockquote>
+            <figcaption class="blockquote-footer d-none">
+                Someone famous in <cite title="Source Title">Source Title</cite>
+            </figcaption>
+        </figure>
 
 
         <div class="action-buttons">
@@ -417,6 +426,7 @@
             <button
                     id="confirmDelete"
                     class="btn btn-outline-danger"
+                    data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
 
             >Да, удалить
             </button>

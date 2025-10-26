@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deletePopup = document.getElementById('deletePopup');
             editPopup = document.getElementById('editPopup');
             settingsAffirmation = document.getElementById('settings');
+            profileSection = document.getElementById('profileSection');
 
             // Сохраняем текущий скролл
             savedScrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -42,9 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 detailContainer.style.display = 'block';
                 detailContainer.classList.add('visible');
                 settingsAffirmation.style.display = 'none';
+                profileSection.style.display = 'none';
 
-                document.getElementById('affirmationText').textContent =
+                document.getElementById('affirmQuoteText').textContent =
                 section.querySelector('.detail-title').textContent;
+
                 document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
             }, { once: true });
             return;
@@ -64,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Подтвердить удаление
         if (e.target.closest('#confirmDelete')) {
-            await confirmDeletion();
+            const url = e.target.closest('#confirmDelete').dataset.url;
+            await confirmDeletion(url);
             return;
         }
 
@@ -113,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContainer.classList.remove('hidden-container');
             window.scrollTo(0, savedScrollY);
             settingsAffirmation.style.display = 'block';
+            profileSection.style.display = 'block';
+
         }, { once: true });
 
         setTimeout(() => {
@@ -129,18 +135,25 @@ document.addEventListener('DOMContentLoaded', () => {
         deletePopup.classList.remove('active');
     }
 
-    async function confirmDeletion() {
+    async function confirmDeletion(url) {
         try {
-            const response = await fetch(`/api/v2/users/affirmations/${selectedAffirmationId}`, {
+            const newUrl = url.split('/').slice(0, -1).join('/');
+            const response = await fetch(`${newUrl}/${selectedAffirmationId}`, {
                 method: 'DELETE',
-                credentials: 'same-origin'
+                credentials: 'same-origin',
+                redirect: 'follow'
             });
             if (!response.ok) throw new Error('Ошибка сервера');
-            selectedAffirmationElement.style.opacity = '0';
-            setTimeout(() => {
-                selectedAffirmationElement.remove();
-                closeAffirmation();
-            }, 300);
+            const data = await response.json();
+            console.log('Данные:', data);
+            if (data.redirect) window.location.href = data.redirect;
+
+
+//            selectedAffirmationElement.style.opacity = '0';
+//            setTimeout(() => {
+//                selectedAffirmationElement.remove();
+//                closeAffirmation();
+//            }, 300);
         } catch (err) {
             console.error('Ошибка:', err);
             alert('Возникла ошибка при удалении. Попробуйте позже.');
@@ -177,8 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const newText = textarea.value.trim();
         if (!newText) return;
         try {
-//            TODO: Сделать запрос на изменение текста аффирмации
-
             if (!response.ok) throw new Error('Ошибка сервера');
             document.getElementById('affirmationText').textContent = newText;
             selectedAffirmationElement.querySelector('.detail-title').textContent = newText;
