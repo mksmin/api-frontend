@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function confirmDeletion(url) {
         try {
-            const newUrl = url.split('/').slice(0, -1).join('/');
+            url = url.replace(/^http:/, "https:");
+	    const newUrl = url.split('/').slice(0, -1).join('/');
             const response = await fetch(`${newUrl}/${selectedAffirmationId}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
