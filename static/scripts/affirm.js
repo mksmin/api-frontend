@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Подтвердить удаление
         if (e.target.closest('#confirmDelete')) {
-            const url = e.target.closest('#confirmDelete').dataset.url;
+            const url = window.location.pathname;
             await confirmDeletion(url);
             return;
         }
@@ -137,9 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function confirmDeletion(url) {
         try {
-            url = url.replace(/^http:/, "https:");
-	    const newUrl = url.split('/').slice(0, -1).join('/');
-            const response = await fetch(`${newUrl}/${selectedAffirmationId}`, {
+            const response = await fetch(`${url}/${selectedAffirmationId}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
                 redirect: 'follow'
@@ -149,12 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Данные:', data);
             if (data.redirect) window.location.href = data.redirect;
 
-
-//            selectedAffirmationElement.style.opacity = '0';
-//            setTimeout(() => {
-//                selectedAffirmationElement.remove();
-//                closeAffirmation();
-//            }, 300);
         } catch (err) {
             console.error('Ошибка:', err);
             alert('Возникла ошибка при удалении. Попробуйте позже.');
