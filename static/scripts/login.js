@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const path = window.location.pathname;
-        const AUTH_PATH = '/auth/bot2';
+        const AUTH_PATH = '/auth/bot3';
         const INITIAL_REDIRECT_KEY = 'initial_redirect';
+        const statusBlock  = document.getElementById('statusBlock');
 
         function isSafeRedirect(r) {
-            // Разрешаем только внутренние пути вида "/something"
-            // Запрещаем абсолютные URL, протоколы и "//..."
-            console.log('isSafeRedirect:', r);
             return typeof r === 'string' && r.length > 0 && r.startsWith('/') && !r.startsWith('//');
         }
 
-        // Try to initialise Telegram WebApp if available (safe)
         try {
             if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.ready === 'function') {
                 Telegram.WebApp.ready();
@@ -27,9 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const redirectParam = urlParams.get('redirect_url');
 
-            console.log("Initial redirect (raw):", sessionStorage.getItem(INITIAL_REDIRECT_KEY));
-            console.log("redirectParam", redirectParam);
-
             if (redirectParam && isSafeRedirect(redirectParam)) {
                 if (!sessionStorage.getItem(INITIAL_REDIRECT_KEY)) {
                     sessionStorage.setItem(INITIAL_REDIRECT_KEY, redirectParam);
@@ -37,9 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         })();
-
-
-        const statusBlock  = document.getElementById('statusBlock');
 
         function safeSetStatus(type, text) {
             if (!statusBlock) {
@@ -51,95 +42,77 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         safeSetStatus('info', '🪪 Необходима авторизация через Telegram');
 
-        async function loginTelegramWidgetFromQuery() {
-            const urlParams = new URLSearchParams(window.location.search);
-
-            if (!(urlParams.has('id') && urlParams.has('hash') && urlParams.has('auth_date'))) {
-                console.log('No Telegram auth params in URL');
+        function injectTelegramWidget() {
+            const script = document.createElement('script');
+            const container = document.querySelector('.auth-wrapper .tg-widget');
+            if (!container) {
+                console.warn('⚠️ Контейнер для Telegram-виджета не найден');
                 return;
             }
 
-            if (sessionStorage.getItem('tg_auth_in_progress') === '1') {
-                console.log('TG auth already in progress — skipping.');
-                return;
-            }
+            script.async = true;
+            script.src = 'https://telegram.org/js/telegram-widget.js?22';
+            script.dataset.telegramLogin = 'mininwork_bot';
+            script.dataset.size = 'large';
+            script.dataset.onauth = "loginTelegramWidget(user)";
+            script.dataset.radius = 12;
+
+            container.appendChild(script);
+        };
+
+        window.loginTelegramWidget = async function(user) {
             sessionStorage.setItem('tg_auth_in_progress', '1');
-
-            const queryData = new URLSearchParams();
-            urlParams.forEach((value, key) => {
-                if (!['dev', 'utm_source', 'ref'].includes(key)) {
-                    queryData.append(key, value);
-                }
-            });
-
             safeSetStatus('info', '🪪 Обнаружены параметры авторизации, завершаю вход...');
 
             try {
                 const response = await fetch(AUTH_PATH, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json',
                         'X-Client-Source': 'TelegramWidget'
                     },
-                    body: queryData.toString(),
+                    body: JSON.stringify(user),
                     credentials: 'include',
-                    redirect: 'follow'
                 });
-
-                try {
-                    history.replaceState({}, '', path);
-                } catch (error) {
-                    console.warn('history.replaceState failed', error);
-                }
 
                 const initialRedirect = sessionStorage.getItem(INITIAL_REDIRECT_KEY);
                 if (initialRedirect && isSafeRedirect(initialRedirect)) {
-
                     sessionStorage.setItem('tg_auth_handled', '1');
                     sessionStorage.removeItem('tg_auth_in_progress');
                     sessionStorage.removeItem(INITIAL_REDIRECT_KEY);
 
                     safeSetStatus('success', '✅ Авторизация пройдена — перенаправляю...');
-                    // Перенаправляем на сохранённый путь
                     window.location.href = initialRedirect;
                     return;
-
-                }
+                };
 
                 if (response.ok) {
-                    // помечаем как обработанное, чтобы избежать повторной обработки
-                    sessionStorage.setItem('tg_auth_handled', '1');
-                    sessionStorage.removeItem('tg_auth_in_progress');
+                    const data = await response.json();
+                    const redirectUrl = data.redirect_url;
 
-                    const finalUrl = response.url || path;
-                    safeSetStatus('success', '✅ Авторизация пройдена, выполняю переход...');
-
-                    if (finalUrl && finalUrl !== window.location.href) {
-                        window.location.href = finalUrl;
-                    } else {
-                        window.location.reload();
-                    }
+                    if (redirectUrl) {
+                        sessionStorage.setItem('tg_auth_handled', '1');
+                        sessionStorage.removeItem('tg_auth_in_progress');
+                        safeSetStatus('success', '✅ Авторизация пройдена, выполняю переход...');
+                        window.location.href = redirectUrl;
+                    } else {};
 
                 } else {
                     let text = '';
-                    try { text = await response.text(); } catch (e) {}
+                    try { text = await response.text() } catch (e) {};
                     console.error('Auth failed:', response.status, text);
                     sessionStorage.removeItem('tg_auth_in_progress');
                     safeSetStatus('error', `❌ Ошибка ${response.status}: ${text || 'Неизвестная ошибка'}`);
-                }
-
+                };
             } catch (error) {
-                // Обработка сетевой/непредвиденной ошибки — теперь корректно внутри catch
                 console.error('Network/auth error', error);
                 sessionStorage.removeItem('tg_auth_in_progress');
                 safeSetStatus('error', '❌ Ошибка при обработке авторизации');
-            }
-        }
+            };
+        };
+        injectTelegramWidget();
 
-        await loginTelegramWidgetFromQuery();
-
-    }
-    catch (error) {
+    } catch (error) {
         console.error('Global Error:', error);
     }
 });

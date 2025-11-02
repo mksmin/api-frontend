@@ -7,10 +7,11 @@
     {% endif %}
   </div>
 </div>
-
+{% if status_timeout %}
 <script>
   setTimeout(() => {
     const statusBlock = document.getElementById('statusBlockGeneralDiv');
     statusBlock.style.display = 'none';
   }, 5000);
 </script>
+{% endif %}

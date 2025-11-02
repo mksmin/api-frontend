@@ -22,14 +22,28 @@
 {% block extraBlocksTop %}
 {% set status_block_id = "statusAuth" %}
 {% include "components/status_block.html"%}
+
+{% if errors %}
+{% set errors = "⚠️ Ошибка: " + errors %}
+{% with status_block_id = "serverErrors", status = "error", status_text = errors %}
+{% include "components/status_block.html" %}
+{% endwith %}
+{% endif %}
+
 {% endblock %}
 
 {% block content %}
 {% call details.text_section() %}
 {{ details.text_title(title='Авторизация', info='Telegram MiniApp') }}
+{% if not errors %}
 <p>Bot name:</p>
-<p><span id="botConfigPath" class="sub-text"></span></p>
+<p><span id="botConfigPath" class="sub-text">
+  <a class="btn btn btn-outline-primary"
+     href="https://t.me/{{ botConfigPath }}"
+     target="_blank">@{{ botConfigPath }}</a>
+</span></p>
 <p></p>
+{% endif %}
 {% endcall %}
 {% endblock %}
 
