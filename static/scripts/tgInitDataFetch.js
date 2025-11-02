@@ -1,29 +1,28 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
     const botName = path.split('/').pop();
+    const tg = Telegram.WebApp;
+    let AUTH_PATH = '/auth';
 
     const elements = {
         statusAuth: document.getElementById('statusAuth'),
-//        tgInitData: document.getElementById('telegramInitData'),
         botConfig: document.getElementById('botConfigPath'),
     }
 
-    // Настройка API endpoints
-    let AUTH_PATH = '/auth';
     if (path.includes('/apps/') && botName !== '') {
         AUTH_PATH += `/${botName}`;
     }
 
     try {
-        // Инициализация Telegram WebApp
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
+        tg.ready();
+        tg.expand();
 
-        const botName = location.pathname.split('/').pop();
-//        elements.tgInitData.innerText = Telegram.WebApp.initData || 'null';
-        elements.botConfig.innerText = botName;
+        if (!tg.initData) {
+            elements.statusAuth.className = "status-indicator status-error";
+            elements.statusAuth.innerText = "⚠️ Ошибка: не удалось получить данные от Telegram ";
+            return;
+        };
 
-        // Отправка InitData на сервер
         const response = await fetch(AUTH_PATH, {
             method: 'POST',
             headers: {
@@ -34,10 +33,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             credentials: 'include'
         });
 
-
-        // Обработка ответа
         if (response.ok) {
-            window.location.replace(response.url || '/profile');
+            const data = await response.json();
+            const redirectUrl = data.redirect_url;
+            window.location.href = redirectUrl || '/profile';
         } else {
             const data = await response.json();
             elements.statusAuth.className = 'status-indicator status-error';
