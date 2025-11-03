@@ -3,25 +3,61 @@
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block content %}
-<div class="inner-container" id="project-details">
-    <div class="big_title_block">
-        <div class="profile-info">
-        <img
-            src="{{ user.photo_url }}"
-            id="userAvatar"
-            class="avatar"
-            alt="Аватар"
-            onerror="this.src='/static/media/nonePhoto.png'"
-            style="width: min(200px, 100%); height: auto;" />
-        </div>
-
-        <div class="profile-info">
-            <div id="projectName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
-            <div id="projectId" class="username">@{{ user.username }}</div>
-        </div>
+<div class="inner-container" id="profile-details">
+  <div class="big_title_block">
+    <div class="profile-info">
+      <img
+          src="{{ user.photo_url }}"
+          id="userAvatar"
+          class="avatar"
+          alt="Аватар"
+          onerror="this.src='/static/media/nonePhoto.png'"
+          style="width: min(200px, 100%); height: auto;"/>
     </div>
 
-    {{ details.detail_card("Телеграм ID", user.tg_id , oneline=True) }}
+    <div class="profile-info">
+      <div id="projectName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
+      <div id="projectId" class="username">@{{ user.username }}</div>
+    </div>
+  </div>
 
+  {{ details.detail_card("Телеграм ID", user.tg_id , oneline=True) }}
+  <div class="d-grid gap-2 d-none" id="backButton"></div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script defer>
+  const tg = window.Telegram?.WebApp;
+  console.log("history", document.referrer);
+  const inTelegram = !!tg && tg.initData !== '';
+  const backButtonDiv = document.getElementById("backButton");
+  const prevUrl = document.referrer;
+
+  const handleBack = () => {
+    if (window.history.length > 1) window.history.back();
+    else tg.close();
+  };
+
+  if (inTelegram) {
+    tg.ready();
+    tg.MainButton.show();
+    tg.MainButton.setText("Назад");
+    tg.MainButton.isVisible = true;
+    tg.MainButton.onClick(handleBack);
+
+  } else {
+    const buttonBack = document.createElement('button');
+    buttonBack.innerText = "Назад";
+    buttonBack.classList.add("btn", "btn-primary", "mt-4", "py-2");
+    buttonBack.onclick=handleBack;
+    buttonBack.type="button";
+
+    if (prevUrl && !prevUrl.includes("/login")) {
+      backButtonDiv.appendChild(buttonBack);
+      backButtonDiv.classList.remove("d-none");
+    }
+  };
+  window.loginTelegramWidget2 = handleBack;
+</script>
 {% endblock %}
