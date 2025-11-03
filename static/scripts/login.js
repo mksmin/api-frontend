@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             sessionStorage.setItem('tg_auth_in_progress', '1');
             safeSetStatus('info', '🪪 Обнаружены параметры авторизации, завершаю вход...');
 
+            sessionStorage.removeItem('photoUrl');
+            sessionStorage.setItem('photoUrl', user.photo_url || '');
+
             try {
                 const response = await fetch(AUTH_PATH, {
                     method: 'POST',

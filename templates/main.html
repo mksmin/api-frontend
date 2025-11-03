@@ -33,5 +33,22 @@
   </div>
 </main>
 {% block scripts %}{% endblock %}
+<script defer>
+    document.addEventListener('DOMContentLoaded', function () {
+      const tg = window.Telegram?.WebApp;
+      const photoUrl = tg?.initDataUnsafe.user?.photo_url || "";
+      if (photoUrl) {
+        sessionStorage.removeItem('photoUrl');
+        sessionStorage.setItem('photoUrl', photoUrl);
+      };
+
+      const url = sessionStorage.getItem('photoUrl');
+      if (url) {
+        const img = document.getElementById('userAvatar');
+        img.src = url;
+      };
+    });
+</script>
+
 </body>
 </html>

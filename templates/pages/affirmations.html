@@ -250,14 +250,16 @@
         {% if user %}
         <div class="profile-header">
             <img src="{{ user.photo_url }}" id="userAvatar" class="avatar" alt="Аватар"
-                 onerror="this.style.display='none'">
+                 onerror="this.src='/static/media/nonePhoto.png'">
 
             <div class="profile-info">
                 <div id="userName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
                 {% if user.is_premium %}
                 <div id="premiumBadge" class="badge">Premium</div>
                 {% endif %}
+                {% if user.username %}
                 <div id="userNickname" class="username">@{{ user.username }}</div>
+                {% endif %}
             </div>
         </div>
         {% if settings %}
@@ -344,8 +346,6 @@
 <!-- Подробная информация -->
 <div class="inner-container" id="affirmation" style="display: none;">
     <div id="affirmDetail">
-
-
         <figure id="affirmQuote" >
             <blockquote
                 class="blockquote p-3 fs-3"
@@ -356,8 +356,6 @@
                 Someone famous in <cite title="Source Title">Source Title</cite>
             </figcaption>
         </figure>
-
-
         <div class="action-buttons">
             <div class="detail-info" id="affirmationId"></div>
             <button class="edit-btn">
