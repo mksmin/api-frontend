@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.ready === 'function') {
                 Telegram.WebApp.ready();
                 console.log("✅ Telegram WebApp ready");
+                console.log('InitData:', !!Telegram.WebApp.initData);
                 if (typeof Telegram.WebApp.expand === 'function') {
                     Telegram.WebApp.expand();
                 }
