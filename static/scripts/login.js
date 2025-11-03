@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const path = window.location.pathname;
-        const AUTH_PATH = '/auth/bot3';
+        const AUTH_PATH = '/auth/bot2';
         const INITIAL_REDIRECT_KEY = 'initial_redirect';
         const statusBlock  = document.getElementById('statusBlock');
 
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             if (window.Telegram && Telegram.WebApp && typeof Telegram.WebApp.ready === 'function') {
                 Telegram.WebApp.ready();
+                console.log("✅ Telegram WebApp ready");
                 if (typeof Telegram.WebApp.expand === 'function') {
                     Telegram.WebApp.expand();
                 }
@@ -52,8 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             script.async = true;
             script.src = 'https://telegram.org/js/telegram-widget.js?22';
-            script.dataset.telegramLogin = 'test_mininBot';
-//            script.dataset.telegramLogin = 'mininwork_bot';
+//            script.dataset.telegramLogin = 'test_mininBot';
+            script.dataset.telegramLogin = 'mininwork_bot';
             script.dataset.size = 'large';
             script.dataset.onauth = "loginTelegramWidget(user)";
             script.dataset.radius = 12;
