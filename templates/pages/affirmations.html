@@ -5,230 +5,230 @@
 
 {% block head_extra %}
 <style>
-    .main-container {
-        max-width:min(100vw, 1000px);
-        box-sizing: border-box;
-    }
-    .inner-container {
-        max-width: 100%;
-    }
+  .main-container {
+    max-width:min(100vw, 1000px);
+    box-sizing: border-box;
+  }
+  .inner-container {
+    max-width: 100%;
+  }
 
-    /* Исправленные стили */
-    #container-affirm {
-        opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.1s ease, transform 0.3s ease;
-    }
+  /* Исправленные стили */
+  #container-affirm {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.1s ease, transform 0.3s ease;
+  }
 
-    #container-affirm.hidden-container {
-        opacity: 0;
-        pointer-events: none;
-    }
+  #container-affirm.hidden-container {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-    #affirmation {
-        opacity: 0;
-        /*            transform: translateY(20px);*/
-        transition: opacity 0.1s ease, transform 0.3s ease;
-        display: none;
-    }
+  #affirmation {
+    opacity: 0;
+    /*            transform: translateY(20px);*/
+    transition: opacity 0.1s ease, transform 0.3s ease;
+    display: none;
+  }
 
-    #affirmation.visible {
-        opacity: 1;
-        transform: translateY(0);
-        display: block;
-    }
+  #affirmation.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+  }
 
-    /* Стили кнопок */
-    .back-btn {
-        background: #1e82eb;
-        border: none;
-        color: white;
-        cursor: pointer;
-        padding: 15px 12px ;
-        transition: all 0.2s;
-        border-radius: 12px;
-        width: 100%;
-        margin-block-start: 30px;
-        font-size: 0.8rem;
-    }
+  /* Стили кнопок */
+  .back-btn {
+    background: #1e82eb;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 15px 12px ;
+    transition: all 0.2s;
+    border-radius: 12px;
+    width: 100%;
+    margin-block-start: 30px;
+    font-size: 0.8rem;
+  }
 
-    .back-btn:hover {
-        background: #3187e1;
-        color: #d5d5d5;
-        box-shadow: 0px 1px 10px 2px rgb(116 158 241 / 17%);
-    }
+  .back-btn:hover {
+    background: #3187e1;
+    color: #d5d5d5;
+    box-shadow: 0px 1px 10px 2px rgb(116 158 241 / 17%);
+  }
 
-    .delete-btn {
-        font-size: 0.8rem;
-        display: flex;
-        background: #c152521a;
-        color: #c15252;
-        padding: 8px 24px;
-        border: none;
-        border-radius: 8px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
+  .delete-btn {
+    font-size: 0.8rem;
+    display: flex;
+    background: #c152521a;
+    color: #c15252;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
-    }
+  }
 
-    .edit-btn {
-        display: flex;
-        background: #5288c11a;
-        color: #5288c1;
-        padding: 8px 24px;
-        border: none;
-        border-radius: 8px;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        cursor: pointer;
+  .edit-btn {
+    display: flex;
+    background: #5288c11a;
+    color: #5288c1;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
 
-    }
+  }
 
-    .action-buttons {
-        margin-top: 7px;
-        display: flex;
-        gap: 7px;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
+  .action-buttons {
+    margin-top: 7px;
+    display: flex;
+    gap: 7px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
 
-    .action-buttons .detail-info {
-        margin-left:0;
-        margin-right:auto;
-    }
-    .buttonIcon {
-        margin-inline-end: 4px;
-    }
+  .action-buttons .detail-info {
+    margin-left:0;
+    margin-right:auto;
+  }
+  .buttonIcon {
+    margin-inline-end: 4px;
+  }
 
-    /* Добавьте в стили */
-    .text-section .text-title {
-        display: flex;
-        gap: 5px;
-        max-width: 100%;
-    }
+  /* Добавьте в стили */
+  .text-section .text-title {
+    display: flex;
+    gap: 5px;
+    max-width: 100%;
+  }
 
-    .detail-title {
-        flex: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-        min-width: 0; /* Критически важно для работы обрезки в flex-контейнере */
-        width: 100%;
-        display: inline-block;
-    }
-    #affirmation .detail-title {
-        overflow: visible;
-        text-overflow: unset;
-        white-space: normal;
-    }
+  .detail-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    min-width: 0; /* Критически важно для работы обрезки в flex-контейнере */
+    width: 100%;
+    display: inline-block;
+  }
+  #affirmation .detail-title {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+  }
 
-    .detail-info {
-        flex-shrink: 0;
-    }
-    .text-link {
-        cursor: pointer;
-        /*        transition: all 0.2s ease-in-out;*/
-    }
-
-
-
-    .text-link:is(:hover,:focus,:active),
-    .text-section.text-link:is(:hover,:focus,:active) {
-        transition: all 0.2s ease-in-out;
-        background: var(--third-bg-color);
-    }
-
-    .text-link:is(:hover,:focus,:active) * {
-        transition: all 0.2s ease-in-out;
-        color: var(--accent-text-color)!important;
-    }
+  .detail-info {
+    flex-shrink: 0;
+  }
+  .text-link {
+    cursor: pointer;
+    /*        transition: all 0.2s ease-in-out;*/
+  }
 
 
-    /* Стили для фона попапа — полупрозрачный, с плавным переходом */
-    .delete-popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        opacity: 0;
-        pointer-events: none;
-        transition: background 0.3s ease, opacity 0.3s ease;
-    }
 
-    /* Когда активен — затемнение и возможность клика */
-    .delete-popup.active {
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 1;
-        pointer-events: all;
-    }
+  .text-link:is(:hover,:focus,:active),
+  .text-section.text-link:is(:hover,:focus,:active) {
+    transition: all 0.2s ease-in-out;
+    background: var(--third-bg-color);
+  }
 
-    /* Анимация появления самого окна */
-    @keyframes popup-in {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+  .text-link:is(:hover,:focus,:active) * {
+    transition: all 0.2s ease-in-out;
+    color: var(--accent-text-color)!important;
+  }
 
-    .popup-content {
-        background: var(--secondary-bg-color);
-        padding: 25px;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 400px;
-        text-align: center;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        transform: translateY(-10%) scale(0.9);
-        animation-fill-mode: forwards;
-        /* по умолчанию готовимся к анимации, но не запускаем */
-    }
 
-    /* Запускаем анимацию, когда родитель получает .active */
-    .delete-popup.active .popup-content {
-        animation: popup-in 0.4s ease-out;
-    }
+  /* Стили для фона попапа — полупрозрачный, с плавным переходом */
+  .delete-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: background 0.3s ease, opacity 0.3s ease;
+  }
 
-    /* Кнопки */
-    .popup-confirm-btn,
-    .popup-cancel-btn {
-        min-width: 100px;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: transform 0.2s ease;
-        font-size: 1rem;
-        margin: 14px 2px 0 0;
-        border: none;
-    }
+  /* Когда активен — затемнение и возможность клика */
+  .delete-popup.active {
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    pointer-events: all;
+  }
 
-    .popup-confirm-btn {
-        background: #e64d44;
-        color: #fff;
+  /* Анимация появления самого окна */
+  @keyframes popup-in {
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
 
-    .popup-cancel-btn {
-        background: var(--secondary-bg-color, #f0f0f0);
-    color: var(--text-color, #333);
-    }
+  .popup-content {
+    background: var(--secondary-bg-color);
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transform: translateY(-10%) scale(0.9);
+    animation-fill-mode: forwards;
+    /* по умолчанию готовимся к анимации, но не запускаем */
+  }
 
-    .popup-confirm-btn:hover,
-    .popup-cancel-btn:hover {
-        transform: scale(1.05);
-    }
+  /* Запускаем анимацию, когда родитель получает .active */
+  .delete-popup.active .popup-content {
+    animation: popup-in 0.4s ease-out;
+  }
+
+  /* Кнопки */
+  .popup-confirm-btn,
+  .popup-cancel-btn {
+    min-width: 100px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+    font-size: 1rem;
+    margin: 14px 2px 0 0;
+    border: none;
+  }
+
+  .popup-confirm-btn {
+    background: #e64d44;
+    color: #fff;
+  }
+
+  .popup-cancel-btn {
+    background: var(--secondary-bg-color, #f0f0f0);
+  color: var(--text-color, #333);
+  }
+
+  .popup-confirm-btn:hover,
+  .popup-cancel-btn:hover {
+    transform: scale(1.05);
+  }
 
 </style>
 {% endblock %}
@@ -243,49 +243,49 @@
 {% endblock %}
 {% block content %}
 <div class="inner-container">
-    <div id="profileSection" class="profile-section">
-        {% if user %}
-        {% include "components/user_info.html" %}
-        {% if settings %}
-        <div id="settings">
-            {{ details.title_h4("Настройки") }}
-            {{ details.detail_card("Ежедневная отправка", 'Вкл' if settings.send_enable else 'Выкл', oneline=True) }}
-            {{ details.detail_card("Количество аффирмаций в день", settings.count_tasks, oneline=True) }}
-            {{ details.detail_card("Время отправки (мск)", settings.send_time, oneline=True) }}
-        </div>
-        {% endif %}
-
-        {% endif %}
+  <div id="profileSection" class="profile-section">
+    {% if user %}
+    {% include "components/user_info.html" %}
+    {% if settings %}
+    <div id="settings">
+      {{ details.title_h4("Настройки") }}
+      {{ details.detail_card("Ежедневная отправка", 'Вкл' if settings.send_enable else 'Выкл', oneline=True) }}
+      {{ details.detail_card("Количество аффирмаций в день", settings.count_tasks, oneline=True) }}
+      {{ details.detail_card("Время отправки (мск)", settings.send_time, id="timeSending", oneline=True) }}
     </div>
+    {% endif %}
+
+    {% endif %}
+  </div>
 </div>
 
 {% if user %}
 <div class="inner-container" id="container-affirm">
-    <div class="details-grid">
-        {% if affirmations %}
-        {{ details.title_h4("Твои аффирмации", accent=True) }}
-        <div id="affirm-container">
-            {% for affirmation in affirmations %}
-            <div class="text-section text-link show" data-id="{{ affirmation.id }}">
-                <div class="text-title">
-                    <div class="detail-title">{{ affirmation.text_task }}</div>
-                    <div class="detail-info" style="padding-left: 5px">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
-                             viewBox="0 0 7 12"
-                             class="p_ZQ v61B">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="m1 1 5 5-5 5"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+  <div class="details-grid">
+    {% if affirmations %}
+    {{ details.title_h4("Твои аффирмации", accent=True) }}
+    <div id="affirm-container">
+      {% for affirmation in affirmations %}
+      <div class="text-section text-link show" data-id="{{ affirmation.id }}">
+        <div class="text-title">
+          <div class="detail-title">{{ affirmation.text_task }}</div>
+          <div class="detail-info" style="padding-left: 5px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+                 viewBox="0 0 7 12"
+                 class="p_ZQ v61B">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 5 5-5 5"/>
+            </svg>
+          </div>
         </div>
-        <div class="d-grid gap-2">
+      </div>
+      {% endfor %}
+    </div>
+    <div class="d-grid gap-2">
             <span
-                    id="endAffirmationsBtn"
-                    class="
+                id="endAffirmationsBtn"
+                class="
                     btn
                     btn-lg
                     text
@@ -294,142 +294,131 @@
                     border-0
                     disabled
                     d-none"
-                    style="font-size: 1rem;"
+                style="font-size: 1rem;"
             >Кажется, что это все</span>
-            <button
-                    type="button"
-                    id="loadAffirmationsBtn"
-                    class="
+      <button
+          type="button"
+          id="loadAffirmationsBtn"
+          class="
                     btn
                     btn-primary
                     btn-lg"
-                    style="font-size: 1rem;"
-            >Загрузить аффирмации
-            </button>
-        </div>
-
-        {% elif error %}
-        <div class="text-section">
-            <p style="text-align: center;">
-                Ошибка: {{ error }}
-            </p>
-        </div>
-
-        {% else %}
-        <div class="text-section">
-            <p style="text-align: center;">
-                Кажется, что у тебя еще нет аффирмаций.
-            </p>
-        </div>
-        {% endif %}
-
+          style="font-size: 1rem;"
+      >Загрузить аффирмации
+      </button>
     </div>
+
+    {% elif error %}
+    <div class="text-section">
+      <p style="text-align: center;">
+        Ошибка: {{ error }}
+      </p>
+    </div>
+
+    {% else %}
+    <div class="text-section">
+      <p style="text-align: center;">
+        Кажется, что у тебя еще нет аффирмаций.
+      </p>
+    </div>
+    {% endif %}
+
+  </div>
 </div>
 {% endif %}
 
 <!-- Подробная информация -->
 <div class="inner-container" id="affirmation" style="display: none;">
-    <div id="affirmDetail">
-        <figure id="affirmQuote" >
-            <blockquote
-                class="blockquote p-3 fs-3"
-                id="affirmQuoteText"
-                style="white-space: break-spaces;">
-            </blockquote>
-            <figcaption class="blockquote-footer d-none">
-                Someone famous in <cite title="Source Title">Source Title</cite>
-            </figcaption>
-        </figure>
-        <div class="action-buttons">
-            <div class="detail-info" id="affirmationId"></div>
-            <button class="edit-btn">
+  <div id="affirmDetail">
+    <figure id="affirmQuote">
+      <blockquote
+          class="blockquote p-3 fs-3"
+          id="affirmQuoteText"
+          style="white-space: break-spaces;">
+      </blockquote>
+      <figcaption class="blockquote-footer d-none">
+        Someone famous in <cite title="Source Title">Source Title</cite>
+      </figcaption>
+    </figure>
+    <div class="action-buttons">
+      <div class="detail-info" id="affirmationId"></div>
+      <button class="edit-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30"
                          fill="currentColor">
                         <path
-                                d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
+                            d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
                     </svg>
                 </span>
-                Редактировать
-            </button>
-            <button class="delete-btn">
+        Редактировать
+      </button>
+      <button class="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
                          fill="currentColor">
                         <path
-                                d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
+                            d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
                     </svg>
                 </span>
-                Удалить
-            </button>
-        </div>
+        Удалить
+      </button>
     </div>
+  </div>
 
-    <!-- Блок для редактирования -->
-    <div class="d-none" id="editTextAreaBlock">
-        <div class="mb-3">
-            <label for="editTextArea" class="
+  <!-- Блок для редактирования -->
+  <div class="d-none" id="editTextAreaBlock">
+    <div class="mb-3">
+      <label for="editTextArea" class="
         px-3
         pt-3
         fs-6
         form-label
         text-secondary
-"
-            >Редактировать аффирмацию</label>
-            <textarea
-                    id="editTextArea"
-                    class="form-control"
-                    rows="3"
-            ></textarea>
-        </div>
-        <div class="d-flex justify-content-end gap-2">
-            <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
-            <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
-        </div>
+">Редактировать аффирмацию</label>
+      <textarea
+          id="editTextArea"
+          class="form-control"
+          rows="3"
+      ></textarea>
     </div>
-
-    <div class="d-grid gap-2 mt-4">
-        <button
-                type="button"
-                id="closeAffirmation"
-                class="btn btn-primary btn-md"
-                style="--bs-btn-padding-y: .5rem;"
-        >Назад
-        </button>
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
+      <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
     </div>
-
+  </div>
+  <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
 </div>
 
 <!-- Кастомный попап -->
 <div id="deletePopup" class="delete-popup">
-    <div class="popup-content">
-        <h3>Удалить аффирмацию?</h3>
-        <div class="popup-buttons">
-            <button
-                    id="confirmDelete"
-                    class="btn btn-outline-danger"
-                    data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
+  <div class="popup-content">
+    <h3>Удалить аффирмацию?</h3>
+    <div class="popup-buttons">
+      <button
+          id="confirmDelete"
+          class="btn btn-outline-danger"
+          data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
 
-            >Да, удалить
-            </button>
-            <button
-                    id="cancelDelete"
-                    class="popup-cancel-btn text-secondary"
-            >Не удалять
-            </button>
-        </div>
+      >Да, удалить
+      </button>
+      <button
+          id="cancelDelete"
+          class="popup-cancel-btn text-secondary"
+      >Не удалять
+      </button>
     </div>
+  </div>
 </div>
 
 <!-- Попап редактирования -->
 <div id="editPopup" class="delete-popup">
-    <div class="popup-content">
-        <h3>Редактировать аффирмацию</h3>
-        <div class="popup-buttons">
-            <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
-            <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
-        </div>
+  <div class="popup-content">
+    <h3>Редактировать аффирмацию</h3>
+    <div class="popup-buttons">
+      <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
+      <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
     </div>
+  </div>
 </div>
 
 
@@ -439,12 +428,4 @@
 {% if user %}
 <script src="/static/scripts/affirm.js?v=1.0.2" defer></script>
 {% endif %}
-<script defer>
-    document.addEventListener('DOMContentLoaded', async () => {
-        try {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-        } catch (error) {}
-    });
-</script>
 {% endblock %}

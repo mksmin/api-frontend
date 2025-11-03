@@ -7,10 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedAffirmationElement = null;
     let savedScrollY = 0;
     let settingsAffirmation = null;
+    const tg = window.Telegram?.WebApp;
+    const inTelegram = !!tg && tg.initData !== '';
 
     const editBlock = document.getElementById('editTextAreaBlock');
     const affirmDetail = document.getElementById('affirmDetail');
     const textarea = document.getElementById('editTextArea');
+
+    tg.ready();
+    tg.expand();
 
     // Функция автоподстройки высоты textarea
     function autoResize(el) {
@@ -49,6 +54,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 section.querySelector('.detail-title').textContent;
 
                 document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
+
+                if (inTelegram) {
+                    tg.MainButton.show();
+                    tg.MainButton.setText("Назад");
+                    tg.MainButton.isVisible = true;
+                    tg.MainButton.onClick(closeAffirmation);
+                } else {
+                    const backButtonDiv = document.getElementById("backButton");
+                    const buttonBack = document.createElement('button');
+
+                    buttonBack.type="button";
+                    buttonBack.id="closeAffirmation";
+                    buttonBack.innerText = "Назад";
+                    buttonBack.classList.add("btn", "btn-primary", "btn-md");
+                    buttonBack.style = "--bs-btn-padding-y: .5rem;"
+                    buttonBack.onclick=closeAffirmation;
+                    backButtonDiv.appendChild(buttonBack);
+                    backButtonDiv.classList.remove("d-none");
+                };
+
+
             }, { once: true });
             return;
         }
@@ -110,6 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function closeAffirmation() {
+        if(inTelegram) {
+            tg.MainButton.hide()
+        } else {
+            const backButtonDiv = document.getElementById("backButton");
+            const buttonBack = document.getElementById("closeAffirmation");
+            backButtonDiv.removeChild(buttonBack);
+            backButtonDiv.classList.add("d-none");
+        };
         detailContainer.classList.remove('visible');
         detailContainer.addEventListener('transitionend', () => {
             detailContainer.style.display = 'none';
@@ -124,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             closeEditArea();
         }, 300);
-
     }
 
     function openDeletePopup() {
@@ -401,5 +434,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Первоначальная проверка видимости кнопки и автозагрузка
     // -----------------------
     if (isElementInViewport(button)) autoLoadWhileVisible();
+
+    const timeEl = document.getElementById('timeSending');
+    const [hours, minutes] = timeEl.innerText.split(':');
+    timeEl.innerText = `${hours}:${minutes}`;
 
 });
