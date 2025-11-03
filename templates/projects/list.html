@@ -32,40 +32,50 @@
 
 
   </div>
-  <div id="projectsSection" >
+  <div id="projectsSection">
 
     {% if projects %}
     {{ details.title_h4("Твои проекты", accent=True) }}
     {% for project in projects %}
-    <a href="{{ url_for('user-projects:detail', project_uuid=project.uuid).path }}" style="text-decoration: none;" class="text-link">
-    <div class="
+    <a href="{{ url_for('user-projects:detail', project_uuid=project.uuid).path }}" style="text-decoration: none;"
+       class="text-link">
+      <div class="
         detail-card
         text-link
         project-interaction
         oneline"
-         data-uuid="{{ project.uuid }}">
-      <div class="detail-title">{{ project.title }}
-        <p class="sub-title">{{ project.description }}</p>
+           data-uuid="{{ project.uuid }}">
+        <div class="detail-title">{{ project.title }}
+          <p class="sub-title">{{ project.description }}</p>
+        </div>
+        <div class="detail-info">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12"
+               style="margin-left: 5px;">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 5 5-5 5"></path>
+          </svg>
+        </div>
       </div>
-      <div class="detail-info">
-        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12"
-             style="margin-left: 5px;">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 5 5-5 5"></path>
-        </svg>
-      </div>
-    </div>
     </a>
-  {% endfor %}
-  {% else %}
-  {% call details.text_section() %}
-  <p style="text-align: center;">
-    Проектов пока нет. Создать новый?
-  </p>
-  {% endcall %}
-  {% endif %}
+    {% endfor %}
+    {% else %}
+    {% call details.text_section() %}
+    <p style="text-align: center;">
+      Проектов пока нет. Создать новый?
+    </p>
+    {% endcall %}
+    {% endif %}
   </div>
 
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script defer>
+  const tg = window.Telegram?.WebApp;
+  const inTelegram = !!tg && tg.initData !== '';
+  tg.ready();
+  tg.expand();
+</script>
 {% endblock %}
