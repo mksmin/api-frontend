@@ -1,19 +1,32 @@
 {% if user %}
-<div class="profile-header">
-  <img
-      src="{{ user.photo_url }}"
-      id="userAvatar"
-      class="avatar"
-      alt="Аватар"
-      onerror="this.src='/static/media/nonePhoto.png'">
-  <div class="profile-info">
-    <div id="userName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
-    {% if user.is_premium %}
-    <div id="premiumBadge" class="badge">Premium</div>
-    {% endif %}
-    {% if user.username %}
-    <div id="userNickname" class="username">@{{ user.username }}</div>
-    {% endif %}
+<a href="{{ url_for('profiles:user-profile') }}"
+   style="text-decoration: none;"
+   class="text-link">
+  <div class="profile-header text-link">
+    <img
+        src="{{ user.photo_url }}"
+        id="userAvatar"
+        class="avatar"
+        alt="Аватар"
+        onerror="this.src='/static/media/nonePhoto.png'">
+    <div class="profile-info">
+      <div id="userName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
+      {% if user.is_premium %}
+      <div id="premiumBadge" class="badge">Premium</div>
+      {% endif %}
+      {% if user.username %}
+      <div id="userNickname" class="username">@{{ user.username }}</div>
+      {% endif %}
+    </div>
+    <div class="detail-info" style="padding:0 0.5rem 0 5px">
+      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+           viewBox="0 0 7 12"
+           class="p_ZQ v61B">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 5 5-5 5"/>
+      </svg>
+    </div>
   </div>
-</div>
+</a>
 {% endif %}
