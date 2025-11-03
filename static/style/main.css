@@ -46,6 +46,14 @@ body {
     z-index: 0;
 }
 
+main {
+    display: flex;
+    flex-grow:1;
+    align-self: center;
+    justify-content: center;
+    min-height: -webkit-fill-available;
+}
+
 div {
     font-size: inherit; /* Наследует размер шрифта от родительского элемента */
 }
