@@ -570,7 +570,6 @@ p {
 }
 .big_title_block .profile-info {
     font-size: 2rem;
-    flex: 1;
     align-content: center;
     justify-items: center;
     text-align: center;

@@ -29,14 +29,17 @@
 {% block scripts %}
 <script defer>
   const tg = window.Telegram?.WebApp;
-  console.log("history", document.referrer);
   const inTelegram = !!tg && tg.initData !== '';
   const backButtonDiv = document.getElementById("backButton");
   const prevUrl = document.referrer;
 
   const handleBack = () => {
-    if (window.history.length > 1) window.history.back();
-    else tg.close();
+    tg.MainButton.hide();
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      tg.close()
+    };
   };
 
   if (inTelegram) {
