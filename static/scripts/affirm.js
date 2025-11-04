@@ -56,10 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('affirmationId').textContent = `ID: ${selectedAffirmationId}`;
 
                 if (inTelegram) {
-                    tg.SecondaryButton.show();
-                    tg.SecondaryButton.setText("Назад");
-                    tg.SecondaryButton.isVisible = true;
-                    tg.SecondaryButton.onClick(closeAffirmation);
+                    tg.MainButton.show();
+                    tg.MainButton.setParams({
+                        text: "Назад 123",
+                        has_shine_effect: true,
+                        is_visible: true,
+                        position: 'left',
+                    });
+                    tg.MainButton.onClick(closeAffirmation);
                 } else {
                     const backButtonDiv = document.getElementById("backButton");
                     const buttonBack = document.createElement('button');
@@ -137,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeAffirmation() {
         if(inTelegram) {
-            tg.SecondaryButton.hide()
+            tg.MainButton.hide()
         } else {
             const backButtonDiv = document.getElementById("backButton");
             const buttonBack = document.getElementById("closeAffirmation");
