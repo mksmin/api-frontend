@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (inTelegram) {
                     tg.MainButton.show();
                     tg.MainButton.setParams({
-                        text: "Назад 123",
-                        has_shine_effect: true,
+                        text: "Назад",
+                        has_shine_effect: false,
                         is_visible: true,
                         position: 'left',
                     });
