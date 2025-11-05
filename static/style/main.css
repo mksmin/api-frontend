@@ -2,6 +2,7 @@
 
 :root {
     --color-primary: #2AABEE;
+    --color-secondary: #8774e1;
     --color-success: #4CAF50;
     --color-error: #f44336;
     --color-info: #2392e7;
@@ -13,8 +14,7 @@
     --third-bg-color: #1e1e1e;
     --hint-color: #aaaaaa;
     --base-text-color:#efefef;
-    --accent-text-color:#8774e1;
-
+    --accent-text-color: var(--color-secondary);
     --main-font-size: 16px;
     --small-font-size: 15px;
 }
@@ -139,7 +139,7 @@ div {
     height: 70px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--color-primary);
+    border: 3px solid var(--color-secondary);
     margin-left: 4px
 }
 

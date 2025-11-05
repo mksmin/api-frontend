@@ -45,8 +45,11 @@
   if (inTelegram) {
     tg.ready();
     tg.MainButton.show();
-    tg.MainButton.setText("Назад");
-    tg.MainButton.isVisible = true;
+    tg.MainButton.setParams({
+      color: "#8774e1",
+      is_visible: true,
+      text: "Назад"
+    });
     tg.MainButton.onClick(handleBack);
 
   } else {

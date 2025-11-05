@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: "Назад",
                         has_shine_effect: false,
                         is_visible: true,
+                        color: "#8774e1",
                         position: 'left',
                     });
                     tg.MainButton.onClick(closeAffirmation);
