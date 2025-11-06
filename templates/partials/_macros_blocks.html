@@ -20,6 +20,23 @@ detail-card
 </div>
 {% endmacro %}
 
+{% macro detail_card_call(title,  id=None, oneline=True) %}
+<div class="
+detail-card
+{% if oneline %}oneline{% endif %}
+">
+  <div class="detail-title">{{ title }}</div>
+  <div class="detail-info">
+    <span
+        {% if id %}
+        id="{{ id }}"
+        {% endif %}
+    >{{ caller() }}</span>
+  </div>
+</div>
+{% endmacro %}
+
+
 {% macro text_title(title, info) %}
 <div class="text-title">
   <div class="detail-title">{{ title }}</div>
