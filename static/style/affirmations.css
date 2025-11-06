@@ -1,0 +1,224 @@
+.main-container {
+    max-width:min(100vw, 1000px);
+    box-sizing: border-box;
+}
+.inner-container {
+    max-width: 100%;
+}
+
+/* Исправленные стили */
+#container-affirm {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.1s ease, transform 0.3s ease;
+}
+
+#container-affirm.hidden-container {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#affirmation {
+    opacity: 0;
+    /*            transform: translateY(20px);*/
+    transition: opacity 0.1s ease, transform 0.3s ease;
+    display: none;
+}
+
+#affirmation.visible {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}
+
+/* Стили кнопок */
+.back-btn {
+    background: #1e82eb;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 15px 12px ;
+    transition: all 0.2s;
+    border-radius: 12px;
+    width: 100%;
+    margin-block-start: 30px;
+    font-size: 0.8rem;
+}
+
+.back-btn:hover {
+    background: #3187e1;
+    color: #d5d5d5;
+    box-shadow: 0px 1px 10px 2px rgb(116 158 241 / 17%);
+}
+
+.delete-btn {
+    font-size: 0.8rem;
+    display: flex;
+    background: #c152521a;
+    color: #c15252;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+.edit-btn {
+    display: flex;
+    background: #5288c11a;
+    color: #5288c1;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+}
+
+.action-buttons {
+    margin-top: 7px;
+    display: flex;
+    gap: 7px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.action-buttons .detail-info {
+    margin-left:0;
+    margin-right:auto;
+}
+.buttonIcon {
+    margin-inline-end: 4px;
+}
+
+/* Добавьте в стили */
+.text-section .text-title {
+    display: flex;
+    gap: 5px;
+    max-width: 100%;
+}
+
+.detail-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    min-width: 0; /* Критически важно для работы обрезки в flex-контейнере */
+    width: 100%;
+    display: inline-block;
+}
+#affirmation .detail-title {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+}
+
+.detail-info {
+    flex-shrink: 0;
+}
+.text-link {
+    cursor: pointer;
+    /*        transition: all 0.2s ease-in-out;*/
+}
+
+
+
+.text-link:is(:hover,:focus,:active),
+.text-section.text-link:is(:hover,:focus,:active) {
+    transition: all 0.2s ease-in-out;
+    background: var(--third-bg-color);
+}
+
+.text-link:is(:hover,:focus,:active) * {
+    transition: all 0.2s ease-in-out;
+    color: var(--accent-text-color)!important;
+}
+
+
+/* Стили для фона попапа — полупрозрачный, с плавным переходом */
+.delete-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: background 0.3s ease, opacity 0.3s ease;
+}
+
+/* Когда активен — затемнение и возможность клика */
+.delete-popup.active {
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Анимация появления самого окна */
+@keyframes popup-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.popup-content {
+    background: var(--secondary-bg-color);
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transform: translateY(-10%) scale(0.9);
+    animation-fill-mode: forwards;
+    /* по умолчанию готовимся к анимации, но не запускаем */
+}
+
+/* Запускаем анимацию, когда родитель получает .active */
+.delete-popup.active .popup-content {
+    animation: popup-in 0.4s ease-out;
+}
+
+/* Кнопки */
+.popup-confirm-btn,
+.popup-cancel-btn {
+    min-width: 100px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+    font-size: 1rem;
+    margin: 14px 2px 0 0;
+    border: none;
+}
+
+.popup-confirm-btn {
+    background: #e64d44;
+    color: #fff;
+}
+
+.popup-cancel-btn {
+    background: var(--secondary-bg-color, #f0f0f0);
+    color: var(--text-color, #333);
+}
+
+.popup-confirm-btn:hover,
+.popup-cancel-btn:hover {
+    transform: scale(1.05);
+}

@@ -444,4 +444,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const [hours, minutes] = timeEl.innerText.split(':');
     timeEl.innerText = `${hours}:${minutes}`;
 
+    const sw = document.getElementById('switchSendingChecked');
+    const status = document.getElementById('statusSettings');
+
+    const showStatus = (type, text, duration = 5000) => {
+        status.className = 'status-indicator';
+        status.classList.add('status-' + type);
+        status.classList.remove('d-none');
+        status.textContent = text;
+        status.style.opacity = 1;
+        status.parentElement.style.opacity = 1;
+        status.style.transform = 'scaleY(1)';
+
+        clearTimeout(status._timer);
+        status._timer = setTimeout(() => {
+            status.classList.add('d-none');
+        }, duration);
+    };
+
+    const hideStatusAnimated = (duration = 300) => {
+        status.style.opacity = 0;
+        status.parentElement.style.opacity = 0;
+        status.style.transform = 'scaleY(0)';
+
+        clearTimeout(status._timer);
+        status._timer = setTimeout(() => {
+            status.classList.add('d-none');
+            status.style.transform = 'scaleY(1)';
+            status.style.opacity = 1;
+            status.parentElement.style.opacity = 1;
+        }, duration);
+    };
+
+    hideStatusAnimated(0);
+
+    sw.addEventListener('change', async (e) => {
+        const el = e.currentTarget;
+        const currentState = el.checked;
+        el.disabled = true;
+
+        try {
+            const response = await fetch('/api/v2/users/affirmations/settings', {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({send_enable: el.checked})
+            });
+
+            if (!response.ok) throw new Error('Ошибка: ' + response.status);
+            showStatus('success', 'Настройки сохранены');
+        } catch (error) {
+            el.checked = !el.checked;
+            showStatus('error', error.message || 'Ошибка запроса', 10000);
+        } finally {
+            el.disabled = false;
+        };
+    });
+
 });

@@ -294,7 +294,7 @@ div {
     width: 100%;
     margin: 20px 0;
     border-radius: 15px;
-
+    transition: all 0.3s ease;
 }
 
 .status-indicator {
@@ -589,4 +589,63 @@ p {
     margin: 0.2rem 0;
     display: block;
     text-align: center;
+}
+
+
+.detail-card .form-switch {
+    --bs-form-switch-width: 46px;
+    --bs-form-switch-height: 28px;
+}
+
+.detail-card .form-switch .form-check-input {
+    width: var(--bs-form-switch-width, 46px);
+    height: var(--bs-form-switch-height, 28px);
+    border-radius: 999px;
+    background-color: #e5e5ea;
+    border: 1px solid rgba(0,0,0,.15);
+    background-image: none;
+    position: relative;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+    margin: 0;
+}
+
+.detail-card .form-switch .form-check-input::after {
+    content: "";
+    position: absolute;
+    top: 1.6px;
+    left: 2px;
+width: calc(var(--bs-form-switch-height, 28px) - 4px);
+    height: calc(var(--bs-form-switch-height, 28px) - 4px);
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.04) inset;
+    transform: translateX(0);
+    transition: transform .2s ease;
+}
+
+.detail-card .form-switch .form-check-input:checked {
+    background-color: #34C759;
+    border-color: #34C759;
+}
+
+.detail-card .form-switch .form-check-input:checked::after {
+    transform: translateX(calc(var(--bs-form-switch-width, 46px) - var(--bs-form-switch-height, 28px)));
+}
+
+.detail-card .form-switch .form-check-input:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 .25rem rgba(52,199,89,.25);
+}
+
+.detail-card .form-switch .form-check-input:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .detail-card .form-switch .form-check-input,
+    .detail-card .form-switch .form-check-input::after {
+        transition: none;
+    }
 }
