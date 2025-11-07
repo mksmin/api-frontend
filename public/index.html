@@ -6,6 +6,8 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Профиль</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/style/main.css?v=1.0.1">
     <style>
@@ -103,8 +105,6 @@
         .profile-content {
             transition: transform 0.4s cubic-bezier(0.33, 0.85, 0.56, 1.02);
             transform-origin: top center;
-        }
-        .none-display {
         }
         .hidden-content {
             opacity: 0;
@@ -442,8 +442,8 @@
         // Переключение контента
         if(profileType === 'developer') {
             managerContent.classList.remove('visible-content');
-            managerContent.classList.add('hidden-content', 'none-display');
-            developerContent.classList.remove('none-display', 'hidden-content');
+            managerContent.classList.add('hidden-content', 'd-none');
+            developerContent.classList.remove('d-none', 'hidden-content');
             developerContent.classList.add('visible-content');
 
             statusDeveloper.classList.remove('hidden-content');
@@ -466,8 +466,8 @@
 
         } else {
             developerContent.classList.remove('visible-content');
-            developerContent.classList.add('hidden-content', 'none-display');
-            managerContent.classList.remove('none-display');
+            developerContent.classList.add('hidden-content', 'd-none');
+            managerContent.classList.remove('d-none');
             managerContent.classList.remove('hidden-content');
             managerContent.classList.add('visible-content');
 
