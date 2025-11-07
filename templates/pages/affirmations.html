@@ -51,7 +51,7 @@
       <div class="modal fade" id="affirmations-change-count" tabindex="-1"
            aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content modal-custom">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Выбрать количество аффирмаций</h1>
             </div>
@@ -65,12 +65,12 @@
                   <option value="5">5</option>
                 </select>
               </div>
-              <div class="mt-2">В разработке</div>
+              <div class="mt-2 text-start">В разработке</div>
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-primary">Сохранить</button>
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+              <button type="button" class="btn btn-success" disabled>Сохранить</button>
             </div>
           </div>
         </div>
@@ -91,23 +91,23 @@
       <div class="modal fade" id="affirmations-change-time-sending" tabindex="-1"
            aria-labelledby="affirmations-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+          <div class="modal-content modal-custom">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
             </div>
             <div class="modal-body">
-              <input id="affirmation-time"
-                     type="time"
-                     class="form-control"
-                     name="send_time"
-                     step="60"
-                     value="{{ settings.send_time }}"
-              >
-              <div class="mt-2">В разработке</div>
+              <div><input id="affirmation-time"
+                          type="time"
+                          class="form-control"
+                          name="send_time"
+                          step="60"
+                          value="{{ settings.send_time }}"
+              ></div>
+              <div class="mt-2 text-start">В разработке</div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-primary" disabled>Сохранить</button>
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+              <button type="button" class="btn btn-success" disabled>Сохранить</button>
             </div>
           </div>
         </div>

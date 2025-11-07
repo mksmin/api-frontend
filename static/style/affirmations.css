@@ -222,3 +222,19 @@
 .popup-cancel-btn:hover {
     transform: scale(1.05);
 }
+
+
+.modal-custom {
+    background-color: var(--secondary-bg-color);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.modal-custom h1 {
+    font-weight: normal;
+}
+.modal-custom .modal-footer, .modal-custom .modal-header {
+    border-bottom: none;
+    border-top: none;
+}
