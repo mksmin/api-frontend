@@ -24,8 +24,6 @@
     {% if settings %}
     <div id="settings">
       {{ details.title_h4("Настройки") }}
-
-
       {% call details.detail_card_call("Ежедневная отправка", oneline=True) %}
       <div class="form-check form-switch">
         <input
@@ -39,11 +37,84 @@
         >
       </div>
       {% endcall %}
-      {{ details.detail_card("Количество аффирмаций в день", settings.count_tasks, oneline=True) }}
-      {{ details.detail_card("Время отправки (мск)", settings.send_time, id="timeSending", oneline=True) }}
+      {% call details.detail_card_call("Количество аффирмаций в день", oneline=True) %}
+      <span data-bs-toggle="modal"
+            data-bs-target="#affirmations-change-count">
+         <span class="me-2">{{ settings.count_tasks }}</span>
+         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+              aria-hidden="true" role="img">
+          <path
+              d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
+        </svg>
+         </span>
+
+      <div class="modal fade" id="affirmations-change-count" tabindex="-1"
+           aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Выбрать количество аффирмаций</h1>
+            </div>
+            <div class="modal-body">
+              <div>
+                <select class="form-select" id="countTasks" name="count_tasks">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="mt-2">В разработке</div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+              <button type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endcall %}
+
+      {% call details.detail_card_call("Время отправки (мск)", oneline=True) %}
+      <span data-bs-toggle="modal"
+            data-bs-target="#affirmations-change-time-sending">
+         <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
+         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+              aria-hidden="true" role="img">
+          <path
+              d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
+        </svg>
+         </span>
+
+      <div class="modal fade" id="affirmations-change-time-sending" tabindex="-1"
+           aria-labelledby="affirmations-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
+            </div>
+            <div class="modal-body">
+              <input id="affirmation-time"
+                     type="time"
+                     class="form-control"
+                     name="send_time"
+                     step="60"
+                     value="{{ settings.send_time }}"
+              >
+              <div class="mt-2">В разработке</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+              <button type="button" class="btn btn-primary" disabled>Сохранить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endcall %}
     </div>
     {% endif %}
-
     {% endif %}
   </div>
 </div>
