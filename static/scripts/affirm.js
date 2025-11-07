@@ -145,8 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tg.MainButton.hide()
         } else {
             const backButtonDiv = document.getElementById("backButton");
-            const buttonBack = document.getElementById("closeAffirmation");
-            backButtonDiv.removeChild(buttonBack);
+            const buttonBack = document.getElementById("closeAffirmation")?.remove();
             backButtonDiv.classList.add("d-none");
         };
         detailContainer.classList.remove('visible');
@@ -258,12 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // -----------------------
     // Инициализация уже существующих элементов
     // -----------------------
-    const existing = container.querySelectorAll('.text-section[data-id]');
-    existing.forEach(function(el) {
-        if (el.dataset.id) loadedIds.add(el.dataset.id);
-    });
-    offset = loadedIds.size;
-
+    if (container) {
+        const existing = container.querySelectorAll('.text-section[data-id]');
+        existing.forEach(el => {
+            if (el.dataset.id) loadedIds.add(el.dataset.id);
+        });
+        offset = loadedIds.size;
+    } else {
+        console.warn('⚠️ Контейнер не найден');
+    }
     // -----------------------
     // Утилита для задержки
     // -----------------------
@@ -413,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { root: null, rootMargin: '0px 0px 200px 0px', threshold: 0.01 });
 
-    observer.observe(button);
+    if (button) observer.observe(button); else console.warn('⚠️ Кнопка не найдена');
 
     // -----------------------
     // События scroll и resize для авто-подгрузки
@@ -424,21 +426,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // -----------------------
     // Обработчик клика по кнопке
     // -----------------------
-    button.addEventListener("click", async function(){
-        // Увеличиваем margin-top при каждом клике
-        const currentMargin = parseInt(window.getComputedStyle(button).marginTop) || 0;
-        button.style.marginTop = (currentMargin + 20) + "px";
+    if (button) {
+        button.addEventListener("click", async function(){
+            // Увеличиваем margin-top при каждом клике
+            const currentMargin = parseInt(window.getComputedStyle(button).marginTop) || 0;
+            button.style.marginTop = (currentMargin + 20) + "px";
 
-        // Подгружаем следующую порцию
-        await loadBatch();
-    });
+            // Подгружаем следующую порцию
+            await loadBatch();
+        });
 
 
 
-    // -----------------------
-    // Первоначальная проверка видимости кнопки и автозагрузка
-    // -----------------------
-    if (isElementInViewport(button)) autoLoadWhileVisible();
+        // -----------------------
+        // Первоначальная проверка видимости кнопки и автозагрузка
+        // -----------------------
+        if (isElementInViewport(button)) autoLoadWhileVisible();
+    };
 
     const timeEl = document.getElementById('timeSending');
     const [hours, minutes] = timeEl.innerText.split(':');
@@ -500,4 +504,89 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
+    const selectCounTasks = document.getElementById('countTasks');
+    const saveCountTasksButton = document.getElementById('saveCountTasksButton');
+    const currentDisplay = document.querySelector('[data-bs-target="#affirmations-change-count"] span');
+
+    let newValue = selectCounTasks.value;
+    const oldValue = selectCounTasks.value;
+
+    const modalEl = document.getElementById('affirmations-change-count');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    selectCounTasks.addEventListener('change', function() {
+        newValue = this.value;
+        saveCountTasksButton.disabled = false;
+    });
+
+    saveCountTasksButton.addEventListener('click', async function() {
+        saveCountTasksButton.disabled = true;
+        saveCountTasksButton.textContent = 'Сохранение...';
+
+        try {
+            const response = await fetch('/api/v2/users/affirmations/settings', {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ count_tasks: parseInt(newValue) })
+            });
+
+            if (!response.ok) throw new Error('Ошибка при обновлении');
+            currentDisplay.textContent = newValue;
+            showStatus('success', 'Настройки сохранены');
+            modal.hide();
+
+        } catch (error) {
+            modal.hide();
+            showStatus('error', error.message || 'Ошибка запроса', 10000);
+            saveCountTasksButton.disabled = true;
+        } finally {
+            saveCountTasksButton.textContent = 'Сохранить';
+        }
+    });
+
+    modalEl.addEventListener('hidden.bs.modal', (event) => {
+        selectCounTasks.value = currentDisplay.textContent
+    });
+
+    const timeInput = document.getElementById('affirmation-time');
+    const saveTimeButton = document.getElementById('saveTimeButton');
+    const timeDisplay = document.getElementById('timeSending');
+    const modalTimeEl = document.getElementById('affirmations-change-time-sending');
+    const modalTime = bootstrap.Modal.getOrCreateInstance(modalTimeEl);
+
+    let newTime = timeInput.value;
+
+    timeInput.addEventListener('change', function() {
+        newTime = this.value;
+        saveTimeButton.disabled = false;
+    });
+
+    saveTimeButton.addEventListener('click', async function() {
+        saveTimeButton.disabled = true;
+        saveTimeButton.textContent = 'Сохранение...';
+
+        try {
+            const response = await fetch('/api/v2/users/affirmations/settings', {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ send_time: newTime })
+            });
+
+            if (!response.ok) throw new Error('Ошибка при обновлении');
+
+            timeDisplay.textContent = newTime;
+            showStatus('success', 'Настройки сохранены');
+            modalTime.hide();
+
+        } catch (error) {
+            modalTime.hide();
+            showStatus('error', error.message || 'Ошибка запроса', 10000);
+            saveTimeButton.disabled = true;
+        } finally {
+            saveTimeButton.textContent = 'Сохранить';
+        };
+    });
+    modalTimeEl.addEventListener('hidden.bs.modal', (event) => {
+        timeInput.value = timeDisplay.textContent
+    });
 });
