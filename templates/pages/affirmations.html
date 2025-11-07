@@ -42,7 +42,7 @@
             data-bs-target="#affirmations-change-count">
          <span class="me-2">{{ settings.count_tasks }}</span>
          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-              aria-hidden="true" role="img">
+              role="img">
           <path
               d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
         </svg>
@@ -53,24 +53,27 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content modal-custom">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Выбрать количество аффирмаций</h1>
+              <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Изменить количество аффирмаций</h1>
             </div>
             <div class="modal-body">
-              <div>
-                <select class="form-select" id="countTasks" name="count_tasks">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3" selected>3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
+              <div class="row align-items-center text-start">
+                <div class="col-9 col-sm-9">
+                  Выбери количество отправляемых аффирмаций в день
+                </div>
+                <div class="col-3 col-sm-3">
+                  <select class="form-select" id="countTasks" name="count_tasks">
+                    {% for i in range(1, 6) %}
+                    <option value="{{ i }}" {% if i == settings.count_tasks %} selected {% endif %}>{{ i }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-              <div class="mt-2 text-start">В разработке</div>
+
 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-success" disabled>Сохранить</button>
+              <button type="button" class="btn btn-success" id="saveCountTasksButton" disabled>Сохранить</button>
             </div>
           </div>
         </div>
@@ -82,7 +85,7 @@
             data-bs-target="#affirmations-change-time-sending">
          <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-              aria-hidden="true" role="img">
+               role="img">
           <path
               d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
         </svg>
@@ -95,19 +98,25 @@
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
             </div>
-            <div class="modal-body">
-              <div><input id="affirmation-time"
-                          type="time"
-                          class="form-control"
-                          name="send_time"
-                          step="60"
-                          value="{{ settings.send_time }}"
-              ></div>
-              <div class="mt-2 text-start">В разработке</div>
+            <div class="modal-body text-center">
+              <div class="row align-items-center text-start">
+                <div class="col-9 col-sm-9">
+                  Выбери время отправки аффирмаций <div>(по Москве)</div>
+                </div>
+                <div class="col-3 col-sm-3">
+                  <input id="affirmation-time"
+                         type="time"
+                         class="form-control"
+                         name="send_time"
+                         step="60"
+                         value="{{ settings.send_time }}"
+                  >
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-success" disabled>Сохранить</button>
+              <button type="button" class="btn btn-success" id="saveTimeButton" disabled>Сохранить</button>
             </div>
           </div>
         </div>
