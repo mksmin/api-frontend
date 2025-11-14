@@ -19,7 +19,8 @@ export class TelegramService {
 
   showMainButton(text, onClick) {
     if (!this.isInTelegram) return;
-    this.tg.MainButton.show();
+    this.tg.MainButton.offClick();
+
     this.tg.MainButton.setParams({
       text,
       has_shine_effect: false,
@@ -27,6 +28,8 @@ export class TelegramService {
       color: CONFIG.TELEGRAM.MAIN_BUTTON_COLOR,
       position: 'left',
     });
+    console.log('Onclick', onClick)
+    this.tg.MainButton.show();
     this.tg.MainButton.onClick(onClick);
   }
 
