@@ -59,7 +59,7 @@ export class SettingsManager {
     if (!selectEl || !saveBtn || !modalEl) return;
 
     let newValue = selectEl.value;
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // eslint-disable-line no-undef
 
     selectEl.addEventListener(
       'change',
@@ -124,7 +124,7 @@ export class SettingsManager {
     if (!timeInput || !saveBtn || !modalEl) return;
 
     let newTime = timeInput.value;
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // eslint-disable-line no-undef
 
     timeInput.addEventListener(
       'change',

@@ -1,6 +1,6 @@
 import {DOMUtils} from "../utils/dom.js";
 import {ApiService} from "../services/api.js";
-import {CONFIG, MESSAGES} from "../config/constants.js";
+import {CONFIG} from "../config/constants.js";
 import { escapeHtml, sleep, debounce } from '../utils/helpers.js';
 
 export class AffirmationLoader {
