@@ -1,9 +1,9 @@
-import {StatusIndicator} from "./affirmations/ui/status_indicator.js";
 import {TelegramService} from "./affirmations/services/telegram.js";
 import {AffirmationDetail} from "./affirmations/ui/affirmation_details.js";
 import {AffirmationLoader} from "./affirmations/ui/affirmation_loader.js";
+import {SettingsManager} from "./affirmations/ui/settings_manager.js";
 
-const status = new StatusIndicator("#statusSettings")
+
 
 class AffirmationApp {
   constructor() {
@@ -15,7 +15,7 @@ class AffirmationApp {
     try {
       this.components.affirmationDetail = new AffirmationDetail(this.telegramService);
       this.components.affirmationLoader = new AffirmationLoader();
-      // this.components.settingsManager = new SettingsManager();
+      this.components.settingsManager = new SettingsManager();
 
       console.log('✅ Affirmation App initialized successfully');
     } catch (error) {
