@@ -1,4 +1,5 @@
 import {DOMUtils} from "../utils/dom.js";
+import {ApiService} from "../services/api.js";
 
 export class AffirmationDetail {
   constructor(telegramService) {
@@ -55,22 +56,22 @@ export class AffirmationDetail {
     }
 
     if (deleteAffirmationButton) {
-      openDeletePopup();
+      this.openDeletePopup();
       return;
     }
 
     if (confirmDeleteAffirmationButton) {
       const url = window.location.pathname;
-      await confirmDeletion(url);
+      await this.confirmDeletion(url);
       return;
     }
 
     if (cancelDeleteAffirmationButton) {
-      closeDeletePopup();
+      this.closeDeletePopup();
       return;
     }
     if (this.elements.deletePopup && e.target === this.elements.deletePopup) {
-      closeDeletePopup();
+      this.closeDeletePopup();
       return;
     }
   };
@@ -144,6 +145,30 @@ export class AffirmationDetail {
       DOMUtils.getById('closeAffirmation')?.remove();
     }
   };
+
+  openDeletePopup() {
+    DOMUtils.addClass(this.elements.deletePopup, 'active');
+  }
+
+  closeDeletePopup() {
+    DOMUtils.removeClass(this.elements.deletePopup, 'active');
+  }
+
+  async confirmDeletion() {
+    try {
+      const data = await ApiService.deleteAffirmation(this.selectedAffirmationId);
+      console.log('Deleted:', data)
+
+      if (data.redirect) {
+        window.location.href = data.redirect;
+      }
+    } catch (error) {
+      console.log('Delete error:', error);
+    } finally {
+      this.closeDeletePopup();
+    }
+  }
+
 }
 
 
