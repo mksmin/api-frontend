@@ -6,7 +6,7 @@ export class StatusIndicator {
         if (!this.el) {
             console.error(`StatusIndicator: element not found: ${selectorOrElement}`);
             return;
-        };
+        }
     };
 
     show(type, text, duration = 5000) {
@@ -21,7 +21,8 @@ export class StatusIndicator {
         this.el.style.opacity = 1;
         if (this.el.parentElement) {
             this.el.parentElement.style.opacity = 1;
-        };
+        }
+        ;
         this.el.style.transform = "scaleY(1)";
 
         clearTimeout(this.el._timer)
@@ -29,6 +30,27 @@ export class StatusIndicator {
         this.el._timer = setTimeout(() => {
             DOMUtils.addClass(this.el, "d-none");
         }, duration);
-
     };
-};
+
+    hideAnimated(duration = 300) {
+        if (!this.el) return;
+
+        this.el.style.opacity = "0";
+        this.el.style.transform = "scaleY(0)";
+        if (this.el.parentElement) {
+            this.el.parentElement.style.opacity = "0";
+        }
+
+        clearTimeout(this.el._timer);
+        this.el._timer = setTimeout(() => {
+            DOMUtils.addClass(this.el, "d-none");
+
+            this.el.style.transform = "scaleY(1)";
+            this.el.style.opacity = 1;
+            if (this.el.parentElement) {
+                this.el.parentElement.style.opacity = 1;
+            }
+        }, duration);
+    };
+
+}
