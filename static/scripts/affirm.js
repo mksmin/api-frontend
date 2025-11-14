@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectedAffirmationElement = null;
   let savedScrollY = 0;
   let settingsAffirmation = null;
+  let profileSection = null;
+
   const tg = window.Telegram?.WebApp;
   const inTelegram = !!tg && tg.initData !== '';
 
@@ -592,7 +594,9 @@ document.addEventListener('DOMContentLoaded', () => {
       saveTimeButton.textContent = 'Сохранить';
     }
   });
+
   modalTimeEl.addEventListener('hidden.bs.modal', (event) => {
     timeInput.value = timeDisplay.textContent;
   });
+
 });
