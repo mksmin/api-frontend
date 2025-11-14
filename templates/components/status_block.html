@@ -1,17 +1,22 @@
 <div class="status-block" id="statusBlockGeneralDiv">
-  <div id="{{ status_block_id }}" class="status-indicator status-{{ status if status else 'info' }}">
+  <div id="{{ status_block_id }}"
+       class="
+  status-indicator
+  status-{{ status if status else 'info' }}
+  {{ 'd-none' if not visible else '' }}"
+  >
     {% if status_text %}
-    {{ status_text }}
+      {{ status_text }}
     {% else %}
-    Идет авторизация...
+      Идет авторизация...
     {% endif %}
   </div>
 </div>
 {% if status_timeout %}
-<script>
-  setTimeout(() => {
-    const statusBlock = document.getElementById('statusBlockGeneralDiv');
-    statusBlock.style.display = 'none';
-  }, 5000);
-</script>
+  <script>
+    setTimeout(() => {
+      const statusBlock = document.getElementById('statusBlockGeneralDiv');
+      statusBlock.style.display = 'none';
+    }, 5000);
+  </script>
 {% endif %}

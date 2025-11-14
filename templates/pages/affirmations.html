@@ -4,42 +4,42 @@
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block head_extra %}
-<link rel="stylesheet" href="/static/style/affirmations.css?v=1.0.0">
+  <link rel="stylesheet" href="/static/style/affirmations.css?v=1.0.0">
 {% endblock %}
 {% block extraBlocksTop %}
-{% for msg in get_flashed_messages(request) %}
-{% with status_text=msg.message, status_block_id="statusBlock", status=msg.category, status_timeout=True %}
-{% include "components/status_block.html" %}
-{% endwith %}
-{% endfor %}
-{% with status_text="text some", status_block_id="statusSettings", status="info", status_timeout=False %}
-{% include "components/status_block.html" %}
-{% endwith %}
+  {% for msg in get_flashed_messages(request) %}
+    {% with status_text=msg.message, status_block_id="statusBlock", status=msg.category, status_timeout=True, visible=True %}
+      {% include "components/status_block.html" %}
+    {% endwith %}
+  {% endfor %}
+  {% with status_text="text some", status_block_id="statusSettings", status="info", status_timeout=False %}
+    {% include "components/status_block.html" %}
+  {% endwith %}
 {% endblock %}
 {% block content %}
-<div class="inner-container">
-  <div id="profileSection" class="profile-section">
-    {% if user %}
-    {% include "components/user_info.html" %}
-    {% if settings %}
-    <div id="settings">
-      {{ details.title_h4("Настройки") }}
-      {% call details.detail_card_call("Ежедневная отправка", oneline=True) %}
-      <div class="form-check form-switch">
-        <input
-            class="form-check-input shadow-none"
-            type="checkbox"
-            role="switch"
-            id="switchSendingChecked"
-            {% if settings.send_enable %}
-            checked
-            {% endif %}
-        >
-      </div>
-      {% endcall %}
-      {% call details.detail_card_call("Количество аффирмаций в день", oneline=True) %}
-      <span data-bs-toggle="modal"
-            data-bs-target="#affirmations-change-count">
+  <div class="inner-container">
+    <div id="profileSection" class="profile-section">
+      {% if user %}
+        {% include "components/user_info.html" %}
+        {% if settings %}
+          <div id="settings">
+            {{ details.title_h4("Настройки") }}
+            {% call details.detail_card_call("Ежедневная отправка", oneline=True) %}
+              <div class="form-check form-switch">
+                <input
+                    class="form-check-input shadow-none"
+                    type="checkbox"
+                    role="switch"
+                    id="switchSendingChecked"
+                    {% if settings.send_enable %}
+                    checked
+                    {% endif %}
+                >
+              </div>
+            {% endcall %}
+            {% call details.detail_card_call("Количество аффирмаций в день", oneline=True) %}
+              <span data-bs-toggle="modal"
+                    data-bs-target="#affirmations-change-count">
          <span class="me-2">{{ settings.count_tasks }}</span>
          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
               role="img">
@@ -48,110 +48,114 @@
         </svg>
          </span>
 
-      <div class="modal fade" id="affirmations-change-count" tabindex="-1"
-           aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content modal-custom">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Изменить количество аффирмаций</h1>
-            </div>
-            <div class="modal-body">
-              <div class="row align-items-center text-start justify-content-between">
-                <div class="col-7 col-sm-7">
-                  Выбери количество отправляемых аффирмаций в день
-                </div>
-                <div class="col-3 col-sm-3">
-                  <select class="form-select" id="countTasks" name="count_tasks">
-                    {% for i in range(1, 6) %}
-                    <option value="{{ i }}" {% if i == settings.count_tasks %} selected {% endif %}>{{ i }}</option>
-                    {% endfor %}
-                  </select>
+              <div class="modal fade" id="affirmations-change-count" tabindex="-1"
+                   aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content modal-custom">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Изменить количество
+                        аффирмаций</h1>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row align-items-center text-start justify-content-between">
+                        <div class="col-7 col-sm-7">
+                          Выбери количество отправляемых аффирмаций в день
+                        </div>
+                        <div class="col-3 col-sm-3">
+                          <select class="form-select" id="countTasks" name="count_tasks">
+                            {% for i in range(1, 6) %}
+                              <option value="{{ i }}" {% if i == settings.count_tasks %}
+                                      selected {% endif %}>{{ i }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+                      <button type="button" class="btn btn-success" id="saveCountTasksButton" disabled>Сохранить
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
+            {% endcall %}
 
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-success" id="saveCountTasksButton" disabled>Сохранить</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endcall %}
-
-      {% call details.detail_card_call("Время отправки (мск)", oneline=True) %}
-      <span data-bs-toggle="modal"
-            data-bs-target="#affirmations-change-time-sending">
+            {% call details.detail_card_call("Время отправки (мск)", oneline=True) %}
+              <span data-bs-toggle="modal"
+                    data-bs-target="#affirmations-change-time-sending">
          <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-               role="img">
+              role="img">
           <path
               d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
         </svg>
          </span>
 
-      <div class="modal fade" id="affirmations-change-time-sending" tabindex="-1"
-           aria-labelledby="affirmations-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content modal-custom">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
-            </div>
-            <div class="modal-body text-center">
-              <div class="row align-items-center text-start justify-content-between">
-                <div class="col-7 col-sm-7">
-                  Выбери время отправки аффирмаций <div>(по Москве)</div>
-                </div>
-                <div class="col-4 col-sm-4">
-                  <input id="affirmation-time"
-                         type="time"
-                         class="form-control"
-                         name="send_time"
-                         step="60"
-                         value="{{ settings.send_time }}"
-                  >
+              <div class="modal fade" id="affirmations-change-time-sending" tabindex="-1"
+                   aria-labelledby="affirmations-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content modal-custom">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
+                    </div>
+                    <div class="modal-body text-center">
+                      <div class="row align-items-center text-start justify-content-between">
+                        <div class="col-7 col-sm-7">
+                          Выбери время отправки аффирмаций
+                          <div>(по Москве)</div>
+                        </div>
+                        <div class="col-4 col-sm-4">
+                          <input id="affirmation-time"
+                                 type="time"
+                                 class="form-control"
+                                 name="send_time"
+                                 step="60"
+                                 value="{{ settings.send_time }}"
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+                      <button type="button" class="btn btn-success" id="saveTimeButton" disabled>Сохранить</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-              <button type="button" class="btn btn-success" id="saveTimeButton" disabled>Сохранить</button>
-            </div>
+            {% endcall %}
           </div>
-        </div>
-      </div>
-      {% endcall %}
+        {% endif %}
+      {% endif %}
     </div>
-    {% endif %}
-    {% endif %}
   </div>
-</div>
 
-{% if user %}
-<div class="inner-container" id="container-affirm">
-  <div class="details-grid">
-    {% if affirmations %}
-    {{ details.title_h4("Твои аффирмации", accent=True) }}
-    <div id="affirm-container">
-      {% for affirmation in affirmations %}
-      <div class="text-section text-link show" data-id="{{ affirmation.id }}">
-        <div class="text-title">
-          <div class="detail-title">{{ affirmation.text_task }}</div>
-          <div class="detail-info" style="padding-left: 5px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
-                 viewBox="0 0 7 12"
-                 class="p_ZQ v61B">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 5 5-5 5"/>
-            </svg>
+  {% if user %}
+    <div class="inner-container" id="container-affirm">
+      <div class="details-grid">
+        {% if affirmations %}
+          {{ details.title_h4("Твои аффирмации", accent=True) }}
+          <div id="affirm-container">
+            {% for affirmation in affirmations %}
+              <div class="text-section text-link show" data-id="{{ affirmation.id }}">
+                <div class="text-title">
+                  <div class="detail-title">{{ affirmation.text_task }}</div>
+                  <div class="detail-info" style="padding-left: 5px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
+                         viewBox="0 0 7 12"
+                         class="p_ZQ v61B">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m1 1 5 5-5 5"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
           </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    <div class="d-grid gap-2">
+          <div class="d-grid gap-2">
             <span
                 id="endAffirmationsBtn"
                 class="
@@ -165,53 +169,53 @@
                     d-none"
                 style="font-size: 1rem;"
             >Кажется, что это все</span>
-      <button
-          type="button"
-          id="loadAffirmationsBtn"
-          class="
+            <button
+                type="button"
+                id="loadAffirmationsBtn"
+                class="
                     btn
                     btn-primary
                     btn-lg"
-          style="font-size: 1rem;"
-      >Загрузить аффирмации
-      </button>
+                style="font-size: 1rem;"
+            >Загрузить аффирмации
+            </button>
+          </div>
+
+        {% elif error %}
+          <div class="text-section">
+            <p style="text-align: center;">
+              Ошибка: {{ error }}
+            </p>
+          </div>
+
+        {% else %}
+          <div class="text-section">
+            <p style="text-align: center;">
+              Кажется, что у тебя еще нет аффирмаций.
+            </p>
+          </div>
+        {% endif %}
+
+      </div>
     </div>
+  {% endif %}
 
-    {% elif error %}
-    <div class="text-section">
-      <p style="text-align: center;">
-        Ошибка: {{ error }}
-      </p>
-    </div>
-
-    {% else %}
-    <div class="text-section">
-      <p style="text-align: center;">
-        Кажется, что у тебя еще нет аффирмаций.
-      </p>
-    </div>
-    {% endif %}
-
-  </div>
-</div>
-{% endif %}
-
-<!-- Подробная информация -->
-<div class="inner-container" id="affirmation" style="display: none;">
-  <div id="affirmDetail">
-    <figure id="affirmQuote">
-      <blockquote
-          class="blockquote p-3 fs-3"
-          id="affirmQuoteText"
-          style="white-space: break-spaces;">
-      </blockquote>
-      <figcaption class="blockquote-footer d-none">
-        Someone famous in <cite title="Source Title">Source Title</cite>
-      </figcaption>
-    </figure>
-    <div class="action-buttons">
-      <div class="detail-info" id="affirmationId"></div>
-      <button class="edit-btn">
+  <!-- Подробная информация -->
+  <div class="inner-container" id="affirmation" style="display: none;">
+    <div id="affirmDetail">
+      <figure id="affirmQuote">
+        <blockquote
+            class="blockquote p-3 fs-3"
+            id="affirmQuoteText"
+            style="white-space: break-spaces;">
+        </blockquote>
+        <figcaption class="blockquote-footer d-none">
+          Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+      </figure>
+      <div class="action-buttons">
+        <div class="detail-info" id="affirmationId"></div>
+        <button class="edit-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30"
                          fill="currentColor">
@@ -219,9 +223,9 @@
                             d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
                     </svg>
                 </span>
-        Редактировать
-      </button>
-      <button class="delete-btn">
+          Редактировать
+        </button>
+        <button class="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
                          fill="currentColor">
@@ -229,72 +233,72 @@
                             d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
                     </svg>
                 </span>
-        Удалить
-      </button>
+          Удалить
+        </button>
+      </div>
     </div>
-  </div>
 
-  <!-- Блок для редактирования -->
-  <div class="d-none" id="editTextAreaBlock">
-    <div class="mb-3">
-      <label for="editTextArea" class="
+    <!-- Блок для редактирования -->
+    <div class="d-none" id="editTextAreaBlock">
+      <div class="mb-3">
+        <label for="editTextArea" class="
         px-3
         pt-3
         fs-6
         form-label
         text-secondary
 ">Редактировать аффирмацию</label>
-      <textarea
-          id="editTextArea"
-          class="form-control"
-          rows="3"
-      ></textarea>
+        <textarea
+            id="editTextArea"
+            class="form-control"
+            rows="3"
+        ></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
+        <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
+      </div>
     </div>
-    <div class="d-flex justify-content-end gap-2">
-      <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
-      <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
+    <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
+  </div>
+
+  <!-- Кастомный попап -->
+  <div id="deletePopup" class="delete-popup">
+    <div class="popup-content">
+      <h3>Удалить аффирмацию?</h3>
+      <div class="popup-buttons">
+        <button
+            id="confirmDelete"
+            class="btn btn-outline-danger"
+            data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
+
+        >Да, удалить
+        </button>
+        <button
+            id="cancelDelete"
+            class="popup-cancel-btn text-secondary"
+        >Не удалять
+        </button>
+      </div>
     </div>
   </div>
-  <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
-</div>
 
-<!-- Кастомный попап -->
-<div id="deletePopup" class="delete-popup">
-  <div class="popup-content">
-    <h3>Удалить аффирмацию?</h3>
-    <div class="popup-buttons">
-      <button
-          id="confirmDelete"
-          class="btn btn-outline-danger"
-          data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
-
-      >Да, удалить
-      </button>
-      <button
-          id="cancelDelete"
-          class="popup-cancel-btn text-secondary"
-      >Не удалять
-      </button>
+  <!-- Попап редактирования -->
+  <div id="editPopup" class="delete-popup">
+    <div class="popup-content">
+      <h3>Редактировать аффирмацию</h3>
+      <div class="popup-buttons">
+        <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
+        <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- Попап редактирования -->
-<div id="editPopup" class="delete-popup">
-  <div class="popup-content">
-    <h3>Редактировать аффирмацию</h3>
-    <div class="popup-buttons">
-      <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
-      <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
-    </div>
-  </div>
-</div>
 
 
 {% endblock %}
 
 {% block scripts %}
-{% if user %}
-<script src="/static/scripts/affirm.js?v=1.0.3" defer></script>
-{% endif %}
+  {% if user %}
+    <script type="module" src="/static/scripts/affirm.js?v=1.0.3" defer></script>
+  {% endif %}
 {% endblock %}
