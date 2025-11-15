@@ -36,11 +36,11 @@ export class ApiService {
   static async updateAffirmation(id, text) {
     const url = `${CONFIG.API.BASE_URL}/${id}`;
     return this._fetch(url, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({text_task: text}),
+      body: JSON.stringify({text: text}),
     });
   }
 
