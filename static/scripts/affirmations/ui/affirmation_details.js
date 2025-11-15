@@ -44,6 +44,8 @@ export class AffirmationDetail {
     const section = e.target.closest('.text-section.text-link');
     const closeAffirmation = e.target.closest('#closeAffirmation')
     const deleteAffirmationButton = e.target.closest('.delete-btn')
+    const editAffirmationButton = e.target.closest('.edit-btn')
+    const cancelEditAffirmationButton = e.target.closest('#cancelEdit')
 
     if (section) {
       await this.openAffirmation(section);
@@ -57,6 +59,16 @@ export class AffirmationDetail {
 
     if (deleteAffirmationButton) {
       this.openDeletePopup();
+      return;
+    }
+
+    if (editAffirmationButton) {
+      this.openEditAffirmForm();
+      return;
+    }
+
+    if (cancelEditAffirmationButton) {
+      this.closeEditAffirmForm();
       return;
     }
 
@@ -94,7 +106,60 @@ export class AffirmationDetail {
     DOMUtils.scrollTo(0, this.savedScrollY);
     DOMUtils.removeClass(this.elements.settingsAffirmation, 'd-none')
     DOMUtils.removeClass(this.elements.profileSection, 'd-none')
+
+    this.closeEditAffirmForm();
+
   };
+
+  openEditAffirmForm() {
+    const affirmDetail = DOMUtils.getById('affirmDetail');
+    const editAffirmForm = DOMUtils.getById('editAffirmForm');
+    const textarea = DOMUtils.getById('editAffirmArea');
+    const validationMsg = DOMUtils.getById('validationClientEditForm');
+    const confirmBtn = DOMUtils.getById('confirmEdit');
+
+    textarea.value = this.elements.affirmQuoteText.textContent.trim();
+
+    validationMsg.textContent = `${textarea.value.length}/500 символов`;
+    confirmBtn.disabled = textarea.value.trim().length === 0;
+
+    textarea.oninput = () => {
+      const len = textarea.value.length;
+
+      validationMsg.textContent = `${len}/500 символов`;
+
+      if (len === 0 || len > 500) {
+        textarea.classList.add('is-invalid');
+        confirmBtn.disabled = true;
+        validationMsg.classList.add('invalid-feedback')
+      } else {
+        textarea.classList.remove('is-invalid')
+        confirmBtn.disabled = false;
+        validationMsg.classList.remove('invalid-feedback')
+      }
+
+    }
+    DOMUtils.addClass(affirmDetail, 'd-none')
+    DOMUtils.removeClass(editAffirmForm, 'd-none')
+
+    DOMUtils.getById('confirmEdit').onclick = () => this.confirmEdit(this.selectedAffirmationId, textarea.value.trim());
+
+
+  }
+
+  closeEditAffirmForm() {
+    const affirmDetail = DOMUtils.getById('affirmDetail');
+    const editAffirmForm = DOMUtils.getById('editAffirmForm');
+    const validationMsg = DOMUtils.getById('validationClientEditForm');
+    const textarea = DOMUtils.getById('editAffirmArea');
+
+    DOMUtils.addClass(editAffirmForm, 'd-none')
+    DOMUtils.removeClass(affirmDetail, 'd-none')
+    validationMsg.classList.remove('invalid-feedback')
+    textarea.classList.remove('is-invalid')
+    DOMUtils.getById('confirmEdit').onclick = null;
+
+  }
 
   setupBackButton() {
     if (this.telegramService.isAvailable()) {
@@ -162,7 +227,25 @@ export class AffirmationDetail {
     } catch (error) {
       console.log('Delete error:', error);
     }
-  }
+  };
+
+  async confirmEdit(id, text) {
+    try {
+      const data = await ApiService.updateAffirmation(id, text);
+      console.log('Updated: ', id, data);
+
+      if (this.selectedAffirmationId === id) {
+        this.elements.affirmQuoteText.textContent = text;
+        this.selectedAffirmationElement.querySelector('.detail-title').textContent = text;
+      }
+    } catch (error) {
+      console.error('Updating error:', error);
+      alert(`Error: ${error.message || error}`);
+    } finally {
+      this.closeEditAffirmForm();
+    }
+  };
+
 
 }
 

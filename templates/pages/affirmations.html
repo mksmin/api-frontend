@@ -254,9 +254,11 @@
     </div>
 
     <!-- Блок для редактирования -->
-    <div class="d-none" id="editTextAreaBlock">
+    <div class="d-none" id="editAffirmForm">
       <div class="mb-3">
-        <label for="editTextArea" class="
+        <label for="editAffirmArea"
+               id="labelAffirmArea"
+               class="
         px-3
         pt-3
         fs-6
@@ -264,10 +266,15 @@
         text-secondary
 ">Редактировать аффирмацию</label>
         <textarea
-            id="editTextArea"
+            id="editAffirmArea"
             class="form-control"
             rows="3"
+            maxlength="500"
         ></textarea>
+        <div id="validationClientEditForm"
+             class="form-text text-end">
+          /500 символов
+        </div>
       </div>
       <div class="d-flex justify-content-end gap-2">
         <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
@@ -275,38 +282,6 @@
       </div>
     </div>
     <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
-  </div>
-
-  {#  <!-- Кастомный попап -->#}
-  {#  <div id="deletePopup" class="delete-popup">#}
-  {#    <div class="popup-content">#}
-  {#      <h3>Удалить аффирмацию?</h3>#}
-  {#      <div class="popup-buttons">#}
-  {#        <button#}
-  {#            id="confirmDelete"#}
-  {#            class="btn btn-outline-danger"#}
-  {#            data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"#}
-  {##}
-  {#        >Да, удалить#}
-  {#        </button>#}
-  {#        <button#}
-  {#            id="cancelDelete"#}
-  {#            class="popup-cancel-btn text-secondary"#}
-  {#        >Не удалять#}
-  {#        </button>#}
-  {#      </div>#}
-  {#    </div>#}
-  {#  </div>#}
-
-  <!-- Попап редактирования -->
-  <div id="editPopup" class="delete-popup">
-    <div class="popup-content">
-      <h3>Редактировать аффирмацию</h3>
-      <div class="popup-buttons">
-        <!--      <button id="confirmEdit" class="popup-confirm-btn">Сохранить</button>-->
-        <button id="cancelEdit1" class="popup-cancel-btn">Отмена</button>
-      </div>
-    </div>
   </div>
 
 
