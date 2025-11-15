@@ -26,7 +26,7 @@ export class ApiService {
   }
 
   static async deleteAffirmation(id) {
-    const url = `${window.location.pathname}/${id}`;
+    const url = `/affirmations/${id}`;
     return this._fetch(url, {
       method: 'DELETE',
       redirect: 'follow',
