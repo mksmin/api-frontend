@@ -1,5 +1,6 @@
 import {DOMUtils} from "../utils/dom.js";
 import {ApiService} from "../services/api.js";
+import {GeneralModalManager} from "./general_modal.js";
 
 export class AffirmationDetail {
   constructor(telegramService) {
@@ -15,6 +16,7 @@ export class AffirmationDetail {
 
   init() {
     this.attachEventListeners();
+    this.generalModal = new GeneralModalManager();
   };
 
   load_elements() {
@@ -42,8 +44,6 @@ export class AffirmationDetail {
     const section = e.target.closest('.text-section.text-link');
     const closeAffirmation = e.target.closest('#closeAffirmation')
     const deleteAffirmationButton = e.target.closest('.delete-btn')
-    const confirmDeleteAffirmationButton = e.target.closest('#confirmDelete')
-    const cancelDeleteAffirmationButton = e.target.closest('#cancelDelete')
 
     if (section) {
       await this.openAffirmation(section);
@@ -60,20 +60,6 @@ export class AffirmationDetail {
       return;
     }
 
-    if (confirmDeleteAffirmationButton) {
-      const url = window.location.pathname;
-      await this.confirmDeletion(url);
-      return;
-    }
-
-    if (cancelDeleteAffirmationButton) {
-      this.closeDeletePopup();
-      return;
-    }
-    if (this.elements.deletePopup && e.target === this.elements.deletePopup) {
-      this.closeDeletePopup();
-      return;
-    }
   };
 
   async openAffirmation(section) {
@@ -146,13 +132,24 @@ export class AffirmationDetail {
     }
   };
 
+
   openDeletePopup() {
-    DOMUtils.addClass(this.elements.deletePopup, 'active');
+    this.generalModal.show({
+      title: `Удалить аффирмацию (ID: ${this.selectedAffirmationId})?`,
+      confirmBtn: {
+        text: 'Да, удалить',
+        styleClasses: ['btn', 'btn-outline-danger'],
+        disabled: false,
+        onClick: async () => this.confirmDeletion(),
+      },
+      cancelBtn: {
+        text: 'Не удалять',
+        styleClasses: ['btn', 'btn-outline-secondary'],
+        disabled: false,
+      },
+    })
   }
 
-  closeDeletePopup() {
-    DOMUtils.removeClass(this.elements.deletePopup, 'active');
-  }
 
   async confirmDeletion() {
     try {
@@ -164,8 +161,6 @@ export class AffirmationDetail {
       }
     } catch (error) {
       console.log('Delete error:', error);
-    } finally {
-      this.closeDeletePopup();
     }
   }
 
