@@ -33,6 +33,16 @@ export class TelegramService {
     this.tg.MainButton.onClick(onClick);
   }
 
+  disableMainButton() {
+    if (!this.isInTelegram) return;
+    this.tg.MainButton.disable();
+  }
+
+  enableMainButton() {
+    if (!this.isInTelegram) return;
+    this.tg.MainButton.enable();
+  }
+
   hideMainButton(onClick) {
     if (!this.isInTelegram) return;
 

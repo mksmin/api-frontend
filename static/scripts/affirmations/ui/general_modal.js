@@ -1,4 +1,5 @@
 import {DOMUtils} from "../utils/dom.js";
+import {TelegramService} from "../services/telegram.js";
 
 export class GeneralModalManager {
   constructor() {
@@ -6,6 +7,7 @@ export class GeneralModalManager {
     this.titleEl = this.modal.querySelector('#gModalText');
     this.confirmBtn = this.modal.querySelector('#gModalConfirmButton');
     this.cancelBtn = this.modal.querySelector('#gModalCancelButton');
+    this.telegramService = new TelegramService();
 
     this.instance = bootstrap.Modal.getOrCreateInstance(this.modal);
 
@@ -56,6 +58,8 @@ export class GeneralModalManager {
 
 
     this.instance.show();
+    this.telegramService.disableMainButton();
+
   };
 
   applyButtonConfig(
@@ -94,6 +98,10 @@ export class GeneralModalManager {
     this.confirmBtn.onclick = null;
     this.restoreButton(this.confirmBtn, this.originalModal.confirmBtn);
     this.restoreButton(this.cancelBtn, this.originalModal.cancelBtn);
+
+    this.telegramService.enableMainButton();
+
+
   };
 
   restoreButton(
