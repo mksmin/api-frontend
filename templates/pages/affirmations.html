@@ -15,6 +15,26 @@
   {% with status_text="text some", status_block_id="statusSettings", status="info", status_timeout=False %}
     {% include "components/status_block.html" %}
   {% endwith %}
+  <div class="modal  fade" id="general-page-modal" tabindex="-1"
+       aria-labelledby="general-page-moda-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content modal-custom">
+        <div class="modal-body text-center pb-3">
+          <div class="row align-items-center text-start justify-content-between">
+            <h4 id="gModalText" class="text-center">
+              Some text
+            </h4>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center pt-1">
+          <button type="button" class="btn btn-success" id="gModalConfirmButton" disabled>Confirm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="gModalCancelButton">Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 {% block content %}
   <div class="inner-container">
@@ -52,10 +72,7 @@
                    aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content modal-custom">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="affirmations-modal-count-label">Изменить количество
-                        аффирмаций</h1>
-                    </div>
+
                     <div class="modal-body">
                       <div class="row align-items-center text-start justify-content-between">
                         <div class="col-7 col-sm-7">
@@ -98,9 +115,6 @@
                    aria-labelledby="affirmations-modal-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content modal-custom">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="affirmations-modal-label">Изменить время отправки</h1>
-                    </div>
                     <div class="modal-body text-center">
                       <div class="row align-items-center text-start justify-content-between">
                         <div class="col-7 col-sm-7">
@@ -225,6 +239,7 @@
                 </span>
           Редактировать
         </button>
+
         <button class="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
@@ -262,26 +277,26 @@
     <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
   </div>
 
-  <!-- Кастомный попап -->
-  <div id="deletePopup" class="delete-popup">
-    <div class="popup-content">
-      <h3>Удалить аффирмацию?</h3>
-      <div class="popup-buttons">
-        <button
-            id="confirmDelete"
-            class="btn btn-outline-danger"
-            data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"
-
-        >Да, удалить
-        </button>
-        <button
-            id="cancelDelete"
-            class="popup-cancel-btn text-secondary"
-        >Не удалять
-        </button>
-      </div>
-    </div>
-  </div>
+  {#  <!-- Кастомный попап -->#}
+  {#  <div id="deletePopup" class="delete-popup">#}
+  {#    <div class="popup-content">#}
+  {#      <h3>Удалить аффирмацию?</h3>#}
+  {#      <div class="popup-buttons">#}
+  {#        <button#}
+  {#            id="confirmDelete"#}
+  {#            class="btn btn-outline-danger"#}
+  {#            data-url="{{ url_for('affirmations:delete', affirmation_id='1') }}"#}
+  {##}
+  {#        >Да, удалить#}
+  {#        </button>#}
+  {#        <button#}
+  {#            id="cancelDelete"#}
+  {#            class="popup-cancel-btn text-secondary"#}
+  {#        >Не удалять#}
+  {#        </button>#}
+  {#      </div>#}
+  {#    </div>#}
+  {#  </div>#}
 
   <!-- Попап редактирования -->
   <div id="editPopup" class="delete-popup">
