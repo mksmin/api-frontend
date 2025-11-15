@@ -13,7 +13,7 @@
     --secondary-bg-color: #181818;
     --third-bg-color: #1e1e1e;
     --hint-color: #aaaaaa;
-    --base-text-color:#efefef;
+    --base-text-color: #efefef;
     --accent-text-color: var(--color-secondary);
     --main-font-size: 16px;
     --small-font-size: 15px;
@@ -39,7 +39,7 @@ body {
     justify-content: center;
     align-items: stretch;
     background: linear-gradient(135deg, #331f88, #9482e3);
-    font-family: 'Roboto' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #f8f8f8;
     overflow-x: hidden;
     position: relative;
@@ -51,7 +51,7 @@ body.modal-open {
 
 main {
     display: flex;
-    flex-grow:1;
+    flex-grow: 1;
     align-self: center;
     justify-content: center;
     min-height: -webkit-fill-available;
@@ -63,7 +63,7 @@ div {
 
 .main-container {
     display: flex;
-    flex-grow:1;
+    flex-grow: 1;
     align-self: flex-start;
     flex-direction: column;
     align-items: center;
@@ -72,13 +72,14 @@ div {
     min-height: 95vh;
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
     body {
         padding: 0;
         overflow-x: hidden; /* Скрывает горизонтальную прокрутку */
         touch-action: pan-y;
         background: var(--secondary-bg-color);
     }
+
     .main-container {
         padding: 0;
         align-items: stretch;
@@ -89,7 +90,7 @@ div {
     background: var(--secondary-bg-color);
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
     max-width: 1000px;
@@ -98,16 +99,15 @@ div {
 }
 
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
     .container {
         padding: 10px;
-        margin:0;
+        margin: 0;
         border-radius: 0px;
         box-shadow: none;
-        flex-grow:1;
+        flex-grow: 1;
     }
 }
-
 
 
 .hidden {
@@ -148,6 +148,7 @@ div {
     margin: 0.2rem 0.4rem 0.2rem 0;
     display: block;
 }
+
 .name {
     color: var(--base-text-color);
     font-size: 1.3rem;
@@ -187,7 +188,7 @@ div {
     color: var(--hint-color) !important;
     display: block;
     border-radius: 10px;
-    padding:1rem;
+    padding: 1rem;
     padding-bottom: 0.2rem;
     color: var(--base-text-color);
     margin-block-end: 0.3rem;
@@ -203,7 +204,7 @@ div {
     font-size: 1rem;
     max-width: 100%;
     display: flex;
-    flex:1;
+    flex: 1;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -243,10 +244,11 @@ div {
     justify-content: center;
 }
 
-@media (max-width: 500px){
+@media (max-width: 500px) {
     .detail-card {
         flex-direction: column;
     }
+
     .detail-card.oneline {
         flex-direction: row;
     }
@@ -262,6 +264,7 @@ div {
         margin-top: 0;
     }
 }
+
 .text-section {
     font-size: 1rem !important;
     background: var(--section-bg-color);
@@ -278,6 +281,7 @@ div {
     align-items: center; /* Центруем содержимое по вертикали */
     margin: 1rem 0; /* Пространство под title */
 }
+
 .text-title .detail-title {
     color: var(--base-text-color);
 }
@@ -297,7 +301,7 @@ div {
 .status-block {
     background: var(--secondary-bg-color);
     padding: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
     max-width: 800px;
@@ -314,15 +318,18 @@ div {
     transition: all 0.3s ease;
     transform: scale(1);
 }
-@media (max-width: 768px){
+
+@media (max-width: 768px) {
     .status-block {
         border-radius: 0px;
         margin: 0;
     }
+
     .status-indicator {
         border-radius: 0px;
     }
 }
+
 .fade-out {
     opacity: 0; /* Скрываем элемент плавно */
     margin: 0;
@@ -361,7 +368,7 @@ pre {
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto; /* Скрыть горизонтальную прокрутку */
-    overflow-y: hidden;   /* Добавлять вертикальные полосы прокрутки автоматически */
+    overflow-y: hidden; /* Добавлять вертикальные полосы прокрутки автоматически */
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     margin: 0.15em 0 0.15em 0;
@@ -383,7 +390,9 @@ h1 {
     unicode-bidi: isolate;
 }
 
-h2 {}
+h2 {
+}
+
 h3 {
     display: block;
     font-size: 1.17em;
@@ -393,6 +402,7 @@ h3 {
     margin-inline-end: 0px;
     unicode-bidi: isolate;
 }
+
 h4 {
     display: block;
     font-size: 1rem;
@@ -411,7 +421,6 @@ p {
     margin-inline-end: 0px;
     unicode-bidi: isolate;
 }
-
 
 
 .dev-switch {
@@ -457,10 +466,18 @@ p {
         transform: translateX(-100vw) scaleX(1);
         opacity: 0;
     }
-    5% { opacity: 0.3; }
-    50% { transform: translateX(50vw) scaleX(1); }
-    51% { transform: translateX(50vw) scaleX(-1); }
-    95% { opacity: 0.3; }
+    5% {
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateX(50vw) scaleX(1);
+    }
+    51% {
+        transform: translateX(50vw) scaleX(-1);
+    }
+    95% {
+        opacity: 0.3;
+    }
     100% {
         transform: translateX(150vw) scaleX(-1);
         opacity: 0;
@@ -468,9 +485,14 @@ p {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
+
 .goose {
     z-index: 2;
     position: fixed;
@@ -478,8 +500,7 @@ p {
     user-select: none;
     pointer-events: none;
     opacity: 0;
-    animation:
-    run 12s linear infinite,
+    animation: run 12s linear infinite,
     float 3s ease-in-out infinite;
 }
 
@@ -527,7 +548,7 @@ p {
 }
 
 .list-section .item:last-child:hover,
-.list-section .item:last-child:focus-within{
+.list-section .item:last-child:focus-within {
     color: var(--accent-text-color);
     background: var(--third-bg-color);
     border-radius: 0 0 10px 10px;
@@ -540,7 +561,8 @@ p {
 .accent {
     color: var(--accent-text-color) !important;
 }
-.sub-text{
+
+.sub-text {
     color: var(--hint-color) !important;
 }
 
@@ -556,17 +578,12 @@ p {
     padding-top: 0.3rem;
     padding-bottom: 1.5rem;
 }
+
 .subtitle-text.after {
     padding-bottom: 0.3rem;
     padding-top: 1.5rem;
 }
 
-
-@media (orientation: landscape) {
-    html {
-        font-size: 15px !important; /* Фиксируем базовый размер */
-    }
-}
 
 .big_title_block {
     display: block;
@@ -575,6 +592,7 @@ p {
     margin-bottom: 1rem;
     padding: 1rem;
 }
+
 .big_title_block .profile-info {
     font-size: 2rem;
     align-content: center;
@@ -590,6 +608,7 @@ p {
     font-size: inherit;
     text-align: center;
 }
+
 .big_title_block .profile-info .username {
     color: #666;
     font-size: 1rem;
@@ -609,7 +628,7 @@ p {
     height: var(--bs-form-switch-height, 28px);
     border-radius: 999px;
     background-color: #e5e5ea;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     background-image: none;
     position: relative;
     cursor: pointer;
@@ -622,11 +641,11 @@ p {
     position: absolute;
     top: 1.6px;
     left: 2px;
-width: calc(var(--bs-form-switch-height, 28px) - 4px);
+    width: calc(var(--bs-form-switch-height, 28px) - 4px);
     height: calc(var(--bs-form-switch-height, 28px) - 4px);
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.04) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .25), 0 0 0 1px rgba(0, 0, 0, .04) inset;
     transform: translateX(0);
     transition: transform .2s ease;
 }
@@ -642,7 +661,7 @@ width: calc(var(--bs-form-switch-height, 28px) - 4px);
 
 .detail-card .form-switch .form-check-input:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 .25rem rgba(52,199,89,.25);
+    box-shadow: 0 0 0 .25rem rgba(52, 199, 89, .25);
 }
 
 .detail-card .form-switch .form-check-input:disabled {
