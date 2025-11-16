@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <title>Максим Минин — Разработчик и менеджер</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+      :root {
+          --color-primary: #2AABEE;
+          --color-secondary: #8774e1;
+          --color-success: #4CAF50;
+          --color-error: #f44336;
+          --color-info: #2392e7;
+          --color-bg: #f5f5f5;
+          --tint-12: 20 29 46;
+          --section-bg-color: #212121;
+          --bg-color: #212121;
+          --secondary-bg-color: #181818;
+          --third-bg-color:;
+          --hint-color: #aaaaaa;
+          --base-text-color: #efefef;
+          --accent-text-color: var(--color-secondary);
+          --main-font-size: 21px;
+          --small-font-size: 15px;
+      }
+
+      html {
+          font-size: 16px;
+          -webkit-text-size-adjust: 100%;
+          -moz-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+          scrollbar-gutter: stable;
+      }
+
+      html, body {
+          height: auto;
+          min-height: 100%;
+          color: var(--base-text-color);
+      }
+
+      body {
+          font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          font-weight: 400;
+          font-size: var(--main-font-size);
+          background-color: var(--bg-color);
+      }
+
+      section {
+          margin: 50px 0;
+      }
+
+      section:first-of-type {
+          margin-top: 0;
+      }
+
+      section.dark {
+          position: relative;
+          background: #1a1a1a;
+          margin: 50px 0;
+          padding: 75px 0;
+      }
+
+      section.dark::before,
+      section.dark::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 75px;
+          z-index: 1;
+      }
+
+      section.dark::before {
+          top: -50px;
+          background: linear-gradient(to bottom, #212121, #1a1a1a
+          );
+      }
+
+      section.dark::after {
+          bottom: -50px; /* градиент снизу */
+          background: linear-gradient(to top, #212121, #1a1a1a);
+      }
+
+      section.dark .container {
+          position: relative;
+          z-index: 2;
+      }
+
+      .main-container-wrap {
+          display: flex;
+          height: 100%;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          flex-direction: column;
+          width: 100%;
+      }
+
+      .container-wrap {
+          -webkit-box-flex: 1;
+          flex: 1 0 auto;
+      }
+
+      .container {
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 100%;
+          width: 1440px;
+          padding: 0px 48px;
+      }
+
+      .container-lg {
+          padding: 0;
+      }
+
+      .header {
+          font-weight: bolder;
+          line-height: 90%;
+          margin-bottom: 32px;
+          font-family: 'Montserrat';
+          font-variation-settings: "wght" 500;
+          transition: font-variation-settings 0.3s ease-out;
+
+      }
+
+      h1.header {
+          font-size: 96px;
+          font-variation-settings: "wght" 600;
+          margin-bottom: 10px;
+      }
+
+      h2.header {
+          font-size: 72px;
+          font-variation-settings: "wght" 600;
+          margin-bottom: 10px;
+
+      }
+
+      h3.header {
+          font-size: 56px;
+          font-variation-settings: "wght" 500;
+          margin-bottom: 10px;
+
+      }
+
+      h4.header {
+          font-size: 40px;
+          font-variation-settings: "wght" 400;
+          margin-bottom: 10px;
+
+      }
+
+      .header-anim:hover {
+          font-variation-settings: "wght" 900 !important;
+      }
+
+      .container .content-text {
+          max-width: 1000px;
+      }
+
+      .img-container {
+          max-width: 1440px;
+          margin: 0 auto;
+      }
+
+      @media (max-width: 1000px) {
+          .img-container [class*="rounded-"] {
+              border-radius: 0 !important;
+          }
+      }
+
+      .img-block-lg {
+          width: 100%;
+          height: auto;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .img-block-lg img {
+          width: 100%;
+          height: 100%;
+          aspect-ratio: 16 / 9;
+          display: block;
+      }
+
+      .img-block-grad {
+          position: absolute;
+          z-index: 2;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 40%;
+          background: linear-gradient(
+                  180deg,
+                  rgba(33, 33, 33, 0) 0%,
+                  #212121 100%
+          );
+          pointer-events: none;
+      }
+
+      .img-block-title {
+          font-size: 18px;
+          position: absolute;
+          z-index: 3;
+          width: 87%;
+          bottom: 4%;
+          left: 6.5%;
+          transition: all .3s ease-in-out;
+      }
+
+      .nowrap {
+          white-space: nowrap;
+      }
+
+      .img-container-card {
+          margin-bottom: -8%;
+      }
+
+      .img-container-item {
+          position: relative;
+          z-index: 4;
+          padding: 0 48px;
+      }
+
+      .btn-gradient {
+          font-weight: bold;
+          text-transform: uppercase;
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          border: 2px solid #1818184d;
+          transition: all 0.3s ease;
+      }
+
+      .btn-gradient:hover {
+          filter: brightness(1.1);
+      }
+
+      /* Примеры градиентов для брендов */
+      .btn-telegram {
+          background-image: linear-gradient(90deg, #37aee2, #1e96c8);
+      }
+
+      .btn-github {
+          background-image: linear-gradient(90deg, #d6d3d3, #6e5494);
+      }
+
+      .btn-twitter {
+          background-image: linear-gradient(90deg, #1da1f2, #0d8ddb);
+      }
+
+      .detail-card {
+          background: #1818184d;
+          display: block;
+          border-radius: 10px;
+          padding: 1rem 2%;
+          color: var(--base-text-color);
+          margin-block-end: 0.3rem;
+          width: 104%;
+          margin-inline-start: -2%;
+      }
+
+      .detail-text {
+          color: var(--hint-color);
+      }
+
+      .subtitle-text {
+          color: var(--hint-color) !important;
+          display: block;
+          border-radius: 10px;
+          padding: 0.5rem 0;
+          font-size: 0.9em;
+      }
+
+      .text-block {
+          display: block;
+          border-radius: 10px;
+          padding: 2%;
+          margin-block-end: 0.3rem;
+          width: 104%;
+          margin-inline-start: -2%;
+      }
+
+      .list-section {
+
+          display: block;
+          border-radius: 10px;
+          color: var(--base-text-color);
+          margin-block-end: 0.3rem;
+      }
+
+      .list-section .item {
+          background: var(--section-bg-color);
+          display: flex;
+          max-width: 100%;
+          align-items: center;
+          border-color: var(--secondary-bg-color) !important;
+          position: relative;
+          padding: 1rem;
+          color: var(--base-text-color);
+          transition: all 0.2s ease-in-out;
+      }
+
+      .list-section .item .bi {
+          color: var(--hint-color);
+          transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+      }
+
+      .list-section .item:hover .bi,
+      .list-section .item:focus-within .bi {
+          transform: scale(1.1);
+          color: var(--accent-text-color);
+      }
+
+      .list-section .item:hover,
+      .list-section .item:focus-within {
+          color: var(--accent-text-color);
+          background: var(--third-bg-color);
+      }
+
+      .list-section .item:first-child:hover,
+      .list-section .item:first-child:focus-within {
+          color: var(--accent-text-color);
+          background: var(--third-bg-color);
+          border-radius: 10px 10px 0 0;
+      }
+
+      .list-section .item:last-child:hover,
+      .list-section .item:last-child:focus-within {
+          color: var(--accent-text-color);
+          background: var(--third-bg-color);
+          border-radius: 0 0 10px 10px;
+      }
+  </style>
+</head>
+
+<body>
+<main>
+  <div class="main-container-wrap">
+    <div class="container-wrap">
+
+      <section>
+        <div class="img-container">
+          <div class="img-container-card img-block-lg">
+            <img src="\static\media\img\me.png" class="img-lg object-fit-cover" alt="...">
+            <div class="img-block-grad"></div>
+          </div>
+          <div class="img-container-item">
+            <h1 class="header header-anim">Максим Минин</h1>
+            <h4 class="header">@mininname</h4>
+          </div>
+        </div>
+
+        <div class="container mt-3" style="padding-inline: calc(50px - 0.5rem)">
+          <a class="btn btn-lg btn-dark btn-gradient btn-telegram " href="https://t.me/mininwork" target="_blank"
+             role="button"> <span class="bi bi-telegram  me-1"></span> Telegram</a>
+          <a class="btn btn-lg btn-dark btn-gradient btn-github" href="https://github.com/mksmin" target="_blank"
+             role="button"><span class="bi bi-github me-1"></span> Github</a>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <h3 class="header">Основная информация</h3>
+          <div class="detail-card">
+            <div class="row ">
+              <div class="col">
+                Специализация
+              </div>
+              <div class="col text-end detail-text">
+                Бэкэнд, телеграм-боты
+              </div>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="row ">
+              <div class="col">
+                Опыт
+              </div>
+              <div class="col text-end detail-text">
+                Junior
+              </div>
+            </div>
+          </div>
+
+          <div class="content-text subtitle-text"><p>Тут что-то про разработку</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dark">
+        <div class="container">
+          <div class="text-block">
+
+            <p class="content-text">
+              Имею опыт автоматизирования рутинных задач, работы с данными
+              и аналитики. Стремлюсь находить эффективные и надежные решения, глубоко погружаясь в проекты
+
+              У меня развитые коммуникативные навыки и умение работать в команде из-за опыта управления различными
+              проектами. Отличаюсь системным мышлением и умением организовывать процессы — от планирования до внедрения
+              решений. Быстро адаптируюсь к новым условиям, нахожу оптимальные решения в условиях многозадачности</p>
+          </div>
+          <div class="list-group list-section">
+            <a href="#" target="_blank"
+               class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               aria-current="true">
+              Телеграм бота с аффирмациями
+              <i class="bi bi-caret-right-fill"></i>
+            </a>
+            <a href="#" target="_blank"
+               class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               aria-current="true">
+              Фронтенд для MiniApp приложения
+              <i class="bi bi-caret-right-fill"></i>
+            </a>
+            <a href="#" target="_blank"
+               class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               aria-current="true">
+              Бэкенд для MiniApp приложения
+              <i class="bi bi-caret-right-fill"></i>
+            </a>
+          </div>
+
+        </div>
+
+
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="container">
+  <p>© 2022 Minin</p>
+</footer>
+<script>
+  const headers = document.querySelectorAll('.header-anim');
+  const maxWeight = 900;
+
+  const minWeights = Array.from(headers).map(header => {
+    const style = getComputedStyle(header).fontVariationSettings;
+    const match = style.match(/"wght"\s+(\d+)/);
+    return match ? parseInt(match[1], 10) : 300;
+  });
+
+  const step = 1 / headers.length;
+
+  function handleScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = scrollTop / docHeight; // 0..1
+
+    headers.forEach((header, i) => {
+      const start = step * i;
+      const end = step * (i + 1);
+
+      let localProgress = (scrollPercent - start) / (end - start);
+      localProgress = Math.max(0, Math.min(1, localProgress));
+
+      const weight = Math.round(minWeights[i] + (maxWeight - minWeights[i]) * localProgress);
+      header.style.fontVariationSettings = `"wght" ${weight}`;
+    });
+  }
+
+  window.addEventListener('scroll', handleScroll);
+</script>
+
+</body>
+</html>
