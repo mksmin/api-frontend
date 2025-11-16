@@ -1,10 +1,12 @@
-<div class="status-block" id="statusBlockGeneralDiv">
-  <div id="{{ status_block_id }}"
-       class="
-  status-indicator
-  status-{{ status if status else 'info' }}
-  {{ 'd-none' if not visible else '' }}"
-  >
+<div
+    id="statusBlockGeneralDiv"
+    class="collapse status-block {% if visible %} show {% endif %}"
+>
+  <div
+      id="{{ status_block_id }}"
+      class="status-indicator
+      {% if status_type %}{{ status_type }}{% endif %}
+">
     {% if status_text %}
       {{ status_text }}
     {% else %}
@@ -12,11 +14,16 @@
     {% endif %}
   </div>
 </div>
+
 {% if status_timeout %}
-  <script>
-    setTimeout(() => {
-      const statusBlock = document.getElementById('statusBlockGeneralDiv');
-      statusBlock.style.display = 'none';
+  <script type="module" defer>
+    import {StatusIndicator} from "../../static/scripts/affirmations/ui/status_indicator.js";
+
+    const status = new StatusIndicator('statusBlockGeneralDiv');
+     setTimeout(() => {
+       status.hide();
     }, 5000);
+
   </script>
+
 {% endif %}

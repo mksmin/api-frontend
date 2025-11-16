@@ -1,56 +1,48 @@
-import { DOMUtils } from "../utils/dom.js";
+import {DOMUtils} from "../utils/dom.js";
 
 export class StatusIndicator {
-    constructor(selectorOrElement) {
-        this.el = typeof selectorOrElement === "string" ? DOMUtils.query(selectorOrElement) : selectorOrElement;
-        if (!this.el) {
-            console.error(`StatusIndicator: element not found: ${selectorOrElement}`);
-            return;
-        }
-    };
+  constructor(selectorOrElement) {
+    this.el = DOMUtils.getById(selectorOrElement)
+    this.child = this.el.querySelector('.status-indicator')
 
-    show(type, text, duration = 5000) {
-        if (!this.el) return;
+    this.collapseList = bootstrap.Collapse.getOrCreateInstance(this.el, {
+      toggle: false
+    })
 
-        this.el.className = "status-indicator";
-        this.el.textContent = text;
 
-        DOMUtils.addClass(this.el, `status-${type}`);
-        DOMUtils.removeClass(this.el, "d-none")
+    if (!this.el) {
+      console.error(`StatusIndicator: element not found: ${selectorOrElement}`);
+      return;
+    }
+  };
 
-        this.el.style.opacity = 1;
-        if (this.el.parentElement) {
-            this.el.parentElement.style.opacity = 1;
-        }
-        ;
-        this.el.style.transform = "scaleY(1)";
+  show(
+    type = 'info',
+    text = this.child.textContent,
+    duration = 5000,
+    autoHide = true
+  ) {
+    if (!this.el) return;
+    this.child.textContent = text;
+    this.child.classList = [`status-indicator status-${type}`]
 
-        clearTimeout(this.el._timer)
+    this.collapseList.show()
 
-        this.el._timer = setTimeout(() => {
-            DOMUtils.addClass(this.el, "d-none");
-        }, duration);
-    };
+    if (autoHide) {
+      clearTimeout(this.el._timer);
+      this.el._timer = setTimeout(() => {
+        this.hide();
+      }, duration);
+    }
+  };
 
-    hideAnimated(duration = 300) {
-        if (!this.el) return;
-
-        this.el.style.opacity = "0";
-        this.el.style.transform = "scaleY(0)";
-        if (this.el.parentElement) {
-            this.el.parentElement.style.opacity = "0";
-        }
-
-        clearTimeout(this.el._timer);
-        this.el._timer = setTimeout(() => {
-            DOMUtils.addClass(this.el, "d-none");
-
-            this.el.style.transform = "scaleY(1)";
-            this.el.style.opacity = 1;
-            if (this.el.parentElement) {
-                this.el.parentElement.style.opacity = 1;
-            }
-        }, duration);
-    };
+  hide() {
+    if (!this.el) return;
+    this.collapseList.hide()
+    this.collapseList.addEventListener('hidden.bs.collapse', event => {
+      this.child.classList = ['status-indicator status-info']
+    })
+    clearTimeout(this.el._timer);
+  };
 
 }
