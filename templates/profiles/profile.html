@@ -66,7 +66,6 @@
       } else {
         tg.close()
       }
-      ;
     };
 
     if (inTelegram) {
@@ -82,7 +81,7 @@
     } else {
       const buttonBack = document.createElement('button');
       buttonBack.innerText = "Назад";
-      buttonBack.classList.add("btn", "btn-primary", "mt-4", "py-2");
+      buttonBack.classList.add("btn", "btn-dark", "btn-back-c-lg", "mt-4", "py-2");
       buttonBack.onclick = handleBack;
       buttonBack.type = "button";
 
@@ -91,7 +90,6 @@
         backButtonDiv.classList.remove("d-none");
       }
     }
-    ;
     window.loginTelegramWidget2 = handleBack;
   </script>
 {% endblock %}

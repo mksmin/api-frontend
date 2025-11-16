@@ -45,8 +45,8 @@ export class AffirmationDetail {
   async handleClick(e) {
     const section = e.target.closest('.text-section.text-link');
     const closeAffirmation = e.target.closest('#closeAffirmation')
-    const deleteAffirmationButton = e.target.closest('.delete-btn')
-    const editAffirmationButton = e.target.closest('.edit-btn')
+    const deleteAffirmationButton = e.target.closest('#delete-btn')
+    const editAffirmationButton = e.target.closest('#edit-btn')
     const cancelEditAffirmationButton = e.target.closest('#cancelEdit')
 
     if (section) {
@@ -172,7 +172,7 @@ export class AffirmationDetail {
       const backButtonDiv = DOMUtils.getById('backButton')
       const buttonBack = DOMUtils.createElement(
         'button', {
-          classes: ['btn', 'btn-primary', 'btn-md'],
+          classes: ['btn', 'btn-dark', 'btn-md', 'mt-2', 'btn-back-c-lg'],
           attributes: {
             type: 'button',
             id: 'closeAffirmation',

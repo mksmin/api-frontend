@@ -670,3 +670,20 @@ p {
         transition: none;
     }
 }
+
+.btn-back-c-lg {
+    height: 3rem !important;
+    --bs-btn-padding-x: 1rem;
+}
+
+.btn-c-lg {
+    --bs-btn-padding-x: 1rem;
+}
+
+@media (max-width: 767px) {
+    .btn-c-lg {
+        height: 3rem !important;
+        --bs-btn-padding-x: 1.5rem;
+    }
+
+}

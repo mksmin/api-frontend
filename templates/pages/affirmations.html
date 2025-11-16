@@ -207,19 +207,23 @@
   <!-- Подробная информация -->
   <div class="inner-container" id="affirmation" style="display: none;">
     <div id="affirmDetail">
-      <figure id="affirmQuote">
-        <blockquote
-            class="blockquote p-3 fs-3"
-            id="affirmQuoteText"
-            style="white-space: break-spaces;">
-        </blockquote>
-        <figcaption class="blockquote-footer d-none">
-          Someone famous in <cite title="Source Title">Source Title</cite>
-        </figcaption>
-      </figure>
-      <div class="action-buttons">
-        <div class="detail-info" id="affirmationId"></div>
-        <button class="edit-btn">
+      <div class="d-grid">
+        <figure id="affirmQuote">
+          <blockquote
+              class="blockquote p-3 fs-3"
+              id="affirmQuoteText"
+              style="white-space: break-spaces;">
+          </blockquote>
+          <figcaption class="blockquote-footer d-none">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class="detail-info flex-fill ps-0 ms-0" id="affirmationId"></div>
+
+        <button class="btn btn-c-lg btn-primary" id="edit-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30"
                          fill="currentColor">
@@ -230,7 +234,7 @@
           Редактировать
         </button>
 
-        <button class="delete-btn">
+        <button class="btn btn-c-lg btn-outline-danger" id="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
                          fill="currentColor">
@@ -266,9 +270,9 @@
           /500 символов
         </div>
       </div>
-      <div class="d-flex justify-content-end gap-2">
-        <button class="btn btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
-        <button class="btn btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-c-lg btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
+        <button class="btn btn-c-lg btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
       </div>
     </div>
     <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
