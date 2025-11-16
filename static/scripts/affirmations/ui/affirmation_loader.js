@@ -1,7 +1,7 @@
 import {DOMUtils} from "../utils/dom.js";
 import {ApiService} from "../services/api.js";
 import {CONFIG} from "../config/constants.js";
-import { escapeHtml, sleep, debounce } from '../utils/helpers.js';
+import {escapeHtml, sleep, debounce} from '../utils/helpers.js';
 
 export class AffirmationLoader {
   constructor() {
@@ -93,11 +93,12 @@ export class AffirmationLoader {
     this.setButtonState('loading');
 
     try {
-      const data = await ApiService.loadAffirmations(
+      const response = await ApiService.loadAffirmations(
         CONFIG.PAGINATION.LIMIT,
         this.offset
       );
 
+      const data = await response.json();
       if (!Array.isArray(data.affirmations) || data.affirmations.length === 0) {
         this.markAllLoaded();
         return false;
