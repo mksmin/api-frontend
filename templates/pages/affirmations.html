@@ -8,11 +8,20 @@
 {% endblock %}
 {% block extraBlocksTop %}
   {% for msg in get_flashed_messages(request) %}
-    {% with status_text=msg.message, status_block_id="statusBlock", status=msg.category, status_timeout=True, visible=True %}
+    {% with
+    status_text=msg.message,
+    status_block_id="statusBlock",
+    status_type="status-" ~ msg.category,
+    status_timeout=True,
+    visible=True %}
       {% include "components/status_block.html" %}
     {% endwith %}
   {% endfor %}
-  {% with status_text="text some", status_block_id="statusSettings", status="info", status_timeout=False %}
+  {% with
+  status_text="Something text",
+  status_block_id="statusSettings",
+  status_type="status-info",
+  status_timeout=False %}
     {% include "components/status_block.html" %}
   {% endwith %}
   {% include "components/general_modal.html" %}

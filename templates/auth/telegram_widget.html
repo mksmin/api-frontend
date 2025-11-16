@@ -1,49 +1,53 @@
 {% extends "main.html" %}
 {% block title %}Аутентификация {% endblock %}
 {% block head_extra %}
-<style>
-  .tg-widget {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 14px;
-  }
+  <style>
+      .tg-widget {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          max-width: 300px;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 14px;
+      }
 
-  .tg-widget iframe {
-    border: none !important;
-    border-radius: 8px !important;
-  }
+      .tg-widget iframe {
+          border: none !important;
+          border-radius: 8px !important;
+      }
 
-  .detail-card {
-    margin-bottom: 20px;
-  }
-</style>
+      .detail-card {
+          margin-bottom: 20px;
+      }
+  </style>
 {% endblock %}
 
 {% block extraBlocksTop %}
-{% set status_text = "Пытаюсь авторизоваться..." %}
-{% set status_block_id = "statusBlock" %}
-{% include "components/status_block.html" %}
+  {% with
+  status_text="Пытаюсь авторизоваться...",
+  status_type="status-info",
+  visible=True %}
+    {% include "components/status_block.html" %}
+  {% endwith %}
 {% endblock %}
 
 {% block content %}
-<div class="auth-wrapper">
-  <div class="details-grid" style="margin: 0;">
-    <div class="detail-card">
-      <div class="detail-title">Чтобы авторизоваться, нажмите на кнопку:</div>
-      <div class="detail-info">🦆🍊</div>
+  <div class="auth-wrapper">
+    <div class="details-grid" style="margin: 0;">
+      <div class="detail-card">
+        <div class="detail-title">Чтобы авторизоваться, нажмите на кнопку:</div>
+        <div class="detail-info">🦆🍊</div>
+      </div>
     </div>
+    <div class="tg-widget"></div>
   </div>
-  <div class="tg-widget"></div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script
-    src="/static/scripts/login.js"
-    id="authScript"
-    defer></script>
+  <script
+      src="/static/scripts/login.js"
+      id="authScript"
+      type="module"
+      defer></script>
 {% endblock %}

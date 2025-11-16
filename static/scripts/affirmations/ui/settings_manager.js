@@ -7,7 +7,7 @@ export class SettingsManager {
   constructor() {
     this.statusTimer = null;
     this.init();
-    this.status = new StatusIndicator("#statusSettings");
+    this.status = new StatusIndicator("statusBlockGeneralDiv");
   }
 
   init() {
