@@ -29,17 +29,19 @@
           --base-text-color: #efefef;
           --accent-text-color: var(--color-secondary);
           --main-font-size: 21px;
-          --small-font-size: 15px;
+          --small-font-size: 18px;
       }
 
       html {
-          font-size: 16px;
+          font-size: var(--main-font-size);
           -webkit-text-size-adjust: 100%;
           -moz-text-size-adjust: 100%;
           -ms-text-size-adjust: 100%;
           text-size-adjust: 100%;
           scrollbar-gutter: stable;
+          overflow-x: hidden;
       }
+
 
       html, body {
           height: auto;
@@ -52,6 +54,12 @@
           font-weight: 400;
           font-size: var(--main-font-size);
           background-color: var(--bg-color);
+      }
+
+      @media (max-width: 767px) {
+          html, body {
+              font-size: var(--small-font-size);
+          }
       }
 
       section {
@@ -131,31 +139,35 @@
 
       }
 
+      h1.header,
+      h2.header,
+      h3.header,
+      h4.header {
+          transition: font-size 0.3s ease, font-variation-settings 0.3s ease;
+      }
+
       h1.header {
-          font-size: 96px;
+          font-size: 4.5rem;
           font-variation-settings: "wght" 600;
           margin-bottom: 10px;
       }
 
       h2.header {
-          font-size: 72px;
+          font-size: 3.4rem;
           font-variation-settings: "wght" 600;
           margin-bottom: 10px;
-
       }
 
       h3.header {
-          font-size: 56px;
+          font-size: 2.6rem;
           font-variation-settings: "wght" 500;
           margin-bottom: 10px;
-
       }
 
       h4.header {
-          font-size: 40px;
+          font-size: 1.9rem;
           font-variation-settings: "wght" 400;
           margin-bottom: 10px;
-
       }
 
       .header-anim:hover {
