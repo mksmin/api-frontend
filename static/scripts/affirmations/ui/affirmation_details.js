@@ -1,6 +1,7 @@
 import {DOMUtils} from "../utils/dom.js";
 import {ApiService} from "../services/api.js";
 import {GeneralModalManager} from "./general_modal.js";
+import {StatusIndicator} from "./status_indicator.js";
 
 export class AffirmationDetail {
   constructor(telegramService) {
@@ -17,6 +18,7 @@ export class AffirmationDetail {
   init() {
     this.attachEventListeners();
     this.generalModal = new GeneralModalManager();
+    this.status = new StatusIndicator('statusBlockGeneralDiv')
   };
 
   load_elements() {
@@ -218,8 +220,9 @@ export class AffirmationDetail {
 
   async confirmDeletion() {
     try {
-      const data = await ApiService.deleteAffirmation(this.selectedAffirmationId);
-      console.log('Deleted:', data)
+      const response = await ApiService.deleteAffirmation(this.selectedAffirmationId);
+      console.log('Deleted:', response.status)
+      const data = await response.json();
 
       if (data.redirect) {
         window.location.href = data.redirect;
@@ -231,16 +234,21 @@ export class AffirmationDetail {
 
   async confirmEdit(id, text) {
     try {
-      const data = await ApiService.updateAffirmation(id, text);
-      console.log('Updated: ', id, data);
+      const response = await ApiService.updateAffirmation(id, text);
+      console.log('Updated: ', id, response.ok);
 
       if (this.selectedAffirmationId === id) {
         this.elements.affirmQuoteText.textContent = text;
         this.selectedAffirmationElement.querySelector('.detail-title').textContent = text;
       }
+
+      if (response.ok) {
+        this.status.show('success', 'Аффирмация успешно обновлена')
+      }
+
     } catch (error) {
       console.error('Updating error:', error);
-      alert(`Error: ${error.message || error}`);
+      this.status.show('error', `Ошибка при обновлении аффирмации: ${error.message || error}`)
     } finally {
       this.closeEditAffirmForm();
     }

@@ -12,8 +12,7 @@ export class ApiService {
         throw new Error(`${MESSAGES.ERROR.SERVER}: ${response.status}`);
       }
 
-    const text = await response.text();
-    return text ? JSON.parse(text) : null;
+    return response
     } catch (error) {
       console.error(error);
       throw error;

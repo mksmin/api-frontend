@@ -39,7 +39,7 @@ export class StatusIndicator {
   hide() {
     if (!this.el) return;
     this.collapseList.hide()
-    this.collapseList.addEventListener('hidden.bs.collapse', event => {
+    this.el.addEventListener('hidden.bs.collapse', event => {
       this.child.classList = ['status-indicator status-info']
     })
     clearTimeout(this.el._timer);
