@@ -103,6 +103,26 @@
           z-index: 2;
       }
 
+      @media (max-width: 797px) {
+          section.dark {
+              margin: 25px 0;
+              padding: 25px 0;
+          }
+
+          section.dark::before,
+          section.dark::after {
+              height: 25px;
+          }
+
+          section.dark::before {
+              top: -25px;
+          }
+
+          section.dark::after {
+              bottom: -25px;
+          }
+      }
+
       .main-container-wrap {
           display: flex;
           height: 100%;
@@ -128,6 +148,7 @@
       .container-lg {
           padding: 0;
       }
+
 
       .header {
           font-weight: bolder;
@@ -168,6 +189,24 @@
           font-size: 1.9rem;
           font-variation-settings: "wght" 400;
           margin-bottom: 10px;
+      }
+
+      @media (max-width: 576px) {
+          h1.header {
+              font-size: 4rem;
+          }
+
+          h2.header {
+              font-size: 3rem;
+          }
+
+          h3.header {
+              font-size: 2rem;
+          }
+
+          h4.header {
+              font-size: 1rem;
+          }
       }
 
       .header-anim:hover {
@@ -351,6 +390,23 @@
           background: var(--third-bg-color);
           border-radius: 0 0 10px 10px;
       }
+
+      @media (max-width: 797px) {
+          .container {
+              padding: 0 .8rem;
+          }
+
+          .detail-card {
+              width: 100%;
+              margin-inline: auto;
+              padding: 1rem .8rem;
+          }
+
+          .img-container-item {
+              padding: 0 .8rem;
+          }
+      }
+
   </style>
 </head>
 
@@ -371,7 +427,7 @@
           </div>
         </div>
 
-        <div class="container mt-3" style="padding-inline: calc(50px - 0.5rem)">
+        <div class="container mt-3 d-grid gap-2 d-md-block">
           <a class="btn btn-lg btn-dark btn-gradient btn-telegram " href="https://t.me/mininwork" target="_blank"
              role="button"> <span class="bi bi-telegram  me-1"></span> Telegram</a>
           <a class="btn btn-lg btn-dark btn-gradient btn-github" href="https://github.com/mksmin" target="_blank"
@@ -382,22 +438,23 @@
       <section>
         <div class="container">
           <h3 class="header">Основная информация</h3>
+
           <div class="detail-card">
-            <div class="row ">
-              <div class="col">
+            <div class="row">
+              <div class="col-sm-8 align-self-center">
                 Специализация
               </div>
-              <div class="col text-end detail-text">
+              <div class="col-sm-4  text-sm-end detail-text">
                 Бэкэнд, телеграм-боты
               </div>
             </div>
           </div>
           <div class="detail-card">
-            <div class="row ">
-              <div class="col">
+            <div class="row">
+              <div class="col-sm-8 align-self-center">
                 Опыт
               </div>
-              <div class="col text-end detail-text">
+              <div class="col-sm-4 text-sm-end detail-text">
                 Junior
               </div>
             </div>
