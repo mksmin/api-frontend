@@ -29,8 +29,19 @@
           --hint-color: #aaaaaa;
           --base-text-color: #efefef;
           --accent-text-color: var(--color-secondary);
+          --accent-text-color-blue: linear-gradient(90deg, #37aee2, #1e96c8);
           --main-font-size: 21px;
           --small-font-size: 18px;
+          --components-gradient-text-1: #5a8cff;
+          --components-gradient-text-2: #43d6ff;
+          --components-gradient-text-3: #8f3fff;
+          --gradient-point: 0.22;
+          --icon-max-gradient: linear-gradient(96deg,
+          var(--components-gradient-text-1) 0%,
+          var(--components-gradient-text-2) calc(100% * var(--gradient-point)),
+          var(--components-gradient-text-3) 99.6%);
+          --gb-color-1: var(--accent-text-color);
+          --gb-color-2: #37aee2;
       }
 
       html {
@@ -171,11 +182,23 @@
           color: var(--accent-text-color)
       }
 
+      .header-accent-grad {
+          min-width: 0;
+          display: block;
+          white-space: normal;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          text-transform: uppercase;
+          background: linear-gradient(-53deg, #279fd1 0%, #8774e1 63%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
 
       h1.header,
       h2.header,
       h3.header,
-      h4.header {
+      h4.header,
+      h5.header {
           transition: font-size 0.3s ease, font-variation-settings 0.3s ease;
       }
 
@@ -199,6 +222,12 @@
 
       h4.header {
           font-size: 1.9rem;
+          font-variation-settings: "wght" 400;
+          margin-bottom: 10px;
+      }
+
+      h5.header {
+          font-size: 1rem;
           font-variation-settings: "wght" 400;
           margin-bottom: 10px;
       }
@@ -330,15 +359,57 @@
           background-image: linear-gradient(90deg, #1da1f2, #0d8ddb);
       }
 
+      .btn-max {
+          background-image: var(--icon-max-gradient);
+
+      }
+
+      .bi-max::before {
+          content: "";
+          display: inline-block;
+          width: 1em;
+          height: 1em;
+          -webkit-mask: url('/static/media/icons/max.svg') no-repeat center / contain;
+          mask: url('/static/media/icons/max.svg') no-repeat center / contain;
+          position: relative;
+          background-image: var(--icon-max-gradient);
+          transition: filter 0.3s ease;
+      }
+
+
+      .btn-max:hover .bi-max::before {
+          filter: brightness(0) invert(1);
+      }
+
       .detail-card {
           background: #1818184d;
           display: block;
+          border: 1px solid transparent;
           border-radius: 10px;
           padding: 1rem 2%;
           color: var(--base-text-color);
           margin-block-end: 0.3rem;
-          width: 104%;
-          margin-inline-start: -2%;
+          width: 100%;
+      }
+
+      .border-purple {
+          border: 1px solid #8774e17d;
+      }
+
+      .detail-card.nw {
+          width: 100%;
+          margin-inline-start: 0;
+      }
+
+      .detail-card-list-group {
+          background: #1818184d;
+          border: 1px solid transparent;
+          padding: 1rem 2%;
+          color: var(--base-text-color);
+      }
+
+      .border-purple .detail-card-list-group {
+          border: 1px solid #8774e17d;
       }
 
       .detail-text {
@@ -371,7 +442,7 @@
       }
 
       .list-section .item {
-          background: var(--section-bg-color);
+          background: transparent;
           display: flex;
           max-width: 100%;
           align-items: center;
@@ -389,7 +460,7 @@
 
       .list-section .item:hover .bi,
       .list-section .item:focus-within .bi {
-      {#transform: scale(1.1);#} color: var(--accent-text-color);
+          color: var(--accent-text-color);
       }
 
       .list-section .item:hover,
@@ -432,7 +503,86 @@
           color: var(--hint-color) !important;
       }
 
+      .border-accent {
+          border-color: var(--secondary-bg-color) !important;
+      }
 
+      .gradient-block {
+          width: 100%;
+          height: 100%;
+          position: relative;
+      }
+
+      .gradient {
+          position: absolute;
+          left: 50%;
+          top: var(--top);
+          transform: translate(-50%, -50%);
+          z-index: 0;
+      }
+
+      .wrapper {
+          height: var(--size);
+          width: var(--size);
+          filter: blur(calc(var(--size) / 3));
+          animation: gradient-scale-animation 24s linear infinite running;
+          transform-origin: center;
+          max-width: 90vw;
+          aspect-ratio: 1
+      }
+
+      .element {
+          width: 50%;
+          height: 50%;
+          border-radius: 50%;
+          position: absolute;
+          animation: gradient-rotate-animation 12s linear infinite running
+      }
+
+      .element:first-child {
+          background: var(--gb-color-1);
+          top: 25%;
+          left: 0;
+          transform-origin: right
+      }
+
+      .element:nth-child(2) {
+          background: var(--gb-color-1);
+          top: 50%;
+          left: 25%;
+          transform-origin: top
+      }
+
+      .element:last-child {
+          background: var(--gb-color-2);
+          top: 0;
+          left: 25%;
+          transform-origin: bottom
+      }
+
+      @keyframes gradient-scale-animation {
+          0% {
+              transform: scale(1)
+          }
+
+          50% {
+              transform: scale(.8)
+          }
+
+          to {
+              transform: scale(1)
+          }
+      }
+
+      @keyframes gradient-rotate-animation {
+          0% {
+              transform: rotate(0)
+          }
+
+          to {
+              transform: rotate(360deg)
+          }
+      }
   </style>
 </head>
 
@@ -445,7 +595,7 @@
         <div class="container mt-3">
           <h1 class="header header-anim header-accent xxl">Де&shy;лаю проек&shy;ты</h1>
           <h1 class="header header-anim header-accent text-light xxl">разра&shy;ба&shy;ты&shy;ваю раз&shy;ра&shy;бот&shy;ки</h1>
-          <h1 class="header header-anim header-accent xxl">ви&shy;део&shy;мон&shy;ти&shy;рую ви&shy;део</h1>
+          <h1 class="header header-anim header-accent-grad xxl">ви&shy;део&shy;мон&shy;ти&shy;рую ви&shy;део</h1>
           <div class="text-block">
             <p class="content-text">
               Решил сделать собственную инфостраничку в интернете. Здесь все про работу, проекты и прочее, что мне
@@ -456,30 +606,64 @@
       </section>
 
 
-      <section>
-        <div class="container text-sm-center pb-5 mb-5">
-          <h4 class="header">Ссылки на мои социальные сети:</h4>
-          <div class="mt-3 d-grid gap-2 d-md-block">
-            <a class="btn btn-lg btn-dark btn-gradient btn-telegram " href="https://t.me/mininwork" target="_blank"
-               role="button"> <span class="bi bi-telegram  me-1"></span> Telegram</a>
-            <a class="btn btn-lg btn-dark btn-gradient btn-github" href="https://github.com/mksmin" target="_blank"
-               role="button"><span class="bi bi-github me-1"></span> Github</a>
-            <a id="copyEmailBtn"
-               class="btn btn-lg btn-dark btn-gradient btn-vkmail" href="#"
-               data-bs-toggle="tooltip"
-               data-bs-placement="top"
-               data-bs-title="Скопировал! Можно вставить в почтовом приложении"
-               role="button"><span class="bi bi-envelope-at-fill me-1"></span>Email</a>
+      <section class="border-top border-bottom border-accent">
+        <div class="container text-sm-center my-3 py-4 ">
+          <h4 class="header">Связаться со мной можно тут:</h4>
+          <div class="row justify-content-center g-1 mt-3">
+            <div class=" col-12 col-sm-6 col-md-auto">
+              <a class="btn btn-lg btn-dark btn-gradient btn-telegram w-100"
+                 href="https://t.me/mininwork" target="_blank"
+                 role="button">
+                <span class="bi bi-telegram  me-1"></span>
+                Telegram
+              </a>
+            </div>
+            <div class=" col-12 col-sm-6 col-md-auto">
+              <a class="btn btn-lg btn-dark btn-gradient btn-github w-100"
+                 href="https://github.com/mksmin" target="_blank"
+                 role="button">
+                <span class="bi bi-github me-1col-12 col-sm-6 col-md-auto"></span>
+                Github
+              </a></div>
+            <div class=" col-12 col-sm-6 col-md-auto">
+              <a class="btn btn-lg btn-dark btn-gradient btn-max w-100"
+                 href="https://max.ru/u/f9LHodD0cOIWTI9Dk3_QKNy5-_jW1y9GFou7cCw9AE6nbmOqQFnxDlp_wdM"
+                 target="_blank"
+                 role="button">
+                <span class="bi bi-max me-1"></span>
+                MAX
+              </a>
+            </div>
+            <div class=" col-12 col-sm-6 col-md-auto">
+              <a id="copyEmailBtn"
+                 class="btn btn-lg btn-dark btn-gradient btn-vkmail w-100" href="#"
+                 data-bs-toggle="tooltip"
+                 data-bs-placement="top"
+                 data-bs-title="Скопировал! Можно вставить в почтовом приложении"
+                 role="button">
+                <span class="bi bi-envelope-at-fill me-1"></span>
+                Email
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
 
-      <section class="mt-5 pt-5">
+      <section class="mt-5 pt-5 position-relative">
+        <div class="gradient" style="--top: 40%;">
+          <div class="wrapper" style="--size: 500px">
+            <div class="element"></div>
+            <div class="element"></div>
+            <div class="element"></div>
+            <div class="element"></div>
+          </div>
+        </div>
         <h1 class="header header-accent header-anim text-center mb-3">
           Я раз&shy;работ&shy;чик
         </h1>
         <div class="container">
+
           <div class="text-block">
             <p class="content-text">Учу python, немного javascript и все сопутствующее</p>
             <ul>
@@ -500,21 +684,41 @@
               </li>
             </ul>
           </div>
+          <div class="detail-card nw">
+            <div class="row">
+              <div class="col-sm-8 align-self-center">
+                Специализация
+              </div>
+              <div class="col-sm-4  text-sm-end detail-text">
+                Бэкэнд, телеграм-боты
+              </div>
+            </div>
+          </div>
+          <div class="detail-card nw">
+            <div class="row">
+              <div class="col-sm-8 align-self-center">
+                Опыт
+              </div>
+              <div class="col-sm-4  text-sm-end detail-text">
+                Junior
+              </div>
+            </div>
+          </div>
 
           <div class="list-group list-section">
-            <a href="#" target="_blank"
+            <a href="https://github.com/mksmin/api-frontend" target="_blank"
                class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                aria-current="true">
               Фронтенд для MiniApp приложения и этот сайт
               <i class="bi bi-caret-right-fill align-self-center"></i>
             </a>
-            <a href="#" target="_blank"
+            <a href="https://github.com/mksmin/api-backend" target="_blank"
                class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                aria-current="true">
               Бэкенд для MiniApp приложения
               <i class="bi bi-caret-right-fill align-self-center"></i>
             </a>
-            <a href="#" target="_blank"
+            <a href="https://github.com/mksmin/tasker-bot" target="_blank"
                class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                aria-current="true">
               Телеграм бот с аффирмациями
@@ -667,16 +871,15 @@
 
       </section>
 
-      <section class="dark mt-5 pt-5">
+      <section class="dark">
         <h1 class="header header-accent header-anim text-center mb-3">
           Я ме&shy;не&shy;джер проек&shy;тов
         </h1>
         <div class="container">
-          <div class="text-block">
-            <p class="content-text">Ну, или стараюсь им быть</p>
-            <p class="content-text">
-              Автоматизировал рутинные задачи, потому что ручками в таблицах копаться лень
-            </p>
+          <div class="text-block d-flex justify-content-center">
+            <p class="content-text text-center">Организовывал научные лекции, собирал людей на спортивных площадках,
+              делал День
+              молодежи в Нижневартовске на 15к человек, руководил просветительским проектом для детей по всей России</p>
           </div>
         </div>
 
@@ -685,26 +888,64 @@
           <div class="detail-card">
             <div class="row">
               <div class="col-sm-8 align-self-center">
-                Специализация
-              </div>
-              <div class="col-sm-4  text-sm-end detail-text">
-                Бэкэнд, телеграм-боты
-              </div>
-            </div>
-          </div>
-          <div class="detail-card">
-            <div class="row">
-              <div class="col-sm-8 align-self-center">
                 Опыт
               </div>
               <div class="col-sm-4 text-sm-end detail-text">
-                Junior
+                11+ лет управления проектами
               </div>
             </div>
           </div>
 
-          <div class="content-text subtitle-text"><p>Тут что-то про разработку</p>
+          <h5 class="header mt-4">
+            Где работал
+          </h5>
+          <div class="list-group border-purple">
+            <div class="list-group-item detail-card-list-group">
+              <div class="row">
+                <div class="col-sm-8 align-self-center">
+                  Корпоративная Академия Росатома
+                </div>
+                <div class="col-sm-4 text-sm-end detail-text">
+                  до 2025
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item detail-card-list-group">
+              <div class="row">
+                <div class="col-sm-8 align-self-center">
+                  Московский продюсерский центр
+                </div>
+                <div class="col-sm-4 text-sm-end detail-text">
+                  до 2024
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item detail-card-list-group">
+              <div class="row">
+                <div class="col-sm-8 align-self-center">
+                  Молодежный центр Нижневартовска
+                </div>
+                <div class="col-sm-4 text-sm-end detail-text">
+                  до 2019
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item detail-card-list-group">
+              <div class="row">
+                <div class="col-sm-8 align-self-center">
+                  Клуб «Простые парни»
+                </div>
+                <div class="col-sm-4 text-sm-end detail-text">
+                  до 2019
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="content-text subtitle-text">
+            <p>Тут что-то про разработку</p>
+          </div>
+
         </div>
       </section>
 
@@ -762,19 +1003,27 @@
 
 
       <section>
-        <div class="img-container">
-          <div class="img-container-card img-block-lg">
-            <img src="\static\media\img\me.png" class="img-lg object-fit-cover" alt="...">
-            <div class="img-block-grad"></div>
-          </div>
-          <div class="img-container-item">
-            <h1 class="header header-anim">Максим Минин</h1>
-            <h4 class="header">@mininname</h4>
+        <div class="container marketing">
+          <div class="row featurette">
+            <div class="col-md-7">
+              <h1 class="header header-accent-grad lh-1"
+                  style="
+                  font-size: clamp(2rem, 9vw, 4.5rem);
+                  white-space: normal;"
+              >Максим Минин</h1>
+              <p>@mininname</p>
+            </div>
+            <div class="col-md-5">
+              <img src="\static\media\img\me.png" class="rounded img-fluid" alt="...">
+
+            </div>
           </div>
         </div>
       </section>
     </div>
   </div>
+
+
 </main>
 
 <footer class="container">
@@ -808,7 +1057,7 @@
   function handleScroll() {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = scrollTop / docHeight; // 0..1
+    const scrollPercent = scrollTop / docHeight;
 
     headers.forEach((header, i) => {
       const start = step * i;
@@ -823,13 +1072,10 @@
   }
 
   window.addEventListener('scroll', handleScroll);
-</script>
-<script>
+
   const email = "mininname@vk.com";
-  // Элемент
   const copyBtn = document.getElementById('copyEmailBtn');
 
-  // Создаём tooltip
   const tooltip = new bootstrap.Tooltip(copyBtn, {
     trigger: 'manual'
   });
@@ -839,11 +1085,7 @@
 
     try {
       await navigator.clipboard.writeText(email);
-
-      // показываем tooltip
       tooltip.show();
-
-      // скрыть через 1.5 секунды
       setTimeout(() => {
         tooltip.hide();
       }, 1500);
