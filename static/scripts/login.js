@@ -1,4 +1,5 @@
 import {StatusIndicator} from "./affirmations/ui/status_indicator.js";
+import {DOMUtils} from "./affirmations/utils/dom.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -6,6 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const AUTH_PATH = '/auth/bot2';
     const INITIAL_REDIRECT_KEY = 'initial_redirect';
     const status = new StatusIndicator('statusBlockGeneralDiv');
+    const BOT_ID = document.querySelector('meta[name="tg-bot-id"]').content;
+
 
     function isSafeRedirect(r) {
       return typeof r === 'string' && r.length > 0 && r.startsWith('/') && !r.startsWith('//');
@@ -44,6 +47,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     safeSetStatus('info', '🪪 Необходима авторизация через Telegram');
+
+    const setupTelegramAuthWidget = () => {
+      const ids = [
+        "icon-telegram-auth",
+        "text-telegram-auth",
+        "btn-telegram-auth",
+      ];
+
+
+      ids.forEach(id => {
+        const el = DOMUtils.getById(id);
+        if (!el) return;
+        el.addEventListener("click", () => {
+          window.Telegram.Login.auth({
+            bot_id: BOT_ID,
+            request_access: true
+          }, (user) => {
+            console.log("Logged!", user);
+            loginTelegramWidget(user);
+          });
+        });
+      });
+    };
 
     function injectTelegramWidget() {
       const script = document.createElement('script');
@@ -124,6 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     };
     injectTelegramWidget();
+    setupTelegramAuthWidget();
 
   } catch (error) {
     console.error('Global Error:', error);

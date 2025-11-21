@@ -1,47 +1,100 @@
-{% extends "main.html" %}
-{% block title %}Аутентификация {% endblock %}
+{% extends "base.html" %}
+{% block extra_meta %}
+  <meta name="tg-bot-id" content="{{ telegram_bot_id }}">
+{% endblock %}
+{% block title %}Аутентификация через Телеграм виджет{% endblock %}
 {% block head_extra %}
   <style>
-      .tg-widget {
-          display: flex;
-          justify-content: center;
-          width: 100%;
-          max-width: 300px;
-          margin-left: auto;
-          margin-right: auto;
-          padding: 14px;
+      .form-signin {
+          max-width: 1000px;
+          padding: 1rem;
       }
 
-      .tg-widget iframe {
-          border: none !important;
-          border-radius: 8px !important;
+      .word {
+          display: inline-block;
+          margin-right: 6px;
       }
 
-      .detail-card {
-          margin-bottom: 20px;
+      .fade-up {
+          opacity: 0;
+          transform: translateY(40px);
+          animation: fadeUp 0.3s ease-out forwards;
       }
+
+      .fade-up.delay-1 {
+          animation-delay: 0.1s;
+      }
+
+      .fade-up.delay-2 {
+          animation-delay: 0.15s;
+      }
+
+      .fade-up.delay-3 {
+          animation-delay: 0.2s;
+      }
+
+      .fade-up.delay-4 {
+          animation-delay: 0.25s;
+      }
+
+      .fade-up.delay-5 {
+          animation-delay: 0.3s;
+      }
+
+      @keyframes fadeUp {
+          0% {
+              opacity: 0;
+              transform: translateY(40px);
+          }
+          70% {
+              opacity: 1;
+              transform: translateY(-10px);
+          }
+          100% {
+              opacity: 1;
+
+              transform: translateY(0);
+          }
+      }
+
+      .text-telegram-auth {
+          transition: color 0.5s ease;
+      }
+
+      .text-telegram-auth:hover {
+          color: white;
+          cursor: pointer;
+      }
+
   </style>
 {% endblock %}
-
-{% block extraBlocksTop %}
-  {% with
-  status_text="Пытаюсь авторизоваться...",
-  status_type="status-info",
-  visible=True %}
-    {% include "components/status_block.html" %}
-  {% endwith %}
-{% endblock %}
-
 {% block content %}
-  <div class="auth-wrapper">
-    <div class="details-grid" style="margin: 0;">
-      <div class="detail-card">
-        <div class="detail-title">Чтобы авторизоваться, нажмите на кнопку:</div>
-        <div class="detail-info">🦆🍊</div>
+  <section class="d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden">
+    <div class="gradient gradient-telegram" style="--top: 40%;">
+      <div class="wrapper" style="--size: 500px">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
       </div>
     </div>
-    <div class="tg-widget"></div>
-  </div>
+    <div class="form-signin w-100 m-auto">
+      <i id="icon-telegram-auth"
+         class="btn bi bi-telegram btn-gradient btn-telegram border-0 py-1 fade-up delay-1"
+         style="font-size: 72px;">
+      </i>
+      <h1 class="h3 mb-3 header" style="font-size: clamp(2rem, 9vw, 4.5rem);">
+        <span id="text-telegram-auth" class="word fade-up delay-2 text-gradient text-telegram text-telegram-auth">Авторизуйся</span>
+        <span class="word fade-up delay-3">через</span>
+        <span class="word fade-up delay-4">телеграм</span>
+      </h1>
+
+      <button id="btn-telegram-auth" class="btn btn-lg btn-dark btn-gradient btn-telegram fade-up delay-5 ">
+        <span class="bi bi-telegram  me-1"></span>
+        Войти через Telegram
+      </button>
+    </div>
+  </section>
 {% endblock %}
 
 {% block scripts %}
