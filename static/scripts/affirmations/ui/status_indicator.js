@@ -3,7 +3,17 @@ import {DOMUtils} from "../utils/dom.js";
 export class StatusIndicator {
   constructor(selectorOrElement) {
     this.el = DOMUtils.getById(selectorOrElement)
+
+    if (!this.el) {
+      console.error(`StatusIndicator: element not found: ${selectorOrElement}`);
+      return;
+    }
+
     this.child = this.el.querySelector('.status-indicator')
+    if (!this.child) {
+      console.error(".status-indicator not found")
+      return;
+    }
 
     this.collapseList = bootstrap.Collapse.getOrCreateInstance(this.el, {
       toggle: false
