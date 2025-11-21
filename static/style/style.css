@@ -47,6 +47,7 @@ html {
 
 html, body {
     height: 100%;
+    height: -webkit-fill-available;
     min-height: 100vh;
     min-height: 100dvh;
     color: var(--base-text-color);
@@ -73,6 +74,8 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
+    height: -webkit-fill-available;
 }
 
 section {
@@ -139,7 +142,7 @@ section.dark .container {
 .main-container-wrap {
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     flex-direction: column;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
