@@ -18,7 +18,8 @@
 
       .fade-up {
           opacity: 0;
-          transform: translateY(40px);
+          transform: translateY(40px) translateZ(0);
+          will-change: opacity, transform;
       }
 
       .page-loaded .fade-up {
@@ -50,13 +51,16 @@
               opacity: 0;
               transform: translateY(40px);
           }
-          70% {
+          60% {
               opacity: 1;
-              transform: translateY(-10px);
+              transform: translateY(-10px); /* прыжок */
+          }
+          80% {
+              opacity: 1;
+              transform: translateY(5px); /* маленькая отдача вниз */
           }
           100% {
               opacity: 1;
-
               transform: translateY(0);
           }
       }
@@ -147,11 +151,11 @@
       defer
   ></script>
 
-<script>
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.body.classList.add('page-loaded');
-    }, 500);
-  });
-</script>
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.classList.add('page-loaded');
+      }, 500);
+    });
+  </script>
 {% endblock %}
