@@ -35,13 +35,13 @@
       if (photoUrl) {
         sessionStorage.removeItem('photoUrl');
         sessionStorage.setItem('photoUrl', photoUrl);
-      };
+      }
 
       const url = sessionStorage.getItem('photoUrl');
       if (url) {
         const img = document.getElementById('userAvatar');
         img.src = url;
-      };
+      }
     });
 </script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>-->

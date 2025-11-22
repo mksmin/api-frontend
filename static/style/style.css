@@ -711,6 +711,10 @@ h1.xxl, .xxl {
     color: var(--color-warning);
 }
 
+.color-hint {
+    color: var(--hint-color);
+}
+
 .bg-color-error {
     background-color: var(--color-error);
     background-image: none;

@@ -1,55 +1,117 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 {% block title %}Профиль{% endblock %}
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block content %}
-  <div class="inner-container" id="profile-details">
-    <div class="big_title_block">
-      <div class="profile-info">
+  <section class="position-relative overflow-x-hidden  py-5 mb-3">
+    <div class="container">
+
+      <div class="text-center z-1 mb-3">
         <img
             src="{{ user.photo_url }}"
             id="userAvatar"
-            class="avatar"
+            class="avatar rounded-pill"
             alt="Аватар"
             onerror="this.src='/static/media/nonePhoto.png'"
-            style="width: min(200px, 100%); height: auto;"/>
+            style="width: min(320px, 100%); height: auto;"/>
       </div>
+      <h1 id="projectName" class="header header-anim header-accent xxl text-center fade-up"
+          style="font-size: clamp(2rem, 9vw, 4.5rem)">{{ user.first_name }}</h1>
+      <h1 class="header header-anim  text-center fade-up delay-1"
+          style="font-size: clamp(2rem, 9vw, 4.5rem)">{{ user.last_name }}</h1>
+      <h4 class="header text-center color-hint fade-up delay-2" style="font-size: clamp(1rem, 9vw, 1.5rem)">
+        @{{ user.username }}</h4>
 
-      <div class="profile-info">
-        <div id="projectName" class="name">{{ user.first_name }} {{ user.last_name }}</div>
-        <div id="projectId" class="username">@{{ user.username }}</div>
+      <div class="gradient z-n1" style="--top: 25%;">
+        <div class="wrapper" style="--size: 300px">
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+        </div>
       </div>
     </div>
+  </section>
 
-    {{ details.detail_card("Телеграм ID", user.tg_id , oneline=True) }}
+  <section>
+    <div class="container">
+      <div class="detail-card nw mb-3">
+        <div class="row">
+          <div class="col-sm-8 align-self-center">
+            Телеграм ID
+          </div>
+          <div class="col-sm-4 text-sm-end detail-text">
+            {{ user.tg_id }}
+          </div>
+        </div>
+      </div>
 
-    {{ details.title_h4(" ") }}
-    <div class="list-section">
-      <a href="/affirmations" class="item"
-         style="text-decoration: none;">
-        <span class="detail-title">Мои аффирмации</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
-             viewBox="0 0 7 12"
-             class="p_ZQ v61B">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 5 5-5 5"/>
-        </svg>
-      </a>
-      <a href="/projects" class="item"
-         style="text-decoration: none;">
-        <span class="detail-title">Мои проекты</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
-             viewBox="0 0 7 12"
-             class="p_ZQ v61B">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 5 5-5 5"/>
-        </svg>
-      </a>
-    </div>
+      <div class="list-group list-section">
+        <a href="/affirmations"
+           class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+           aria-current="true">
+          Мои аффирмации
+          <i class="bi bi-caret-right-fill align-self-center"></i>
+        </a>
+        <a href="/projects"
+           class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+           aria-current="true">
+          Мои проекты
+          <i class="bi bi-caret-right-fill align-self-center"></i>
+        </a>
+      </div>
+
     <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
-  </div>
+
+    </div>
+  </section>
+{##}
+{#  <div class="inner-container" id="profile-details">#}
+{#    <div class="big_title_block">#}
+{#      <div class="profile-info">#}
+{#        <img#}
+{#            src="{{ user.photo_url }}"#}
+{#            id="userAvatar"#}
+{#            class="avatar"#}
+{#            alt="Аватар"#}
+{#            onerror="this.src='/static/media/nonePhoto.png'"#}
+{#            style="width: min(200px, 100%); height: auto;"/>#}
+{#      </div>#}
+{##}
+{#      <div class="profile-info">#}
+{#        <div id="projectName" class="name">{{ user.first_name }} {{ user.last_name }}</div>#}
+{#        <div id="projectId" class="username">@{{ user.username }}</div>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    {{ details.detail_card("Телеграм ID", user.tg_id , oneline=True) }}#}
+{##}
+{#    {{ details.title_h4(" ") }}#}
+{#    <div class="list-section">#}
+{#      <a href="/affirmations" class="item"#}
+{#         style="text-decoration: none;">#}
+{#        <span class="detail-title">Мои аффирмации</span>#}
+{#        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"#}
+{#             viewBox="0 0 7 12"#}
+{#             class="p_ZQ v61B">#}
+{#          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"#}
+{#                stroke-width="2"#}
+{#                d="m1 1 5 5-5 5"/>#}
+{#        </svg>#}
+{#      </a>#}
+{#      <a href="/projects" class="item"#}
+{#         style="text-decoration: none;">#}
+{#        <span class="detail-title">Мои проекты</span>#}
+{#        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"#}
+{#             viewBox="0 0 7 12"#}
+{#             class="p_ZQ v61B">#}
+{#          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"#}
+{#                stroke-width="2"#}
+{#                d="m1 1 5 5-5 5"/>#}
+{#        </svg>#}
+{#      </a>#}
+{#    </div>#}
+{#  </div>#}
 {% endblock %}
 
 {% block scripts %}
@@ -91,5 +153,14 @@
       }
     }
     window.loginTelegramWidget2 = handleBack;
+  </script>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.offsetHeight;
+        document.body.classList.add('page-loaded');
+      }, 300);
+    });
   </script>
 {% endblock %}
