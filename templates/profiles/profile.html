@@ -3,10 +3,11 @@
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block content %}
-  <section class="position-relative overflow-x-hidden  py-5 mb-3">
+  <section class="position-relative overflow-x-hidden py-5 mb-1 mb-sm-3">
     <div class="container">
 
-      <div class="text-center z-1 mb-3">
+      <div class="text-center z-1 mb-3 mx-auto"
+      style="width: min(320px, 100%); height: max(320px, 100%);">
         <img
             src="{{ user.photo_url }}"
             id="userAvatar"
@@ -16,10 +17,11 @@
             style="width: min(320px, 100%); height: auto;"/>
       </div>
       <h1 id="projectName" class="header header-anim header-accent xxl text-center fade-up"
-          style="font-size: clamp(2rem, 9vw, 4.5rem)">{{ user.first_name }}</h1>
+          style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.first_name }}</h1>
       <h1 class="header header-anim  text-center fade-up delay-1"
-          style="font-size: clamp(2rem, 9vw, 4.5rem)">{{ user.last_name }}</h1>
-      <h4 class="header text-center color-hint fade-up delay-2" style="font-size: clamp(1rem, 9vw, 1.5rem)">
+          style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.last_name }}</h1>
+      <h4 class="header text-center color-hint fade-up delay-2"
+          style="font-size: clamp(1rem, 9vw, 1.5rem); --offset:10px;">
         @{{ user.username }}</h4>
 
       <div class="gradient z-n1" style="--top: 25%;">
@@ -33,7 +35,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="my-3 my-sm-5">
     <div class="container">
       <div class="detail-card nw mb-3">
         <div class="row">
@@ -65,53 +67,6 @@
 
     </div>
   </section>
-{##}
-{#  <div class="inner-container" id="profile-details">#}
-{#    <div class="big_title_block">#}
-{#      <div class="profile-info">#}
-{#        <img#}
-{#            src="{{ user.photo_url }}"#}
-{#            id="userAvatar"#}
-{#            class="avatar"#}
-{#            alt="Аватар"#}
-{#            onerror="this.src='/static/media/nonePhoto.png'"#}
-{#            style="width: min(200px, 100%); height: auto;"/>#}
-{#      </div>#}
-{##}
-{#      <div class="profile-info">#}
-{#        <div id="projectName" class="name">{{ user.first_name }} {{ user.last_name }}</div>#}
-{#        <div id="projectId" class="username">@{{ user.username }}</div>#}
-{#      </div>#}
-{#    </div>#}
-{##}
-{#    {{ details.detail_card("Телеграм ID", user.tg_id , oneline=True) }}#}
-{##}
-{#    {{ details.title_h4(" ") }}#}
-{#    <div class="list-section">#}
-{#      <a href="/affirmations" class="item"#}
-{#         style="text-decoration: none;">#}
-{#        <span class="detail-title">Мои аффирмации</span>#}
-{#        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"#}
-{#             viewBox="0 0 7 12"#}
-{#             class="p_ZQ v61B">#}
-{#          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"#}
-{#                stroke-width="2"#}
-{#                d="m1 1 5 5-5 5"/>#}
-{#        </svg>#}
-{#      </a>#}
-{#      <a href="/projects" class="item"#}
-{#         style="text-decoration: none;">#}
-{#        <span class="detail-title">Мои проекты</span>#}
-{#        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"#}
-{#             viewBox="0 0 7 12"#}
-{#             class="p_ZQ v61B">#}
-{#          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"#}
-{#                stroke-width="2"#}
-{#                d="m1 1 5 5-5 5"/>#}
-{#        </svg>#}
-{#      </a>#}
-{#    </div>#}
-{#  </div>#}
 {% endblock %}
 
 {% block scripts %}

@@ -642,7 +642,7 @@ h1.xxl, .xxl {
 
 .fade-up {
     opacity: 0;
-    transform: translateY(40px) translateZ(0);
+    transform: translateY(calc(var(--offset, 40px) * 1)) translateZ(0);
     will-change: opacity, transform;
 }
 
