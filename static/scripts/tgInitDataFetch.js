@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       'text-warning'
     )
     DOMUtils.addClass(elements.tgIcon, 'bg-color-warning')
-    DOMUtils.addClass(elements.botConfig.querySelector('a'), 'bg-color-warning')
     DOMUtils.addClass(elements.gradient, 'gradient-warning')
     DOMUtils.removeClass(elements.gradient, 'gradient-telegram')
+    DOMUtils.addClass(elements.botConfig.querySelector('a'), 'bg-color-warning')
   }
 });
