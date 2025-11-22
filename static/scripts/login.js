@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             bot_id: BOT_ID,
             request_access: true
           }, (user) => {
-            console.log("Logged!", user);
             loginTelegramWidget(user);
           });
         });
