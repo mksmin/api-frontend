@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Авторизация{% endblock %}
+{% import "partials/_macros_blocks.html" as details %}
+
+{% block head_extra %}
+
+{% endblock %}
+{% block extraBlocksTop %}
+{% endblock %}
+
+{% block content %}
+  <section
+      class="full-screen d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden"
+  >
+    <div class="gradient gradient-telegram" style="--top: 40%">
+      <div class="wrapper" style="--size: 500px">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+      </div>
+    </div>
+    <div class="form-signin w-100 m-auto">
+      <i
+          id="icon-telegram-auth"
+          class="btn bi bi-telegram btn-gradient btn-telegram border-0 py-1"
+          style="font-size: 72px"
+      ></i>
+      <h1 class="h3 mb-3 header" id="statusAuth" style="font-size: clamp(2rem, 9vw, 4.5rem)">
+        <span class="word">Пытаюсь</span>
+        <span
+            id="text-telegram-auth"
+            class="word text-gradient text-telegram text-telegram-auth"
+        >
+        авторизоваться
+      </span>
+        <span class="word">через телеграм бот</span>
+      </h1>
+
+      {% if not errors %}
+
+        <span id="botConfigPath" class="sub-text">
+          <a class="btn btn-lg btn-dark btn-gradient btn-telegram" href="https://t.me/{{ botConfigPath }}"
+             target="_blank">
+          <span class="bi bi-telegram me-1"></span>
+            {{ botConfigPath }}
+          </a>
+        </span>
+      {% endif %}
+
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script
+      src="/static/scripts/tgInitDataFetch.js"
+      id="authScript"
+      type="module"
+      defer></script>
+
+{% endblock %}
