@@ -147,9 +147,11 @@
       defer
   ></script>
 
-  <script>
-    window.addEventListener('load', () => {
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
       document.body.classList.add('page-loaded');
-    });
-  </script>
+    }, 500);
+  });
+</script>
 {% endblock %}
