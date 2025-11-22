@@ -1,8 +1,9 @@
-{% extends "base.html" %}
-{% block extra_meta %}
-  <meta name="tg-bot-id" content="{{ telegram_bot_id }}">
+{% extends "base.html" %} {% block extra_meta %}
+  <meta name="tg-bot-id" content="{{ telegram_bot_id }}"/>
 {% endblock %}
-{% block title %}Аутентификация через Телеграм виджет{% endblock %}
+{% block title %}
+  Аутентификация через Телеграм виджет
+{% endblock %}
 {% block head_extra %}
   <style>
       .form-signin {
@@ -18,7 +19,6 @@
       .fade-up {
           opacity: 0;
           transform: translateY(40px);
-
       }
 
       .page-loaded .fade-up {
@@ -98,22 +98,13 @@
               padding-inline: 5px !important;
           }
       }
-
   </style>
 {% endblock %}
 {% block content %}
   <section
-      class="
-      full-screen
-      d-flex
-      justify-content-center
-      align-items-center
-      w-100
-      h-100
-      position-relative
-      overflow-x-hidden
-">
-    <div class="gradient gradient-telegram" style="--top: 40%;">
+      class="full-screen d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden"
+  >
+    <div class="gradient gradient-telegram" style="--top: 40%">
       <div class="wrapper" style="--size: 500px">
         <div class="element"></div>
         <div class="element"></div>
@@ -122,48 +113,43 @@
       </div>
     </div>
     <div class="form-signin w-100 m-auto">
-      <i id="icon-telegram-auth"
-         class="btn bi bi-telegram btn-gradient btn-telegram border-0 py-1 fade-up delay-1"
-         style="font-size: 72px;">
-      </i>
-      <h1 class="h3 mb-3 header" style="font-size: clamp(2rem, 9vw, 4.5rem);">
-        <span id="text-telegram-auth" class="word
-        fade-up
-        delay-2
-        text-gradient
-        text-telegram
-        text-telegram-auth">Авторизуйся</span>
+      <i
+          id="icon-telegram-auth"
+          class="btn bi bi-telegram btn-gradient btn-telegram border-0 py-1 fade-up delay-1"
+          style="font-size: 72px"
+      ></i>
+      <h1 class="h3 mb-3 header" style="font-size: clamp(2rem, 9vw, 4.5rem)">
+      <span
+          id="text-telegram-auth"
+          class="word fade-up delay-2 text-gradient text-telegram text-telegram-auth"
+      >
+        Авторизуйся
+      </span>
         <span class="word fade-up delay-3">через</span>
         <span class="word fade-up delay-4">телеграм</span>
       </h1>
 
-      <button id="btn-telegram-auth"
-              class="
-              btn
-      btn-lg
-      btn-dark
-      btn-gradient
-      btn-telegram
-      fade-up
-      delay-5
-">
-        <span class="bi bi-telegram  me-1"></span>
+      <button
+          id="btn-telegram-auth"
+          class="btn btn-lg btn-dark btn-gradient btn-telegram fade-up delay-5"
+      >
+        <span class="bi bi-telegram me-1"></span>
         Войти через Telegram
       </button>
     </div>
   </section>
 {% endblock %}
-
 {% block scripts %}
   <script
       src="/static/scripts/login.js"
       id="authScript"
       type="module"
-      defer></script>
+      defer
+  ></script>
 
   <script>
-    window.addEventListener("load", () => {
-      document.body.classList.add("page-loaded");
+    window.addEventListener('load', () => {
+      document.body.classList.add('page-loaded');
     });
   </script>
 {% endblock %}
