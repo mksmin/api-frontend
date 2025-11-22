@@ -53,11 +53,11 @@
           }
           60% {
               opacity: 1;
-              transform: translateY(-10px); /* прыжок */
+              transform: translateY(-10px);
           }
           80% {
               opacity: 1;
-              transform: translateY(5px); /* маленькая отдача вниз */
+              transform: translateY(5px);
           }
           100% {
               opacity: 1;
@@ -154,6 +154,7 @@
   <script>
     window.addEventListener('load', () => {
       setTimeout(() => {
+        document.body.offsetHeight;
         document.body.classList.add('page-loaded');
       }, 500);
     });
