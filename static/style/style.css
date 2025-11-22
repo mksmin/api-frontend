@@ -39,6 +39,8 @@ html {
     text-size-adjust: 100%;
     scrollbar-gutter: stable;
     overflow-x: hidden;
+    height: 100%;
+    height: -webkit-fill-available;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -50,7 +52,10 @@ html, body {
     height: -webkit-fill-available;
     min-height: 100vh;
     min-height: 100dvh;
+    min-height: 100svh;
     color: var(--base-text-color);
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -58,7 +63,6 @@ body {
     font-weight: 400;
     font-size: var(--main-font-size);
     background-color: var(--bg-color);
-    margin: 0;
     display: flex;
     flex-direction: column;
 }
