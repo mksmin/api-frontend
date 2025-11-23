@@ -54,7 +54,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="backButtonSection">
       <div class="container">
         <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
       </div>
@@ -119,6 +119,8 @@
     };
 
     if (inTelegram) {
+      const sectionBackBtn = document.getElementById("backButtonSection");
+      sectionBackBtn.classList.add("d-none");
       tg.ready();
       tg.MainButton.show();
       tg.MainButton.setParams({
