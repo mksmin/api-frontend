@@ -442,8 +442,6 @@ h1.xxl, .xxl {
     border-radius: 10px;
     padding: 2%;
     margin-block-end: 0.3rem;
-    width: 104%;
-    margin-inline-start: -2%;
 }
 
 .list-section {
@@ -719,6 +717,11 @@ h1.xxl, .xxl {
     color: var(--hint-color);
 }
 
+.bg-color-white {
+    background-color: var(--base-text-color);
+    background-image: none;
+}
+
 .bg-color-error {
     background-color: var(--color-error);
     background-image: none;
@@ -756,4 +759,23 @@ h1.xxl, .xxl {
     #icon-telegram-auth {
         padding-inline: 5px !important;
     }
+}
+
+.btn-back-c-lg {
+    text-align: center;
+    height: 3rem !important;
+    --bs-btn-padding-x: 1rem;
+    align-content: center;
+}
+
+.btn-c-lg {
+    --bs-btn-padding-x: 1rem;
+}
+
+@media (max-width: 767px) {
+    .btn-c-lg {
+        height: 3rem !important;
+        --bs-btn-padding-x: 1.5rem;
+    }
+
 }
