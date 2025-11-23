@@ -711,6 +711,10 @@ h1.xxl, .xxl {
     color: var(--color-warning);
 }
 
+.color-accent {
+    color: var(--accent-text-color);
+}
+
 .color-hint {
     color: var(--hint-color);
 }

@@ -1,28 +1,63 @@
 {% extends "base.html" %}
 {% block title %}Профиль{% endblock %}
 {% import "partials/_macros_blocks.html" as details %}
+{% block head_extra %}
+  <style>
+      .hidden
+  </style>
+{% endblock %}
 
 {% block content %}
   <section class="position-relative overflow-x-hidden py-5 mb-1 mb-sm-3">
     <div class="container">
 
-      <div class="text-center z-1 mb-3 mx-auto"
-      style="width: min(320px, 100%); height: max(320px, 100%);">
-        <img
-            src="{{ user.photo_url }}"
-            id="userAvatar"
-            class="avatar rounded-pill"
-            alt="Аватар"
-            onerror="this.src='/static/media/nonePhoto.png'"
-            style="width: min(320px, 100%); height: auto;"/>
+      <div id="avatarBlock" class="visually-hidden">
+        <div class="text-center z-1 mb-3 mx-auto"
+             style="width: min(320px, 100%); aspect-ratio: 1/1;">
+          <img
+              src="/static/media/nonePhoto.png"
+              id="userAvatar"
+              class="avatar rounded-pill"
+              alt="Аватар"
+              onerror="this.src='/static/media/nonePhoto.png'"
+              style="width: min(320px, 100%); height: auto; pointer-events: none;"/>
+        </div>
       </div>
-      <h1 id="projectName" class="header header-anim header-accent xxl text-center fade-up"
-          style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.first_name }}</h1>
-      <h1 class="header header-anim  text-center fade-up delay-1"
-          style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.last_name }}</h1>
-      <h4 class="header text-center color-hint fade-up delay-2"
-          style="font-size: clamp(1rem, 9vw, 1.5rem); --offset:10px;">
-        @{{ user.username }}</h4>
+      <div id="usernameBlock" class="visually-hidden">
+        <div><h1 id="projectName" class="header header-anim header-accent xxl text-center fade-up"
+                 style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.first_name }}</h1></div>
+        <div><h1 class="header header-anim  text-center fade-up delay-1"
+                 style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.last_name }}</h1></div>
+        <div><h4 class="header text-center color-hint fade-up delay-2"
+                 style="font-size: clamp(1rem, 9vw, 1.5rem); --offset:10px;">
+          @{{ user.username }}</h4></div>
+      </div>
+
+      <div id="placeholderAvatarBlock" class="placeholder-glow row">
+        <div class="col-12 w-100">
+          <div class="placeholder d-block rounded-pill z-1 mb-3 mx-auto"
+               style="
+                                     --max-size: 320px;
+                      width: min(100%, var(--max-size));
+                   aspect-ratio: 1/1;
+">
+          </div>
+        </div>
+        <div>
+          <div class="col-12 text-center">
+            <h1 id="projectName" class="placeholder color-accent col-6 header"
+                style="font-size: clamp(2rem, 9vw, 4rem); ">&nbsp;</h1>
+          </div>
+          <div class="col-12 text-center">
+            <h1 class="placeholder header col-6"
+                style="font-size: clamp(2rem, 9vw, 4rem); ">&nbsp;</h1>
+          </div>
+          <div class="col-12 text-center">
+            <h4 class="placeholder header col-6"
+                style="font-size: clamp(1rem, 9vw, 1rem); ">&nbsp;</h4>
+          </div>
+        </div>
+      </div>
 
       <div class="gradient z-n1" style="--top: 25%;">
         <div class="wrapper" style="--size: 300px">
@@ -63,7 +98,7 @@
         </a>
       </div>
 
-    <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
+      <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
 
     </div>
   </section>
@@ -112,6 +147,20 @@
 
   <script>
     window.addEventListener('load', () => {
+      document.fonts.ready.then(() => {
+        console.log("Все шрифты полностью готовы");
+
+        const ph = document.getElementById('placeholderAvatarBlock');
+        const ab = document.getElementById('avatarBlock');
+        const ub = document.getElementById('usernameBlock');
+
+        ub.classList.remove('visually-hidden');
+        ab.classList.remove('visually-hidden');
+        ph.classList.add('d-none');
+        {#ph.remove()#}
+
+      });
+
       setTimeout(() => {
         document.body.offsetHeight;
         document.body.classList.add('page-loaded');
