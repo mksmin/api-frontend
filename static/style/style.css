@@ -211,55 +211,55 @@ h5.header {
 }
 
 h1.header {
-    font-size: 4.5rem;
+    font-size: clamp(2rem, 9vw, 4.5rem);
     font-variation-settings: "wght" 600;
     margin-bottom: 10px;
 }
 
 h2.header {
-    font-size: 3.4rem;
+    font-size: clamp(3rem, 9vw, 3.4rem);
     font-variation-settings: "wght" 600;
     margin-bottom: 10px;
 }
 
 h3.header {
-    font-size: 2.6rem;
+    font-size: clamp(2rem, 9vw, 2.6rem);
     font-variation-settings: "wght" 500;
     margin-bottom: 10px;
 }
 
 h4.header {
-    font-size: 1.9rem;
+    font-size: clamp(1rem, 9vw, 1.9rem);
     font-variation-settings: "wght" 400;
     margin-bottom: 10px;
 }
 
 h5.header {
-    font-size: 1rem;
+    font-size: clamp(1rem, 9vw, 1rem);
     font-variation-settings: "wght" 400;
     margin-bottom: 10px;
 }
 
 h1.xxl, .xxl {
-    font-size: 6.2rem;
+    font-size: clamp(4.5rem, 9vw, 6.2rem);
     font-variation-settings: "wght" 700 !important;
 }
 
 @media (max-width: 576px) {
     h1.header, .xxl {
-        font-size: 4rem;
+        font-size: clamp(2rem, 9vw, 4.5em);
     }
 
     h2.header {
-        font-size: 3rem;
+        font-size: 3em;
     }
 
     h3.header {
-        font-size: 2rem;
+        font-size: 2em;
     }
 
-    h4.header {
-        font-size: 1rem;
+    h4.header, h5.header, h6.header {
+        font-size: 1.25em;
     }
 
 }
@@ -445,7 +445,6 @@ h1.xxl, .xxl {
 }
 
 .list-section {
-
     display: block;
     border-radius: 10px;
     color: var(--base-text-color);
@@ -494,6 +493,11 @@ h1.xxl, .xxl {
     border-radius: 0 0 10px 10px;
 }
 
+.list-section .item:only-child:hover,
+.list-section .item:only-child:focus-within {
+    border-radius: 10px !important;
+}
+
 @media (max-width: 797px) {
     .container {
         padding: 0 .8rem;
@@ -526,10 +530,19 @@ h1.xxl, .xxl {
 
 .gradient {
     position: absolute;
-    left: 50%;
-    top: var(--top);
+    left: var(--left, 50%);
+    top: var(--top, 50%);
     transform: translate(-50%, -50%);
     z-index: 0;
+}
+
+.glow-layer {
+    position: absolute;
+    left: var(--left, 50%);
+    top: var(--top, 50%);
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    border-radius: 50%;
 }
 
 .wrapper {
@@ -540,6 +553,16 @@ h1.xxl, .xxl {
     transform-origin: center;
     max-width: 90vw;
     aspect-ratio: 1
+}
+
+
+.glow-layer .wrapper {
+    height: var(--size, 220px);
+    width: var(--size, 220px);
+    filter: blur(calc(var(--size, 220px) / 5));
+    animation: gradient-scale-animation 10s linear infinite running;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
 }
 
 .element {
@@ -625,6 +648,48 @@ h1.xxl, .xxl {
 }
 
 
+.glow-layer .element {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    position: absolute;
+    animation: gradient-rotate-animation 8s linear infinite running;
+    opacity: 0.9;
+    mix-blend-mode: screen;
+}
+
+.glow-layer .element:first-child {
+    background: var(--gb-color-1);
+    top: 20%;
+    left: 10%;
+    animation-duration: 9s;
+    transform-origin: right bottom;
+}
+
+.glow-layer .element:nth-child(2) {
+    background: var(--gb-color-2);
+    top: 50%;
+    left: 40%;
+    animation-duration: 11s;
+    transform-origin: top left;
+}
+
+.glow-layer .element:nth-child(3) {
+    background: var(--gb-color-1);
+    top: 10%;
+    left: 40%;
+    animation-duration: 13s;
+    transform-origin: bottom right;
+}
+
+.glow-layer .element:nth-child(4) {
+    background: var(--gb-color-2);
+    bottom: 10%;
+    right: 10%;
+    animation-duration: 7s;
+    transform-origin: center;
+}
+
 .form-signin {
     max-width: 1000px;
     padding: 1rem;
@@ -699,6 +764,10 @@ h1.xxl, .xxl {
 
 .color-telegram {
     color: var(--color-blue);
+}
+
+.text-white, .color-white {
+    color: var(--base-text-color);
 }
 
 .text-error, .color-error {
