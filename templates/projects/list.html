@@ -26,14 +26,16 @@
 {% block content %}
   {% if projects %}
 
-    <div class="glow-layer z-n1" style="--top: 10%; --left: 14%;">
-      <div class="wrapper">
-        <div class="element"></div>
-        <div class="element"></div>
-        <div class="element"></div>
-        <div class="element"></div>
+    <span class="overflow-x-hidden w-100 h-100">
+      <div class="glow-layer z-n1" style="--top: 10%; --left: 14%;">
+        <div class="wrapper">
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+        </div>
       </div>
-    </div>
+    </span>
 
     <section class="mb-1 mb-sm-3">
       <div class="container pt-4 pb-2 px-0">
@@ -44,6 +46,8 @@
                 id="userAvatar"
                 class="avatar rounded-pill"
                 alt="Аватар"
+                width="200"
+                height="200"
                 onerror="this.src='/static/media/nonePhoto.png'"
                 style="width: min(200px, 100%); height: auto; pointer-events: none;"
             />
@@ -58,17 +62,17 @@
       </div>
     </section>
 
-    <section class="my-0 my-md-4">
+    <section class="my-0 my-md-2">
       <div class="container">
         <h4 class="header mt-4 ps-3">Твои проекты</h4>
-        <div class="list-group list-section">
+        <div class="list-section">
           {% for project in projects %}
             <a href="{{ url_for('user-projects:detail', project_uuid=project.uuid) }}" style="text-decoration: none;"
-               class="item list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+               class="item w-100 p-3 border rounded-3 my-1">
               <div class="d-flex gap-2 w-100 justify-content-between">
                 <div>
                   <p class="mb-0">{{ project.title }}</p>
-                  <p class="mb-0 opacity-75">{{ project.description }}</p>
+                  <p class="mb-0 opacity-75 small">{{ project.description }}</p>
                 </div>
                 <small class="opacity-50 text-nowrap"></small>
               </div>
@@ -79,7 +83,7 @@
       </div>
     </section>
 
-    <section class="my-3 my-md-4">
+    <section class="my-3 mb-5 pb-3">
       <div class="container">
         <div class="list-group list-section">
           <a href="/profile" style="text-decoration: none;"

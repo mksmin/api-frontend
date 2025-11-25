@@ -841,6 +841,19 @@ h1.xxl, .xxl {
     --bs-btn-padding-x: 1rem;
 }
 
+.btn-back-c {
+    padding-block: 1rem;
+    border: 1px solid var(--secondary-bg-color);
+    border-radius: 10px;
+
+}
+
+.btn-back-c:hover, .btn-back-c:active {
+    color: var(--accent-text-color) !important;
+    background: var(--third-bg-color) !important;
+    border-color: transparent !important;
+}
+
 @media (max-width: 767px) {
     .btn-c-lg {
         height: 3rem !important;
