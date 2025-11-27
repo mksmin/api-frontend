@@ -270,6 +270,7 @@ h1.xxl, .xxl {
 
 .container .content-text {
     max-width: 1000px;
+    margin-block: 0;
 }
 
 .img-container {
@@ -639,11 +640,10 @@ h1.xxl, .xxl {
 
 @keyframes gradient-rotate-animation {
     0% {
-        transform: rotate(0)
+        transform: rotate(var(--start-rotate, 0deg));
     }
-
     to {
-        transform: rotate(360deg)
+        transform: rotate(calc(var(--start-rotate, 0deg) + 360deg));
     }
 }
 
@@ -653,7 +653,7 @@ h1.xxl, .xxl {
     height: 60%;
     border-radius: 50%;
     position: absolute;
-    animation: gradient-rotate-animation 8s linear infinite running;
+    animation: gradient-rotate-animation 20s linear infinite running;
     opacity: 0.9;
     mix-blend-mode: screen;
 }
