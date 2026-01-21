@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block extra_meta %}
-  <meta name="tg-bot-id" content="{{ telegram_bot_id }}"/>
+{% extends "base.html" %}
+{% block extra_meta %}
 {% endblock %}
 {% block title %}
   Сделканв.рф
@@ -51,7 +51,6 @@
   </section>
 {% endblock %}
 {% block scripts %}
-
   <script>
     window.addEventListener('load', () => {
       setTimeout(() => {
