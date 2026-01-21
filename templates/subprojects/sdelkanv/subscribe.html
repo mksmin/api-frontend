@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block extra_meta %}
+  <meta name="tg-bot-id" content="{{ telegram_bot_id }}"/>
+{% endblock %}
+{% block title %}
+  Сделканв.рф
+{% endblock %}
+{% block head_extra %}
+{% endblock %}
+{% block content %}
+  <section
+      class="full-screen d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden"
+  >
+    <div class="gradient gradient-telegram" style="--top: 40%">
+      <div class="wrapper" style="--size: 500px">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+      </div>
+    </div>
+    <div class="form-signin w-100 m-auto">
+      <a href="https://forms.yandex.ru/u/697073d3d0468883b70bc2cb/" style="text-decoration: None" target="_blank">
+        <i
+          id="icon-telegram-auth"
+          class="btn bi bi-envelope btn-gradient btn-telegram border-0 py-1 fade-up delay-1"
+          style="font-size: 72px"
+      ></i>
+      </a>
+      <h1 class="h3 mb-3 header" style="font-size: clamp(2rem, 9vw, 4.5rem)">
+      <a href="https://forms.yandex.ru/u/697073d3d0468883b70bc2cb/" style="text-decoration: None" target="_blank">
+        <span
+          id="text-telegram-auth"
+          class="word fade-up delay-2 text-gradient text-telegram text-telegram-auth"
+      >
+        Скоро здесь
+      </span>
+      </a>
+        <span class="word fade-up delay-3">будет</span>
+        <span class="word fade-up delay-4">новый сайт</span>
+      </h1>
+
+      <button
+          id="btn-telegram-auth"
+          class="btn btn-lg btn-dark btn-gradient btn-telegram fade-up delay-5"
+          onclick="window.open('https://forms.yandex.ru/u/697073d3d0468883b70bc2cb/', '_blank')"
+      >
+        <span class="bi bi-envelope me-1"></span>
+        Подпишитесь, чтобы узнать о запуске
+      </button>
+    </div>
+  </section>
+{% endblock %}
+{% block scripts %}
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.offsetHeight;
+        document.body.classList.add('page-loaded');
+      }, 300);
+    });
+  </script>
+{% endblock %}
