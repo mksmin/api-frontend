@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Аффирмации{% endblock %}
+{% import "partials/_macros_blocks.html" as details %}
+
+{% block head_extra %}
+{% endblock %}
+
+{% block content %}
+  <span class="overflow-x-hidden w-100 h-100">
+      <div class="glow-layer z-n1" style="--top: 10%; --left: 14%;">
+        <div class="wrapper">
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+          <div class="element"></div>
+        </div>
+      </div>
+    </span>
+
+  <section class="mb-1 mb-sm-3">
+    <div class="container pt-4 pb-2 px-0">
+      <div class="row w-100 mx-auto">
+        <div class="col-12 col-lg-3 align-self-center text-center">
+          <img
+              src="/static/media/nonePhoto.png"
+              id="userAvatar"
+              class="avatar rounded-pill"
+              alt="Аватар"
+              width="200"
+              height="200"
+              onerror="this.src='/static/media/nonePhoto.png'"
+              style="width: min(200px, 100%); height: auto; pointer-events: none;"
+          />
+        </div>
+        <div class="col-12 col-lg-9 text-center text-lg-start align-self-center  pt-4 py-lg-3 ">
+          <h1 id="projectName" class="header header-anim header-accent"
+              style=" overflow-wrap: anywhere;">
+            {#            {{ user.first_name }} #}
+            ТВОИ
+            <span class="header header-anim color-white">
+{#              {{ user.last_name }}#}
+              аффирмации
+            </span>
+          </h1>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="my-0 my-md-2">
+    <div class="container px-0">
+      <div class="list-section">
+        {% for affirmation in affirmations %}
+          <a
+              class="item d-flex w-100 p-3 m-0 border-bottom rounded text-decoration-none align-items-center"
+              data-id="{{ affirmation.id }}"
+              data-date="{{ affirmation.created_at }}"
+          >
+            <div class="flex-grow-1">
+              <div
+                  style="
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      "
+              >
+                <p class="mb-1">{{ affirmation.text_task }}</p>
+              </div>
+
+              <div class="d-flex gap-2">
+{#                <p class="mb-0 opacity-75 small">{{ affirmation.id }}</p>#}
+                <small class="opacity-50 text-nowrap">
+                </small>
+              </div>
+
+            </div>
+
+            <i
+                class="bi bi-caret-right-fill ms-3 flex-shrink-0"
+                style="font-size: 1rem;"
+            ></i>
+          </a>
+
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
