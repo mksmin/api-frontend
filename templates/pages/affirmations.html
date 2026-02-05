@@ -1,165 +1,289 @@
-{% extends "main.html" %}
+{% extends "base.html" %}
 {% block title %}Аффирмации{% endblock %}
-
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block head_extra %}
-  <link rel="stylesheet" href="/static/style/affirmations.css?v=1.0.0">
-{% endblock %}
-{% block extraBlocksTop %}
-  {% for msg in get_flashed_messages(request) %}
-    {% with
-    status_text=msg.message,
-    status_block_id="statusBlock",
-    status_type="status-" ~ msg.category,
-    status_timeout=True,
-    visible=True %}
-      {% include "components/status_block.html" %}
-    {% endwith %}
-  {% endfor %}
-  {% with
-  status_text="Something text",
-  status_block_id="statusSettings",
-  status_type="status-info",
-  status_timeout=False %}
-    {% include "components/status_block.html" %}
-  {% endwith %}
-  {% include "components/general_modal.html" %}
+  <link rel="stylesheet" href="/static/style/affirmations.css">
 {% endblock %}
 {% block content %}
-  <div class="inner-container">
-    <div id="profileSection" class="profile-section">
-      {% if user %}
-        {% include "components/user_info.html" %}
-        {% if settings %}
-          <div id="settings">
-            {{ details.title_h4("Настройки") }}
-            {% call details.detail_card_call("Ежедневная отправка", oneline=True) %}
-              <div class="form-check form-switch">
-                <input
-                    class="form-check-input shadow-none"
-                    type="checkbox"
-                    role="switch"
-                    id="switchSendingChecked"
-                    {% if settings.send_enable %}
-                    checked
-                    {% endif %}
-                >
-              </div>
-            {% endcall %}
-            {% call details.detail_card_call("Количество аффирмаций в день", oneline=True) %}
-              <span data-bs-toggle="modal"
-                    data-bs-target="#affirmations-change-count">
-         <span class="me-2">{{ settings.count_tasks }}</span>
-         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-              role="img">
-          <path
-              d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
-        </svg>
-         </span>
+  {% include "components/general_modal.html" %}
 
-              <div class="modal fade" id="affirmations-change-count" tabindex="-1"
-                   aria-labelledby="affirmations-modal-count-label" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content modal-custom">
-
-                    <div class="modal-body">
-                      <div class="row align-items-center text-start justify-content-between">
-                        <div class="col-7 col-sm-7">
-                          Выбери количество отправляемых аффирмаций в день
-                        </div>
-                        <div class="col-3 col-sm-3">
-                          <select class="form-select" id="countTasks" name="count_tasks">
-                            {% for i in range(1, 6) %}
-                              <option value="{{ i }}" {% if i == settings.count_tasks %}
-                                      selected {% endif %}>{{ i }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
-                      </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-                      <button type="button" class="btn btn-success" id="saveCountTasksButton" disabled>Сохранить
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endcall %}
-
-            {% call details.detail_card_call("Время отправки (мск)", oneline=True) %}
-              <span data-bs-toggle="modal"
-                    data-bs-target="#affirmations-change-time-sending">
-         <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
-         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
-              role="img">
-          <path
-              d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
-        </svg>
-         </span>
-
-              <div class="modal fade" id="affirmations-change-time-sending" tabindex="-1"
-                   aria-labelledby="affirmations-modal-label" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content modal-custom">
-                    <div class="modal-body text-center">
-                      <div class="row align-items-center text-start justify-content-between">
-                        <div class="col-7 col-sm-7">
-                          Выбери время отправки аффирмаций
-                          <div>(по Москве)</div>
-                        </div>
-                        <div class="col-4 col-sm-4">
-                          <input id="affirmation-time"
-                                 type="time"
-                                 class="form-control"
-                                 name="send_time"
-                                 step="60"
-                                 value="{{ settings.send_time }}"
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
-                      <button type="button" class="btn btn-success" id="saveTimeButton" disabled>Сохранить</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endcall %}
-          </div>
-        {% endif %}
-      {% endif %}
+  <div
+      class="
+      toast-container
+      position-fixed
+      top-0 start-50 p-3
+      translate-middle-x">
+    <div
+        id="liveToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+      </div>
     </div>
   </div>
 
-  {% if user %}
-    <div class="inner-container" id="container-affirm">
-      <div class="details-grid">
-        {% if affirmations %}
-          {{ details.title_h4("Твои аффирмации", accent=True) }}
-          <div id="affirm-container">
-            {% for affirmation in affirmations %}
-              <div class="text-section text-link show" data-id="{{ affirmation.id }}">
-                <div class="text-title">
-                  <div class="detail-title">{{ affirmation.text_task }}</div>
-                  <div class="detail-info" style="padding-left: 5px">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none"
-                         viewBox="0 0 7 12"
-                         class="p_ZQ v61B">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m1 1 5 5-5 5"/>
-                    </svg>
-                  </div>
+  <div
+      class="modal fade"
+      id="affirmations-change-count"
+      tabindex="-1"
+      aria-labelledby="affirmations-modal-count-label"
+      aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-custom">
+        <div class="modal-body">
+          <div class="row align-items-center text-start justify-content-between">
+            <div class="col-7 col-sm-7">
+              Выбери количество отправляемых аффирмаций в день
+            </div>
+            <div class="col-3 col-sm-3">
+              <select class="form-select" id="countTasks" name="count_tasks">
+                {% for i in range(1, 6) %}
+                  <option value="{{ i }}"
+                      {% if i == settings.count_tasks %}
+                          selected
+                      {% endif %}
+                  >{{ i }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+          <button type="button" class="btn btn-success" id="saveCountTasksButton" disabled>Сохранить
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+      class="modal fade"
+      id="affirmations-change-time-sending"
+      tabindex="-1"
+      aria-labelledby="affirmations-modal-label"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-custom">
+        <div class="modal-body text-center">
+          <div class="row align-items-center text-start justify-content-between">
+            <div class="col-7 col-sm-7">
+              Выбери время отправки аффирмаций
+              <div>(по Москве)</div>
+            </div>
+            <div class="col-4 col-sm-4">
+              <input id="affirmation-time"
+                     type="time"
+                     class="form-control"
+                     name="send_time"
+                     step="60"
+                     value="{{ settings.send_time }}"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Закрыть</button>
+          <button type="button" class="btn btn-success" id="saveTimeButton" disabled>Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="overflow-x-hidden w-100 h-100">
+    <div class="glow-layer z-n1" style="--top: 10%; --left: 14%;">
+      <div class="wrapper">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="mb-1 mb-sm-3" id="profileSection">
+    <div class="container pt-4 pb-2 px-0">
+      <div class="row w-100 mx-auto">
+        <div class="col-12 col-lg-3 align-self-center text-center">
+          <img
+              src="/static/media/nonePhoto.png"
+              id="userAvatar"
+              class="avatar rounded-pill"
+              alt="Аватар"
+              width="200"
+              height="200"
+              onerror="this.src='/static/media/nonePhoto.png'"
+              style="width: min(200px, 100%); height: auto; pointer-events: none;"
+          />
+        </div>
+        <div class="col-12 col-lg-9 text-center text-lg-start align-self-center  pt-4 py-lg-3 ">
+          <h1 id="projectName" class="header header-anim header-accent"
+              style=" overflow-wrap: anywhere;">
+            ТВОИ
+            <span class="header header-anim color-white">
+            аффирмации
+            </span>
+          </h1>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <section class="my-3 mb-5 pb-3" id="settings">
+    <div class="container px-2">
+      <div class="list-group list-section py-5">
+        <a href="/profile" style="text-decoration: none;"
+           class="item list-group-item list-group-item-action
+             d-flex justify-content-between
+             align-items-center">
+            <span>
+              <img src="/static/media/nonePhoto.png" alt=""
+                   onerror="this.src='/static/media/nonePhoto.png'"
+                   width="32"
+                   height="32"
+                   class="rounded-circle me-2 flex-shrink-0">
+              <span>
+                Профиль
+              </span>
+            </span>
+          <i class="bi bi-caret-right-fill align-self-center"></i>
+        </a>
+      </div>
+
+      <h4 class="header mt-4 ps-3">Настройки</h4>
+      <div class="list-group list-section">
+
+        <div class="item list-group-item justify-content-between">
+        <span>
+              <img src="/static/media/nonePhoto.png" alt=""
+                   onerror="this.src='/static/media/nonePhoto.png'"
+                   width="32"
+                   height="32"
+                   class="rounded-circle me-2 flex-shrink-0">
+              <span>
+                Ежедневная отправка
+              </span>
+            </span>
+          <div class="form-check form-switch">
+            <input
+                class="form-check-input shadow-none"
+                type="checkbox"
+                role="switch"
+                id="switchSendingChecked"
+                {% if settings.send_enable %}
+                checked
+                {% endif %}
+            >
+          </div>
+        </div>
+
+        <a
+            class="item list-group-item justify-content-between align-items-center"
+            data-bs-toggle="modal"
+            data-bs-target="#affirmations-change-count"
+            data-current-count="{{ settings.count_tasks }}"
+        >
+          <span>
+            <img src="/static/media/nonePhoto.png" alt=""
+                 onerror="this.src='/static/media/nonePhoto.png'"
+                 width="32"
+                 height="32"
+                 class="rounded-circle me-2 flex-shrink-0">
+            <span>
+              Количество аффирмаций в день
+            </span>
+          </span>
+          <span>
+            <span class="me-2" id="currentCountTasks">{{ settings.count_tasks }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                 role="img">
+              <path
+                  d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
+            </svg>
+          </span>
+        </a>
+
+
+        <a
+            class="item list-group-item justify-content-between"
+            data-bs-toggle="modal"
+            data-bs-target="#affirmations-change-time-sending"
+        >
+        <span>
+          <img src="/static/media/nonePhoto.png" alt=""
+               onerror="this.src='/static/media/nonePhoto.png'"
+               width="32"
+               height="32"
+               class="rounded-circle me-2 flex-shrink-0">
+          <span>
+            Время отправки
+          </span>
+        </span>
+          <div class="">
+            <span>
+              <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                   role="img">
+                <path
+                    d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="my-0 my-md-2" id="container-affirm">
+    <div class="container px-2">
+      <div id="affirm-container"
+           class="list-section row g-3"
+           data-masonry='{"percentPosition": true }'
+      >
+        {% for affirmation in affirmations %}
+          <div
+              class="col-12 col-md-6 my-1"
+              style="cursor: pointer"
+              data-ui="affirmation-item"
+              data-id="{{ affirmation.id }}"
+              data-date="{{ affirmation.created_at }}"
+          >
+            <div
+                class="item d-flex w-100 p-3 my-0
+                border rounded-4 text-decoration-none align-items-center"
+            >
+              <div class="flex-grow-1">
+                <p class="mb-0 affirm-title" data-item-text>{{ affirmation.text_task }}</p>
+                <div class="d-flex gap-2">
+                  <p class="mb-0 opacity-75 small"></p>
+                  <small class="opacity-50 text-nowrap"></small>
                 </div>
               </div>
-            {% endfor %}
+
+              <i class="bi bi-caret-right-fill ms-3 flex-shrink-0"></i>
+            </div>
           </div>
-          <div class="d-grid gap-2">
+        {% endfor %}
+      </div>
+
+      <div class="d-grid gap-2 mb-4">
             <span
                 id="endAffirmationsBtn"
                 class="
@@ -173,57 +297,37 @@
                     d-none"
                 style="font-size: 1rem;"
             >Кажется, что это все</span>
-            <button
-                type="button"
-                id="loadAffirmationsBtn"
-                class="
-                    btn
-                    btn-primary
-                    btn-lg"
-                style="font-size: 1rem;"
-            >Загрузить аффирмации
-            </button>
-          </div>
-
-        {% elif error %}
-          <div class="text-section">
-            <p style="text-align: center;">
-              Ошибка: {{ error }}
-            </p>
-          </div>
-
-        {% else %}
-          <div class="text-section">
-            <p style="text-align: center;">
-              Кажется, что у тебя еще нет аффирмаций.
-            </p>
-          </div>
-        {% endif %}
-
+        <button
+            type="button"
+            id="loadAffirmationsBtn"
+            class="btn btn-lg btn-dark btn-gradient btn-telegram w-100"
+            style="font-size: 1rem;"
+        >Загрузить аффирмации
+        </button>
       </div>
     </div>
-  {% endif %}
+  </section>
 
-  <!-- Подробная информация -->
-  <div class="inner-container" id="affirmation" style="display: none;">
-    <div id="affirmDetail">
-      <div class="d-grid">
-        <figure id="affirmQuote">
-          <blockquote
-              class="blockquote p-3 fs-3"
-              id="affirmQuoteText"
-              style="white-space: break-spaces;">
-          </blockquote>
-          <figcaption class="blockquote-footer d-none">
-            Someone famous in <cite title="Source Title">Source Title</cite>
-          </figcaption>
-        </figure>
-      </div>
+  <section class="my-0 my-md-2 d-none" id="affirmation">
+    <div class="container px-2">
+      <div id="affirmDetail">
+        <div class="d-grid">
+          <figure id="affirmQuote">
+            <blockquote
+                class="blockquote p-3 fs-3"
+                id="affirmQuoteText"
+                style="white-space: break-spaces;">
+            </blockquote>
+            <figcaption class="blockquote-footer d-none">
+              Someone famous in <cite title="Source Title">Source Title</cite>
+            </figcaption>
+          </figure>
+        </div>
 
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <div class="detail-info flex-fill ps-0 ms-0" id="affirmationId"></div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <div class="detail-info flex-fill ps-0 ms-0" id="affirmationId"></div>
 
-        <button class="btn btn-c-lg btn-primary" id="edit-btn">
+          <button class="btn btn-c-lg btn-primary" id="edit-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30"
                          fill="currentColor">
@@ -231,10 +335,10 @@
                             d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
                     </svg>
                 </span>
-          Редактировать
-        </button>
+            Редактировать
+          </button>
 
-        <button class="btn btn-c-lg btn-outline-danger" id="delete-btn">
+          <button class="btn btn-c-lg btn-outline-danger" id="delete-btn">
                 <span class="buttonIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24"
                          fill="currentColor">
@@ -242,47 +346,43 @@
                             d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
                     </svg>
                 </span>
-          Удалить
-        </button>
-      </div>
-    </div>
-
-    <!-- Блок для редактирования -->
-    <div class="d-none" id="editAffirmForm">
-      <div class="mb-3">
-        <label for="editAffirmArea"
-               id="labelAffirmArea"
-               class="
-        px-3
-        pt-3
-        fs-6
-        form-label
-        text-secondary
-">Редактировать аффирмацию</label>
-        <textarea
-            id="editAffirmArea"
-            class="form-control"
-            rows="3"
-            maxlength="500"
-        ></textarea>
-        <div id="validationClientEditForm"
-             class="form-text text-end">
-          /500 символов
+            Удалить
+          </button>
         </div>
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-c-lg btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
-        <button class="btn btn-c-lg btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
-      </div>
-    </div>
-    <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
-  </div>
 
+      <!-- Блок для редактирования -->
+      <div class="d-none" id="editAffirmForm">
+        <div class="mb-3">
+          <label for="editAffirmArea"
+                 id="labelAffirmArea"
+                 class="px-3 pt-3 fs-6 form-labeltext-secondary">
+            Редактировать аффирмацию
+          </label>
+          <textarea
+              id="editAffirmArea"
+              class="form-control"
+              rows="3"
+              maxlength="500"
+          ></textarea>
+          <div id="validationClientEditForm"
+               class="form-text text-end">
+            /500 символов
+          </div>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-c-lg btn-success " id="confirmEdit" type="button" disabled>Сохранить</button>
+          <button class="btn btn-c-lg btn-outline-secondary" id="cancelEdit" type="button">Отменить</button>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
+    </div>
+  </section>
 
 {% endblock %}
 
 {% block scripts %}
-  {% if user %}
-    <script type="module" src="/static/scripts/affirm.js?v=1.1.1" defer></script>
-  {% endif %}
+  <script src="/static/scripts/masonry.pkgd.min.js" defer></script>
+  <script type="module" src="/static/scripts/affirm.js?v=1.1.1" defer></script>
 {% endblock %}
