@@ -68,6 +68,12 @@ export class DOMUtils {
       });
     }
 
+    if (options.style) {
+      Object.entries(options.style).forEach(([key, value]) => {
+        element.style[key] = value;
+      });
+    }
+
     return element;
   };
 

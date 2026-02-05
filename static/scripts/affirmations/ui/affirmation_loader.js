@@ -195,6 +195,9 @@ export class AffirmationLoader {
           id: affirmation.id?.toString(),
           ui: 'affirmation-item',
         },
+        style: {
+          cursor: 'pointer',
+        },
         innerHTML: `
         <div
                 class="item d-flex w-100 p-3 my-0
