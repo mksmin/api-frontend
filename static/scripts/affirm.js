@@ -13,9 +13,9 @@ class AffirmationApp {
 
   init() {
     try {
+      this.components.settingsManager = new SettingsManager();
       this.components.affirmationDetail = new AffirmationDetail(this.telegramService);
       this.components.affirmationLoader = new AffirmationLoader();
-      this.components.settingsManager = new SettingsManager();
 
       console.log('✅ Affirmation App initialized successfully');
     } catch (error) {

@@ -17,8 +17,8 @@ export class AffirmationDetail {
 
   init() {
     this.attachEventListeners();
+    this.status = new StatusIndicator('liveToast')
     this.generalModal = new GeneralModalManager();
-    this.status = new StatusIndicator('statusBlockGeneralDiv')
   };
 
   load_elements() {
@@ -43,7 +43,7 @@ export class AffirmationDetail {
   };
 
   async handleClick(e) {
-    const section = e.target.closest('.text-section.text-link');
+    const section = e.target.closest('[data-ui="affirmation-item"]');
     const closeAffirmation = e.target.closest('#closeAffirmation')
     const deleteAffirmationButton = e.target.closest('#delete-btn')
     const editAffirmationButton = e.target.closest('#edit-btn')
@@ -84,15 +84,14 @@ export class AffirmationDetail {
     this.selectedAffirmationId = section.dataset.id;
 
     DOMUtils.addClass(this.elements.mainContainer, 'hidden-container');
-    await DOMUtils.waitForTransition(this.elements.mainContainer)
-
     DOMUtils.setDisplay(this.elements.detailContainer, 'block')
     DOMUtils.addClass(this.elements.mainContainer, 'd-none')
     DOMUtils.addClass(this.elements.detailContainer, 'visible');
+    DOMUtils.removeClass(this.elements.detailContainer, 'd-none');
     DOMUtils.addClass(this.elements.settingsAffirmation, 'd-none')
     DOMUtils.addClass(this.elements.profileSection, 'd-none')
 
-    this.elements.affirmQuoteText.textContent = section.querySelector('.detail-title')?.textContent || '';
+    this.elements.affirmQuoteText.textContent = section.querySelector('[data-item-text]')?.textContent || '';
     this.elements.affirmationId.textContent = `ID: ${this.selectedAffirmationId}`;
 
     this.setupBackButton();
@@ -100,9 +99,9 @@ export class AffirmationDetail {
 
   async closeAffirmation() {
     this.removeBackButton()
-    DOMUtils.removeClass(this.elements.detailContainer, 'visible')
-    await DOMUtils.waitForTransition(this.elements.detailContainer)
 
+    DOMUtils.addClass(this.elements.detailContainer, 'd-none');
+    DOMUtils.removeClass(this.elements.detailContainer, 'visible')
     DOMUtils.removeClass(this.elements.mainContainer, 'd-none', 'hidden-container')
     DOMUtils.setDisplay(this.elements.detailContainer, 'none')
     DOMUtils.scrollTo(0, this.savedScrollY);
@@ -110,7 +109,7 @@ export class AffirmationDetail {
     DOMUtils.removeClass(this.elements.profileSection, 'd-none')
 
     this.closeEditAffirmForm();
-
+    document.dispatchEvent(new CustomEvent('masonry:relayout'));
   };
 
   openEditAffirmForm() {
@@ -235,11 +234,10 @@ export class AffirmationDetail {
   async confirmEdit(id, text) {
     try {
       const response = await ApiService.updateAffirmation(id, text);
-      console.log('Updated: ', id, response.ok);
 
       if (this.selectedAffirmationId === id) {
         this.elements.affirmQuoteText.textContent = text;
-        this.selectedAffirmationElement.querySelector('.detail-title').textContent = text;
+        this.selectedAffirmationElement.querySelector('p.affirm-title').textContent = text;
       }
 
       if (response.ok) {
@@ -248,13 +246,11 @@ export class AffirmationDetail {
 
     } catch (error) {
       console.error('Updating error:', error);
-      this.status.show('error', `Ошибка при обновлении аффирмации: ${error.message || error}`)
+      this.status.show("warning", `Ошибка при обновлении аффирмации: ${error.message || error}`)
     } finally {
       this.closeEditAffirmForm();
     }
   };
-
-
 }
 
 
