@@ -7,7 +7,7 @@ export class SettingsManager {
   constructor() {
     this.statusTimer = null;
     this.init();
-    this.status = new StatusIndicator("statusBlockGeneralDiv");
+    this.status = new StatusIndicator("liveToast");
   }
 
   init() {
@@ -28,7 +28,9 @@ export class SettingsManager {
     const switchEl = DOMUtils.getById('switchSendingChecked');
     if (!switchEl) return;
 
-    switchEl.addEventListener('change', async (e) => {
+    switchEl.addEventListener(
+      'change',
+      async (e) => {
       await this.handleToggleChange(e);
     });
   }
@@ -53,13 +55,24 @@ export class SettingsManager {
   setupCountTasksModal() {
     const selectEl = DOMUtils.getById('countTasks')
     const saveBtn = DOMUtils.getById('saveCountTasksButton');
-    const modalEl = document.getElementById('affirmations-change-count');
-    const currentDisplay = document.querySelector('[data-bs-target="#affirmations-change-count"] span');
+    const modalEl = DOMUtils.getById('affirmations-change-count');
+    const currentDisplay = DOMUtils.getById('currentCountTasks');
 
     if (!selectEl || !saveBtn || !modalEl) return;
 
-    let newValue = selectEl.value;
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // eslint-disable-line no-undef
+    let newValue = null;
+
+    modalEl.addEventListener(
+      'show.bs.modal',
+      (event) => {
+        const trigger = event.relatedTarget;
+        const current = trigger?.dataset.currentCount;
+
+        selectEl.value = current;
+        newValue = current;
+        saveBtn.disabled = true;
+      }
+    );
 
     selectEl.addEventListener(
       'change',
@@ -72,19 +85,13 @@ export class SettingsManager {
     saveBtn.addEventListener(
       'click',
       async () => {
+        const modal = bootstrap.Modal.getInstance(modalEl);
         await this.saveCountTasks(
           saveBtn,
           newValue,
           currentDisplay,
-          modal
+          modal,
         );
-      }
-    );
-
-    modalEl.addEventListener(
-      'hidden.bs.modal',
-      () => {
-        selectEl.value = currentDisplay?.textContent || selectEl.value;
       }
     );
   };
@@ -102,6 +109,11 @@ export class SettingsManager {
       await ApiService.updateSettings({count_tasks: parseInt(newValue)})
       if (currentDisplay) {
         currentDisplay.textContent = newValue;
+
+        const parentItem = currentDisplay.closest('[data-current-count]');
+        if (parentItem) {
+          parentItem.dataset.currentCount = newValue;
+        }
       }
 
       this.status.show('success', 'Настройки сохранены')

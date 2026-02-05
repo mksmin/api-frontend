@@ -17,8 +17,10 @@ export class AffirmationDetail {
 
   init() {
     this.attachEventListeners();
-    this.generalModal = new GeneralModalManager();
-    this.status = new StatusIndicator('statusBlockGeneralDiv')
+    // this.generalModal = new GeneralModalManager();
+    // this.generalModal = null;
+    // this.status = new StatusIndicator('statusBlockGeneralDiv')
+    this.status = null;
   };
 
   load_elements() {
@@ -43,7 +45,7 @@ export class AffirmationDetail {
   };
 
   async handleClick(e) {
-    const section = e.target.closest('.text-section.text-link');
+    const section = e.target.closest('[data-ui="affirmation-item"]');
     const closeAffirmation = e.target.closest('#closeAffirmation')
     const deleteAffirmationButton = e.target.closest('#delete-btn')
     const editAffirmationButton = e.target.closest('#edit-btn')
@@ -84,15 +86,16 @@ export class AffirmationDetail {
     this.selectedAffirmationId = section.dataset.id;
 
     DOMUtils.addClass(this.elements.mainContainer, 'hidden-container');
-    await DOMUtils.waitForTransition(this.elements.mainContainer)
+    // await DOMUtils.waitForTransition(this.elements.mainContainer)
 
     DOMUtils.setDisplay(this.elements.detailContainer, 'block')
     DOMUtils.addClass(this.elements.mainContainer, 'd-none')
     DOMUtils.addClass(this.elements.detailContainer, 'visible');
+    DOMUtils.removeClass(this.elements.detailContainer, 'd-none');
     DOMUtils.addClass(this.elements.settingsAffirmation, 'd-none')
     DOMUtils.addClass(this.elements.profileSection, 'd-none')
 
-    this.elements.affirmQuoteText.textContent = section.querySelector('.detail-title')?.textContent || '';
+    this.elements.affirmQuoteText.textContent = section.querySelector('[data-item-text]')?.textContent || '';
     this.elements.affirmationId.textContent = `ID: ${this.selectedAffirmationId}`;
 
     this.setupBackButton();
@@ -100,8 +103,9 @@ export class AffirmationDetail {
 
   async closeAffirmation() {
     this.removeBackButton()
+    DOMUtils.addClass(this.elements.detailContainer, 'd-none');
     DOMUtils.removeClass(this.elements.detailContainer, 'visible')
-    await DOMUtils.waitForTransition(this.elements.detailContainer)
+    // await DOMUtils.waitForTransition(this.elements.detailContainer)
 
     DOMUtils.removeClass(this.elements.mainContainer, 'd-none', 'hidden-container')
     DOMUtils.setDisplay(this.elements.detailContainer, 'none')
@@ -201,20 +205,20 @@ export class AffirmationDetail {
 
 
   openDeletePopup() {
-    this.generalModal.show({
-      title: `Удалить аффирмацию (ID: ${this.selectedAffirmationId})?`,
-      confirmBtn: {
-        text: 'Да, удалить',
-        styleClasses: ['btn', 'btn-outline-danger', 'btn-c-lg'],
-        disabled: false,
-        onClick: async () => this.confirmDeletion(),
-      },
-      cancelBtn: {
-        text: 'Не удалять',
-        styleClasses: ['btn', 'btn-outline-secondary', 'btn-c-lg'],
-        disabled: false,
-      },
-    })
+    // this.generalModal.show({
+    //   title: `Удалить аффирмацию (ID: ${this.selectedAffirmationId})?`,
+    //   confirmBtn: {
+    //     text: 'Да, удалить',
+    //     styleClasses: ['btn', 'btn-outline-danger', 'btn-c-lg'],
+    //     disabled: false,
+    //     onClick: async () => this.confirmDeletion(),
+    //   },
+    //   cancelBtn: {
+    //     text: 'Не удалять',
+    //     styleClasses: ['btn', 'btn-outline-secondary', 'btn-c-lg'],
+    //     disabled: false,
+    //   },
+    // })
   }
 
 

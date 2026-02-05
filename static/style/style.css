@@ -37,8 +37,6 @@
 html {
     font-size: var(--main-font-size);
     text-size-adjust: 100%;
-    scrollbar-gutter: stable;
-    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -59,6 +57,8 @@ body {
     background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+
 }
 
 @media (max-width: 767px) {
@@ -453,7 +453,7 @@ h1.xxl, .xxl {
 }
 
 .list-section .item {
-    background: transparent;
+    background: var(--bg-color);
     display: flex;
     max-width: 100%;
     align-items: center;
@@ -462,6 +462,10 @@ h1.xxl, .xxl {
     padding: 1rem;
     color: var(--base-text-color);
     transition: all 0.2s ease-in-out;
+}
+
+.list-section .item.transparent {
+    background: transparent;
 }
 
 .list-section .item .bi {

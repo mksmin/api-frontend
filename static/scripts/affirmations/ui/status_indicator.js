@@ -1,6 +1,9 @@
 import {DOMUtils} from "../utils/dom.js";
 
 export class StatusIndicator {
+  /**
+   * @param {string|HTMLElement} selectorOrElement - элемент или его ID
+   */
   constructor(selectorOrElement) {
     this.el = DOMUtils.getById(selectorOrElement)
 
@@ -9,34 +12,40 @@ export class StatusIndicator {
       return;
     }
 
-    this.child = this.el.querySelector('.status-indicator')
-    if (!this.child) {
-      console.error(".status-indicator not found")
+    this.body = this.el.querySelector(
+      '.toast-body',
+    );
+
+    if (!this.body) {
+      console.error("StatusIndicator: .toast-body not found")
       return;
     }
 
-    this.collapseList = bootstrap.Collapse.getOrCreateInstance(this.el, {
-      toggle: false
-    })
-
-
-    if (!this.el) {
-      console.error(`StatusIndicator: element not found: ${selectorOrElement}`);
-      return;
-    }
+    this.toast = bootstrap.Toast.getOrCreateInstance(
+      this.el,
+      {
+        autohide: false
+      });
   };
 
+  /**
+   * Показать тост
+   * @param {'success'|'info'|'warning'|'danger'} type - тип (цвет)
+   * @param {string} text - текст тоста
+   * @param {number} duration - время отображения в мс
+   * @param {boolean} autoHide - автоматически скрывать
+   */
   show(
     type = 'info',
-    text = this.child.textContent,
+    text = '',
     duration = 5000,
     autoHide = true
   ) {
     if (!this.el) return;
-    this.child.textContent = text;
-    this.child.classList = [`status-indicator status-${type}`]
 
-    this.collapseList.show()
+    this.body.textContent = text;
+    this.el.className = `toast align-items-center text-bg-${type} border-0`;
+    this.toast.show();
 
     if (autoHide) {
       clearTimeout(this.el._timer);
@@ -48,10 +57,7 @@ export class StatusIndicator {
 
   hide() {
     if (!this.el) return;
-    this.collapseList.hide()
-    this.el.addEventListener('hidden.bs.collapse', event => {
-      this.child.classList = ['status-indicator status-info']
-    })
+    this.toast.hide();
     clearTimeout(this.el._timer);
   };
 

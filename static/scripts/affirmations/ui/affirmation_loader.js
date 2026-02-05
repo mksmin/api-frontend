@@ -11,6 +11,7 @@ export class AffirmationLoader {
     this.allLoaded = false;
     this.loadedIds = new Set();
     this.observer = null;
+    this.msnry = null;
 
     this.buttonLoad = DOMUtils.getById('loadAffirmationsBtn');
     this.container = DOMUtils.getById('affirm-container');
@@ -25,10 +26,31 @@ export class AffirmationLoader {
       return;
     }
     this.initializeExistingItems();
+    this.initMasonry();
     this.setupObserver();
     this.attachEventListeners();
     this.initialLoad();
   }
+
+  initMasonry() {
+    const grid = document.querySelector('.row.g-3');
+    if (!grid || !window.Masonry) return;
+
+    this.msnry = new Masonry(grid, {
+      itemSelector: '.col-12.col-md-6',
+      percentPosition: true,
+      transitionDuration: '.2s',
+    });
+
+    window.addEventListener('load', () => {
+      this.msnry.layout();
+    });
+
+    window.addEventListener(
+      'resize',
+      debounce(() => this.msnry?.layout(), 150)
+    );
+  };
 
   initializeExistingItems() {
     const existing = DOMUtils.queryAll('#affirm-container .text-section[data-id]')
@@ -136,6 +158,8 @@ export class AffirmationLoader {
   };
 
   renderAffirmations(affirmations) {
+    const newElements = [];
+
     affirmations.forEach((affirmation, index) => {
       const id = affirmation.id?.toString();
 
@@ -144,6 +168,7 @@ export class AffirmationLoader {
 
       const element = this.createAffirmationElement(affirmation);
       this.container.appendChild(element);
+      newElements.push(element)
 
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -153,22 +178,39 @@ export class AffirmationLoader {
         });
       }, index * CONFIG.ANIMATION.CASCADE_DELAY);
     });
+
+    if (this.msnry && newElements.length) {
+      this.msnry.appended(newElements);
+      this.msnry.layout();
+    }
+
   };
 
   createAffirmationElement(affirmation) {
     const element = DOMUtils.createElement(
       'div',
       {
-        classes: ['text-section', 'text-link'],
-        dataset: {id: affirmation.id?.toString()},
+        classes: ['col-12', 'col-md-6', 'my-1'],
+        dataset: {
+          id: affirmation.id?.toString(),
+          ui: 'affirmation-item',
+        },
         innerHTML: `
-        <div class="text-title">
-          <div class="detail-title">${escapeHtml(affirmation.text_task || '')}</div>
-          <div class="detail-info" style="padding-left:5px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" fill="none" viewBox="0 0 7 12" class="p_ZQ v61B">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5 5-5 5"/>
-            </svg>
+        <div
+                class="item d-flex w-100 p-3 my-0
+                border rounded-4 text-decoration-none align-items-center"
+        >
+          <div class="flex-grow-1">
+            <div>
+              <p class="mb-1" data-item-text>${escapeHtml(affirmation.text_task || '')}</p>
+            </div>
+            <div class="d-flex gap-2">
+              <p class="mb-0 opacity-75 small"></p>
+              <small class="opacity-50 text-nowrap"></small>
+            </div>
           </div>
+
+          <i class="bi bi-caret-right-fill ms-3 flex-shrink-0"></i>
         </div>
       `,
       });
