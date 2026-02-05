@@ -30,6 +30,12 @@ export class AffirmationLoader {
     this.setupObserver();
     this.attachEventListeners();
     this.initialLoad();
+
+    document.addEventListener(
+      'masonry:relayout',
+      () => {
+        this.msnry?.layout();
+      });
   }
 
   initMasonry() {
@@ -53,7 +59,7 @@ export class AffirmationLoader {
   };
 
   initializeExistingItems() {
-    const existing = DOMUtils.queryAll('#affirm-container .text-section[data-id]')
+    const existing = DOMUtils.queryAll('#affirm-container .col-12[data-id]')
 
     existing.forEach((el) => {
       if (el.dataset.id) {
@@ -205,7 +211,7 @@ export class AffirmationLoader {
         >
           <div class="flex-grow-1">
             <div>
-              <p class="mb-1" data-item-text>${escapeHtml(affirmation.text_task || '')}</p>
+              <p class="mb-0 affirm-title" data-item-text>${escapeHtml(affirmation.text_task || '')}</p>
             </div>
             <div class="d-flex gap-2">
               <p class="mb-0 opacity-75 small"></p>

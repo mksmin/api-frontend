@@ -2,7 +2,7 @@ import {DOMUtils} from "../utils/dom.js";
 
 export class StatusIndicator {
   /**
-   * @param {string|HTMLElement} selectorOrElement - элемент или его ID
+   * @param {string} IDOfElement - ID элемента
    */
   constructor(selectorOrElement) {
     this.el = DOMUtils.getById(selectorOrElement)
@@ -36,6 +36,7 @@ export class StatusIndicator {
    * @param {boolean} autoHide - автоматически скрывать
    */
   show(
+    /** @type {'success'|'info'|'warning'|'danger'} */
     type = 'info',
     text = '',
     duration = 5000,
