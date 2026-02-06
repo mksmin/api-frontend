@@ -171,7 +171,7 @@ export class AffirmationDetail {
       const backButtonDiv = DOMUtils.getById('backButton')
       const buttonBack = DOMUtils.createElement(
         'button', {
-          classes: ['btn', 'btn-dark', 'btn-md', 'mt-2', 'btn-back-c-lg'],
+          classes: ['btn', 'btn-lg', 'btn-dark', 'btn-gradient', 'btn-github'],
           attributes: {
             type: 'button',
             id: 'closeAffirmation',

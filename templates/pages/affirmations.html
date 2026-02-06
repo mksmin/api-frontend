@@ -199,7 +199,7 @@
             data-bs-target="#affirmations-change-count"
             data-current-count="{{ settings.count_tasks }}"
         >
-          <span>
+          <span class="col-10">
             <img src="/static/media/nonePhoto.png" alt=""
                  onerror="this.src='/static/media/nonePhoto.png'"
                  width="32"
@@ -209,7 +209,7 @@
               Количество аффирмаций в день
             </span>
           </span>
-          <span>
+          <span class="col-2 text-end">
             <span class="me-2" id="currentCountTasks">{{ settings.count_tasks }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
                  role="img">
@@ -225,7 +225,7 @@
             data-bs-toggle="modal"
             data-bs-target="#affirmations-change-time-sending"
         >
-        <span>
+        <span class="col-8">
           <img src="/static/media/nonePhoto.png" alt=""
                onerror="this.src='/static/media/nonePhoto.png'"
                width="32"
@@ -235,8 +235,7 @@
             Время отправки
           </span>
         </span>
-          <div class="">
-            <span>
+            <span class="col-4 text-end">
               <span class="me-2" id="timeSending">{{ settings.send_time }}</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
                    role="img">
@@ -244,7 +243,6 @@
                     d="M3 21a1 1 0 0 1-1-1v-3.6l11-11 4.6 4.6-11 11H3zM20.7 7.3a1 1 0 0 0 0-1.4l-2.6-2.6a1 1 0 0 0-1.4 0l-1.6 1.6 4 4 1.6-1.6z"/>
               </svg>
             </span>
-          </div>
         </a>
 
       </div>
