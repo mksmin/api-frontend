@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
     const AUTH_PATH = '/auth/bot2';
     const INITIAL_REDIRECT_KEY = 'initial_redirect';
-    const status = new StatusIndicator('statusBlockGeneralDiv');
+    const status = new StatusIndicator('liveToast');
     const BOT_ID = document.querySelector('meta[name="tg-bot-id"]').content;
 
 
@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!status) {
         return;
       }
-      status.show(type, text, undefined, false);
+      status.show(type, text, 10000, true);
     }
 
-    safeSetStatus('info', '🪪 Необходима авторизация через Telegram');
+    safeSetStatus('primary', '🪪 Необходима авторизация через Telegram');
 
     const setupTelegramAuthWidget = () => {
       const ids = [
@@ -69,27 +69,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       });
     };
-
-    function injectTelegramWidget() {
-      const script = document.createElement('script');
-      const container = document.querySelector('.auth-wrapper .tg-widget');
-      if (!container) {
-        console.warn('⚠️ Контейнер для Telegram-виджета не найден');
-        return;
-      }
-
-      script.async = true;
-      script.src = 'https://telegram.org/js/telegram-widget.js?22';
-//    script.dataset.telegramLogin = 'test_mininBot';
-      script.dataset.telegramLogin = 'mininwork_bot';
-      script.dataset.size = 'large';
-      script.dataset.onauth = "loginTelegramWidget(user)";
-      script.dataset.radius = 12;
-
-      console.log("✅ Telegram Widget injected:");
-
-      container.appendChild(script);
-    }
 
     window.loginTelegramWidget = async function (user) {
       sessionStorage.setItem('tg_auth_in_progress', '1');
@@ -148,7 +127,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         safeSetStatus('error', '❌ Ошибка при обработке авторизации');
       }
     };
-    injectTelegramWidget();
     setupTelegramAuthWidget();
 
   } catch (error) {

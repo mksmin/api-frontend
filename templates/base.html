@@ -49,7 +49,9 @@
       const url = sessionStorage.getItem('photoUrl');
       if (url) {
         const img = document.getElementById('userAvatar');
-        img.src = url;
+        if (img) {
+          img.src = url;
+        }
       }
     });
   </script>

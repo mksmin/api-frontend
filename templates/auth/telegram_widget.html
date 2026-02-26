@@ -7,6 +7,29 @@
 {% block head_extra %}
 {% endblock %}
 {% block content %}
+  <div
+      class="
+      toast-container
+      position-fixed
+      top-0 start-50 p-3
+      translate-middle-x">
+    <div
+        id="liveToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
   <section
       class="full-screen d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden"
   >
