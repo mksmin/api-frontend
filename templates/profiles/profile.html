@@ -26,11 +26,22 @@
       <div id="usernameBlock" class="visually-hidden">
         <div><h1 id="projectName" class="header header-anim header-accent xxl text-center fade-up"
                  style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.first_name }}</h1></div>
-        <div><h1 class="header header-anim  text-center fade-up delay-1"
-                 style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">{{ user.last_name }}</h1></div>
-        <div><h4 class="header text-center color-hint fade-up delay-2"
-                 style="font-size: clamp(1rem, 9vw, 1.5rem); --offset:10px;">
-          @{{ user.username }}</h4></div>
+        {% if user.last_name %}
+          <div>
+            <h1 class="header header-anim  text-center fade-up delay-1"
+                style="font-size: clamp(2rem, 9vw, 4.5rem); --offset:20px;">
+              {{ user.last_name }}
+            </h1>
+          </div>
+        {% endif %}
+        {% if user.username %}
+          <div>
+            <h4 class="header text-center color-hint fade-up delay-2"
+                style="font-size: clamp(1rem, 9vw, 1.5rem); --offset:10px;">
+              @{{ user.username }}
+            </h4>
+          </div>
+        {% endif %}
       </div>
 
       <div id="placeholderAvatarBlock" class="placeholder-glow row">
