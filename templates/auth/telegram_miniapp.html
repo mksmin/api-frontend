@@ -3,7 +3,12 @@
 {% import "partials/_macros_blocks.html" as details %}
 
 {% block head_extra %}
-
+  {% if bot_auth_path %}
+  <meta name="miniapp-bot-auth-path" content="{{ bot_auth_path }}">
+  {% endif %}
+  {% if errors %}
+    <meta name="errors" content="{{ errors }}">
+  {% endif %}
 {% endblock %}
 {% block extraBlocksTop %}
 {% endblock %}
@@ -38,12 +43,11 @@
       </h1>
 
       {% if not errors %}
-
         <span id="botConfigPath" class="sub-text">
-          <a class="btn btn-lg btn-dark btn-gradient btn-telegram" href="https://t.me/{{ botConfigPath }}"
+          <a class="btn btn-lg btn-dark btn-gradient btn-telegram" href="https://t.me/{{ botName }}"
              target="_blank">
           <span class="bi bi-telegram me-1"></span>
-            {{ botConfigPath }}
+            {{ botName }}
           </a>
         </span>
       {% endif %}
@@ -53,10 +57,10 @@
 {% endblock %}
 
 {% block scripts %}
-  <script
-      src="/static/scripts/tgInitDataFetch.js"
-      id="authScript"
-      type="module"
-      defer></script>
+    <script
+        src="/static/scripts/tgInitDataFetch.js?v=1.0.0"
+        id="authScript"
+        type="module"
+        defer></script>
 
 {% endblock %}
