@@ -1,0 +1,138 @@
+{% extends "base.html" %} {% block extra_meta %}
+  <meta name="tg-bot-id" content="{{ telegram_bot_id }}"/>
+{% endblock %}
+{% block title %}
+  Аутентификация через Телеграм
+{% endblock %}
+{% block head_extra %}
+  <script async src="https://oauth.telegram.org/js/telegram-login.js?3" data-onauth="console.log(data);"></script>
+  <meta name="oidc-client-id" content="{{ client_id }}">
+{% endblock %}
+{% block content %}
+  <div
+      class="
+      toast-container
+      position-fixed
+      top-0 start-50 p-3
+      translate-middle-x">
+    <div
+        id="liveToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body"></div>
+        <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <section
+      class="full-screen d-flex justify-content-center align-items-center w-100 h-100 position-relative overflow-x-hidden"
+  >
+    <div class="gradient gradient-telegram" style="--top: 40%">
+      <div class="wrapper" style="--size: 500px">
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+        <div class="element"></div>
+      </div>
+    </div>
+    <div class="form-signin w-100 m-auto">
+      <h1 class="h3 mb-3 header" style="font-size: clamp(2rem, 9vw, 4.5rem)">
+      <span
+          id="text-telegram-auth"
+          class="word fade-up delay-2 text-gradient text-telegram text-telegram-auth"
+      >
+        Авторизуйся
+      </span>
+        <span class="word fade-up delay-3">через</span>
+        <span class="word fade-up delay-4">телеграм</span>
+      </h1>
+    </div>
+  </section>
+{% endblock %}
+{% block scripts %}
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.offsetHeight;
+        document.body.classList.add('page-loaded');
+      }, 300);
+    });
+  </script>
+
+  <script>
+    const AUTH_PATH = "/auth/tg/oidc/mininwork_bot"
+    const CLIENT_ID_META = document.querySelector('meta[name="oidc-client-id"]')
+    const CLIENT_ID = CLIENT_ID_META.content
+    CLIENT_ID_META.remove()
+
+    const tgInitOptions = {
+      client_id: CLIENT_ID,
+      request_access: ['write'],
+      lang: 'ru',
+      nonce: crypto.randomUUID(),
+    }
+
+    async function onTelegramAuth(user) {
+      if (user.error) {
+        console.error("Telegram auth error", user.error)
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          AUTH_PATH,
+          {
+            method: "POST",
+            body: user.id_token,
+            credentials: 'include',
+          });
+
+        if (response.ok) {
+          const data = await response.json();
+          const redirectUrl = data.redirect_url;
+          if (redirectUrl) {
+            window.location.href = redirectUrl;
+          }
+        }
+
+      } catch (error) {
+        console.error('Network/auth error', error);
+      }
+    }
+
+    window.addEventListener(
+      'load',
+      () => {
+        Telegram.Login.init(
+          tgInitOptions,
+          onTelegramAuth
+        );
+      })
+
+    function loginWithTelegram() {
+      Telegram.Login.open();
+    }
+
+    const setupTelegramAuthWidget = () => {
+      const ids = [
+        "icon-telegram-auth",
+        "text-telegram-auth",
+        "btn-telegram-auth",
+      ];
+
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener("click", loginWithTelegram);
+      });
+    };
+  </script>
+{% endblock %}
