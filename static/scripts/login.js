@@ -3,7 +3,7 @@ import {DOMUtils} from "./affirmations/utils/dom.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const AUTH_PATH = '/auth/tg/widget/mininwork_bot';
+    const AUTH_PATH = '/auth/tg/widget/mininlive_bot';
     const INITIAL_REDIRECT_KEY = 'initial_redirect';
     const status = new StatusIndicator('liveToast');
     const BOT_ID = document.querySelector('meta[name="tg-bot-id"]').content;
