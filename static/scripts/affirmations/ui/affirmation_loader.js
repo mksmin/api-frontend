@@ -6,6 +6,8 @@ import {escapeHtml, sleep, debounce} from '../utils/helpers.js';
 export class AffirmationLoader {
   constructor() {
     this.offset = 0;
+    this.sortBy = CONFIG.PAGINATION.SORT_BY;
+    this.order = CONFIG.PAGINATION.ORDER;
     this.loading = false;
     this.autoLoading = false;
     this.allLoaded = false;
@@ -36,6 +38,64 @@ export class AffirmationLoader {
       () => {
         this.msnry?.layout();
       });
+
+    document.addEventListener('affirmation:sort', (e) => {
+      this.reload(e.detail.sortBy, e.detail.order, e.detail.silent);
+    });
+  }
+
+  setSortParams(sortBy, order) {
+    this.sortBy = sortBy || this.sortBy;
+    this.order = order || this.order;
+  }
+
+  async reload(sortBy, order, silent = false) {
+    if (this.loading) return;
+
+    const currentHeight = this.container.offsetHeight;
+    this.container.style.minHeight = `${currentHeight}px`;
+
+    if (!silent) {
+      const section = DOMUtils.getById('container-affirm');
+      if (section) {
+        const topOffset = section.getBoundingClientRect().top + window.pageYOffset - 20;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
+    }
+
+    const previousCount = this.offset;
+
+    this.sortBy = sortBy || this.sortBy;
+    this.order = order || this.order;
+    this.offset = 0;
+    this.allLoaded = false;
+    this.loadedIds.clear();
+
+    if (this.container) {
+      this.container.innerHTML = '';
+      if (this.msnry) {
+        this.msnry.reloadItems();
+        this.msnry.layout();
+      }
+    }
+
+    if (this.buttonLoad) {
+      DOMUtils.removeClass(this.buttonLoad, 'd-none', 'disabled');
+    }
+    if (this.endButton) {
+      DOMUtils.addClass(this.endButton, 'd-none');
+    }
+
+    const initialBatch = Math.min(
+      Math.max(previousCount, CONFIG.PAGINATION.LIMIT),
+      CONFIG.PAGINATION.MAX_BATCH_SIZE
+    );
+    
+    await this.loadBatch(initialBatch);
+
+    setTimeout(() => {
+      this.container.style.minHeight = '';
+    }, CONFIG.ANIMATION.TRANSITION_DURATION);
   }
 
   initMasonry() {
@@ -114,16 +174,21 @@ export class AffirmationLoader {
     }
   };
 
-  async loadBatch() {
+  async loadBatch(customLimit = null) {
     if (this.loading || this.allLoaded) return false;
 
     this.loading = true;
     this.setButtonState('loading');
 
     try {
+      let limit = customLimit || Math.max(this.offset, CONFIG.PAGINATION.LIMIT);
+      limit = Math.min(limit, CONFIG.PAGINATION.MAX_BATCH_SIZE);
+
       const response = await ApiService.loadAffirmations(
-        CONFIG.PAGINATION.LIMIT,
-        this.offset
+        limit,
+        this.offset,
+        this.sortBy,
+        this.order
       );
 
       const data = await response.json();
