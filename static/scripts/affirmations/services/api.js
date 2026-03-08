@@ -12,15 +12,20 @@ export class ApiService {
         throw new Error(`${MESSAGES.ERROR.SERVER}: ${response.status}`);
       }
 
-    return response
+      return response
     } catch (error) {
       console.error(error);
       throw error;
     }
   };
 
-  static async loadAffirmations(limit, offset) {
-    const url = `${CONFIG.API.BASE_URL}/?limit=${limit}&offset=${offset}`;
+  static async loadAffirmations(
+    limit,
+    offset,
+    sortBy = 'created_at',
+    order = 'asc',
+  ) {
+    const url = `${CONFIG.API.BASE_URL}/?limit=${limit}&offset=${offset}&sort_by=${sortBy}&order=${order}`;
     return this._fetch(url)
   }
 
