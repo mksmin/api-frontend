@@ -13,8 +13,6 @@ export class SortManager {
     this.sortBy = localStorage.getItem(CONFIG.STORAGE_KEYS.SORT_BY) || CONFIG.PAGINATION.SORT_BY;
     this.order = localStorage.getItem(CONFIG.STORAGE_KEYS.SORT_ORDER) || CONFIG.PAGINATION.ORDER;
 
-    window.SortManagerInstance = this;
-
     this.init();
   }
 
