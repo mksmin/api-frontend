@@ -84,7 +84,7 @@ export class AffirmationDetail {
     this.selectedAffirmationId = section.dataset.id;
 
     DOMUtils.addClass(this.elements.mainContainer, 'hidden-container');
-    DOMUtils.setDisplay(this.elements.detailContainer, 'block')
+    DOMUtils.setDisplay(this.elements.detailContainer, 'flex')
     DOMUtils.addClass(this.elements.mainContainer, 'd-none')
     DOMUtils.addClass(this.elements.detailContainer, 'visible');
     DOMUtils.removeClass(this.elements.detailContainer, 'd-none');
@@ -171,13 +171,18 @@ export class AffirmationDetail {
       const backButtonDiv = DOMUtils.getById('backButton')
       const buttonBack = DOMUtils.createElement(
         'button', {
-          classes: ['btn', 'btn-lg', 'btn-dark', 'btn-gradient', 'btn-github'],
+          classes: ['btn', 'btn-lg', 'btn-dark', 'btn-gradient', 'btn-github', 'w-100'],
           attributes: {
             type: 'button',
             id: 'closeAffirmation',
-            style: '--bs-btn-padding-y: .5rem;'
+            style: '--bs-btn-padding-y: .5rem; '
           },
-          innerText: 'Назад',
+          innerHTML: `
+            <i class="bi bi-caret-left-fill me-1" 
+            style="font-size: 0.8rem; vertical-align: middle;"></i> 
+            Назад
+          `,
+
         });
 
       buttonBack.onclick = () => this.closeAffirmation();

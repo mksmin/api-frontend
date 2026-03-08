@@ -26,6 +26,10 @@
     var(--components-gradient-text-1) 0%,
     var(--components-gradient-text-2) calc(100% * var(--gradient-point)),
     var(--components-gradient-text-3) 99.6%);
+    --btn-danger: linear-gradient(96deg,
+    #f4183a 0%,
+    #e42e91 calc(100% * var(--gradient-point)),
+    #ff99d6 99.6%);
     --telegram-gradient: linear-gradient(90deg, #37aee2, #1e96c8);
     --github-gradient: linear-gradient(90deg, #d6d3d3, #6e5494);
     --vkmail-gradient: linear-gradient(90deg, #0077ff, #30dec1);
@@ -358,6 +362,10 @@ h1.xxl, .xxl {
     filter: brightness(1.1);
 }
 
+.btn-gradient:hover .buttonIcon {
+    color: white;
+}
+
 .btn-telegram, .text-telegram {
     background-image: var(--telegram-gradient);
 }
@@ -376,6 +384,10 @@ h1.xxl, .xxl {
 
 .btn-max, .text-max {
     background-image: var(--icon-max-gradient);
+}
+
+.btn-gr-danger {
+    background-image: var(--btn-danger);
 }
 
 .bi-max::before {
