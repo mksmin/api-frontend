@@ -8,6 +8,9 @@ export const CONFIG = {
   PAGINATION: {
     LIMIT: 15,
     INITIAL_OFFSET: 0,
+    SORT_BY: 'created_at',
+    ORDER: 'asc',
+    MAX_BATCH_SIZE: 100,
   },
 
   ANIMATION: {
@@ -18,6 +21,11 @@ export const CONFIG = {
 
   TELEGRAM: {
     MAIN_BUTTON_COLOR: '#8774e1',
+  },
+
+  STORAGE_KEYS: {
+    SORT_BY: 'affirmations_sort_by',
+    SORT_ORDER: 'affirmations_sort_order',
   },
 
 };
