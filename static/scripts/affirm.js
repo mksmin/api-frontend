@@ -2,6 +2,7 @@ import {TelegramService} from "./affirmations/services/telegram.js";
 import {AffirmationDetail} from "./affirmations/ui/affirmation_details.js";
 import {AffirmationLoader} from "./affirmations/ui/affirmation_loader.js";
 import {SettingsManager} from "./affirmations/ui/settings_manager.js";
+import {SortManager} from "./affirmations/ui/sort_manager.js";
 
 
 
@@ -16,6 +17,7 @@ class AffirmationApp {
       this.components.settingsManager = new SettingsManager();
       this.components.affirmationDetail = new AffirmationDetail(this.telegramService);
       this.components.affirmationLoader = new AffirmationLoader();
+      this.components.sortManager = new SortManager();
 
       console.log('✅ Affirmation App initialized successfully');
     } catch (error) {
