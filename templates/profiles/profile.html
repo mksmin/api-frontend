@@ -109,10 +109,78 @@
         </a>
       </div>
 
+
+
       <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
 
     </div>
   </section>
+
+  <section class="credentials-section">
+  <div class="container">
+    <div class="credentials-panel">
+      <div class="credentials-panel__intro">
+        <span class="credentials-panel__eyebrow">Личный кабинет / безопасность</span>
+        <h2 class="header header-accent-grad credentials-panel__title">
+          ДОБАВИТЬ<br>ПАРОЛЬ
+        </h2>
+        <p class="credentials-panel__description">
+          Укажите почту и придумайте пароль для входа в аккаунт.
+        </p>
+      </div>
+
+      <form class="credentials-form" method="post" action="/create-credentials">
+        <input type="hidden" name="token_key" value="{{ csrf_token }}">
+
+        <div class="credentials-field">
+          <label for="credential-email">Электронная почта</label>
+          <input
+            id="credential-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            maxlength="254"
+            required
+          >
+        </div>
+
+        <div class="credentials-field">
+          <label for="credential-password">Пароль</label>
+          <input
+            id="credential-password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            maxlength="1024"
+            aria-describedby="password-hint"
+            required
+          >
+          <small id="password-hint">Не менее 8 символов</small>
+        </div>
+
+        <div class="credentials-field">
+          <label for="credential-password-confirm">Повторите пароль</label>
+          <input
+            id="credential-password-confirm"
+            name="password_confirm"
+            type="password"
+            autocomplete="new-password"
+            minlength="8"
+            maxlength="1024"
+            required
+          >
+        </div>
+
+        <button class="credentials-submit" type="submit">
+          Сохранить пароль
+          <span class="bi bi-arrow-right" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
 {% endblock %}
 
 {% block scripts %}
