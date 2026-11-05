@@ -154,9 +154,10 @@
         Добавить пароль
       </h4>
       <div class="pt-1">
-        <form class=""
+        <form id="credentials-form"
+              class=""
               method="post"
-              action="/create-credentials">
+              action="{{ url_for('user:create-credentials') }}">
           <input type="hidden"
                  name="token_key"
                  value="{{ csrf_token }}">
@@ -235,6 +236,7 @@
                 required
               >
             </div>
+            <p id="credentials-status" class="mt-3" role="alert" hidden></p>
           </div>
 
           <div class="d-flex justify-content-end mt-4">
@@ -242,6 +244,7 @@
               Сохранить
             </button>
           </div>
+
         </form>
       </div>
 
@@ -316,5 +319,70 @@
         document.body.classList.add('page-loaded');
       }, 300);
     });
+  </script>
+
+  <script>
+    const form = document.getElementById('credentials-form');
+    const statusBox = document.getElementById('credentials-status');
+
+    function showStatus(message, isError = true) {
+      statusBox.textContent = message;
+      statusBox.hidden = false;
+      statusBox.classList.toggle('fg-danger', isError);
+      statusBox.classList.toggle('fg-success', !isError);
+    }
+
+    form?.addEventListener(
+      'submit',
+      async (event) => {
+        event.preventDefault();
+        statusBox.hidden = true;
+
+        const password = form.elements.namedItem('password');
+        const confirmation = form.elements.namedItem('password_confirm');
+
+        if (password.value !== confirmation.value) {
+          showStatus('Пароли не совпадают');
+          confirmation.classList.add('is-invalid');
+          return;
+        }
+
+        const button = form.querySelector('[type="submit"]');
+        button.disabled = true;
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            credentials: 'same-origin',
+          });
+          const data = await response.json().catch(() => ({}));
+
+          if (response.status === 201) {
+            showStatus('Пароль сохранен', false);
+            window.location.reload();
+
+          } else if (response.status === 409) {
+            showStatus('Этот email уже используется или пароль уже задан');
+          } else if (response.status === 422) {
+            const errors = Array.isArray(data.detail) ? data.detail : [];
+            if (errors.some((error) => error.loc?.includes('email'))) {
+              showStatus('Проверьте адрес электронной почты');
+            } else {
+              showStatus('Проверьте пароль: не менее 8 символов, оба поля должны совпадать');
+            }
+          } else if (response.status === 401 || response.status === 403) {
+            showStatus('Сессия истекла. Обновите страницу и войдите снова');
+          } else {
+            showStatus('Не удалось сохранить пароль. Попробуйте позже');
+          }
+        } catch {
+          showStatus('Не удалось связаться с сервером');
+        } finally {
+          button.disabled = false;
+        }
+      },
+    );
+
   </script>
 {% endblock %}
