@@ -15,12 +15,12 @@
         <div class="text-center z-1 mb-3 mx-auto"
              style="width: clamp(100px, 50%, 320px); aspect-ratio: 1/1;">
           <img
-              src="/static/media/nonePhoto.png"
-              id="userAvatar"
-              class="avatar rounded-pill"
-              alt="Аватар"
-              onerror="this.src='/static/media/nonePhoto.png'"
-              style="width: min(320px, 100%); height: auto; pointer-events: none;"/>
+            src="/static/media/nonePhoto.png"
+            id="userAvatar"
+            class="avatar rounded-pill"
+            alt="Аватар"
+            onerror="this.src='/static/media/nonePhoto.png'"
+            style="width: min(320px, 100%); height: auto; pointer-events: none;" />
         </div>
       </div>
       <div id="usernameBlock" class="visually-hidden">
@@ -110,92 +110,105 @@
       </div>
 
 
-
       <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
 
     </div>
   </section>
 
-  <section class="credentials-section">
-  <div class="container">
-    <div class="credentials-panel">
-      <div class="credentials-panel__intro">
-        <span class="credentials-panel__eyebrow">Личный кабинет / безопасность</span>
-        <h2 class="header header-accent-grad credentials-panel__title">
-          ДОБАВИТЬ<br>ПАРОЛЬ
-        </h2>
-        <p class="credentials-panel__description">
-          Укажите почту и придумайте пароль для входа в аккаунт.
-        </p>
+  <section class="py-2 my-1 my-sm-3">
+    <div class="container">
+      <h4 class="header mt-4">
+        Добавить пароль
+      </h4>
+      <div class="pt-1">
+        <form class=""
+              method="post"
+              action="/create-credentials">
+          <input type="hidden"
+                 name="token_key"
+                 value="{{ csrf_token }}">
+
+          <div class="mt-3">
+            <label for="credential-email" class="color-hint">
+              Email
+            </label>
+            <input
+              id="credential-email"
+              class="form-control py-3"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              maxlength="254"
+              required
+            >
+          </div>
+          <div class="mt-3">
+            <label for="credential-password"
+                   class="form-label color-hint">
+              Пароль
+            </label>
+            <input
+              id="credential-password"
+              class="form-control py-3"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              placeholder="password"
+              minlength="8"
+              maxlength="1024"
+              aria-describedby="password-hint"
+              required
+            >
+            <div class="strength" data-bs-strength>
+              <div class="strength-segment"></div>
+              <div class="strength-segment"></div>
+              <div class="strength-segment"></div>
+              <div class="strength-segment"></div>
+            </div>
+            <small id="password-hint">Не менее 8 символов</small>
+          </div>
+          <div class="mt-3">
+            <label for="credential-password-confirm" class="color-hint">
+              Повторите пароль
+            </label>
+            <input
+              id="credential-password-confirm"
+              class="form-control py-3"
+              name="password_confirm"
+              type="password"
+              autocomplete="new-password"
+              placeholder="password"
+              minlength="8"
+              maxlength="1024"
+              aria-describedby="password-hint"
+              required
+            >
+          </div>
+          <button class="btn btn-lg btn-dark btn-gradient btn-github w-100" type="submit">
+            Сохранить
+            <span class="bi bi-arrow-right" aria-hidden="true"></span>
+          </button>
+        </form>
       </div>
 
-      <form class="credentials-form" method="post" action="/create-credentials">
-        <input type="hidden" name="token_key" value="{{ csrf_token }}">
-
-        <div class="credentials-field">
-          <label for="credential-email">Электронная почта</label>
-          <input
-            id="credential-email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            placeholder="you@example.com"
-            maxlength="254"
-            required
-          >
-        </div>
-
-        <div class="credentials-field">
-          <label for="credential-password">Пароль</label>
-          <input
-            id="credential-password"
-            name="password"
-            type="password"
-            autocomplete="new-password"
-            minlength="8"
-            maxlength="1024"
-            aria-describedby="password-hint"
-            required
-          >
-          <small id="password-hint">Не менее 8 символов</small>
-        </div>
-
-        <div class="credentials-field">
-          <label for="credential-password-confirm">Повторите пароль</label>
-          <input
-            id="credential-password-confirm"
-            name="password_confirm"
-            type="password"
-            autocomplete="new-password"
-            minlength="8"
-            maxlength="1024"
-            required
-          >
-        </div>
-
-        <button class="credentials-submit" type="submit">
-          Сохранить пароль
-          <span class="bi bi-arrow-right" aria-hidden="true"></span>
-        </button>
-      </form>
     </div>
-  </div>
-</section>
+  </section>
 {% endblock %}
 
 {% block scripts %}
   <script defer>
     const tg = window.Telegram?.WebApp;
     const inTelegram = !!tg && tg.initData !== '';
-    const backButtonDiv = document.getElementById("backButton");
+    const backButtonDiv = document.getElementById('backButton');
     const prevUrl = document.referrer;
 
     const handleBack = () => {
       tg.MainButton.hide();
       if (window.history.length > 1) {
-        window.history.back()
+        window.history.back();
       } else {
-        tg.close()
+        tg.close();
       }
     };
 
@@ -203,22 +216,22 @@
       tg.ready();
       tg.MainButton.show();
       tg.MainButton.setParams({
-        color: "#8774e1",
+        color: '#8774e1',
         is_visible: true,
-        text: "Назад"
+        text: 'Назад',
       });
       tg.MainButton.onClick(handleBack);
 
     } else {
       const buttonBack = document.createElement('button');
-      buttonBack.innerText = "Назад";
-      buttonBack.classList.add("btn", "btn-back-c",);
+      buttonBack.innerText = 'Назад';
+      buttonBack.classList.add('btn', 'btn-back-c');
       buttonBack.onclick = handleBack;
-      buttonBack.type = "button";
+      buttonBack.type = 'button';
 
-      if (prevUrl && !prevUrl.includes("/login")) {
+      if (prevUrl && !prevUrl.includes('/login')) {
         backButtonDiv.appendChild(buttonBack);
-        backButtonDiv.classList.remove("d-none");
+        backButtonDiv.classList.remove('d-none');
       }
     }
     window.loginTelegramWidget2 = handleBack;
@@ -227,7 +240,7 @@
   <script>
     window.addEventListener('load', () => {
       document.fonts.ready.then(() => {
-        console.log("Все шрифты полностью готовы");
+        console.log('Все шрифты полностью готовы');
 
         const ph = document.getElementById('placeholderAvatarBlock');
         const ab = document.getElementById('avatarBlock');
