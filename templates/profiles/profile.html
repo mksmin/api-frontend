@@ -93,6 +93,41 @@
           </div>
         </div>
       </div>
+      {% if user.email %}
+        <div class="detail-card nw mb-3">
+          <div class="row">
+            <div class="col-sm-8 align-self-center">
+              Email
+            </div>
+            <div class="col-sm-4 text-sm-end detail-text">
+              {{ user.email }}
+              {% if user.email_confirmed %}
+                <span
+                  class="fg-secondary ms-1"
+                  tabindex="0"
+                  aria-label="Email подтвержден"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="Электронная почта подтверждена"
+                >
+            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+          </span>
+              {% else %}
+                <span
+                  class="fg-emphasis-accent ms-1"
+                  tabindex="0"
+                  aria-label="Email не подтвержден"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="Проверьте почту и перейдите по ссылке из письма для подтверждения email"
+                >
+            <i class="bi bi-question-circle-fill" aria-hidden="true"></i>
+          </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
 
       <div class="list-group list-section">
         <a href="/affirmations"
@@ -110,12 +145,10 @@
       </div>
 
 
-      <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
-
     </div>
   </section>
 
-  <section class="py-2 my-1 my-sm-3">
+  <section style="margin: 5px 0">
     <div class="container">
       <h4 class="header mt-4">
         Добавить пароль
@@ -129,69 +162,94 @@
                  value="{{ csrf_token }}">
 
           <div class="mt-3">
-            <label for="credential-email" class="color-hint">
-              Email
-            </label>
-            <input
-              id="credential-email"
-              class="form-control py-3"
-              name="email"
-              type="email"
-              autocomplete="email"
-              placeholder="you@example.com"
-              maxlength="254"
-              required
-            >
+            {% if user.email %}
+              <input type="hidden"
+                     name="email"
+                     value="{{ user.email }}"
+              />
+            {% else %}
+              <div class="input-group email-input-group">
+                <div class="form-floating">
+                  <label for="credential-email" class="color-hint">
+                    Email
+                  </label>
+                  <input
+                    id="credential-email"
+                    class="form-control"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    maxlength="254"
+                    required
+                  ></div>
+                <span class="input-group-text" aria-hidden="true">
+      <i class="bi bi-envelope"></i>
+    </span>
+              </div>
+            {% endif %}
           </div>
-          <div class="mt-3">
-            <label for="credential-password"
-                   class="form-label color-hint">
-              Пароль
-            </label>
-            <input
-              id="credential-password"
-              class="form-control py-3"
-              name="password"
-              type="password"
-              autocomplete="new-password"
-              placeholder="password"
-              minlength="8"
-              maxlength="1024"
-              aria-describedby="password-hint"
-              required
-            >
-            <div class="strength" data-bs-strength>
-              <div class="strength-segment"></div>
-              <div class="strength-segment"></div>
-              <div class="strength-segment"></div>
-              <div class="strength-segment"></div>
+
+          <div class="mt-5">
+            <div class="mt-3">
+              <div class="form-floating">
+                <label for="credential-password"
+                       class="color-hint">
+                  Пароль
+                </label>
+                <input
+                  id="credential-password"
+                  class="form-control"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="password"
+                  minlength="8"
+                  maxlength="1024"
+                  aria-describedby="password-hint"
+                  required
+                ></div>
+              <div class="strength" data-bs-strength>
+                <div class="strength-segment"></div>
+                <div class="strength-segment"></div>
+                <div class="strength-segment"></div>
+                <div class="strength-segment"></div>
+              </div>
+              <div class="text-end">
+                <span id="password-hint" class="fs-sm color-hint">Не менее 8 символов</span></div>
             </div>
-            <small id="password-hint">Не менее 8 символов</small>
+            <div class="mt-3 form-floating">
+              <label for="credential-password-confirm" class="color-hint">
+                Повторите пароль
+              </label>
+              <input
+                id="credential-password-confirm"
+                class="form-control"
+                name="password_confirm"
+                type="password"
+                autocomplete="new-password"
+                placeholder="password"
+                minlength="8"
+                maxlength="1024"
+                aria-describedby="password-hint"
+                required
+              >
+            </div>
           </div>
-          <div class="mt-3">
-            <label for="credential-password-confirm" class="color-hint">
-              Повторите пароль
-            </label>
-            <input
-              id="credential-password-confirm"
-              class="form-control py-3"
-              name="password_confirm"
-              type="password"
-              autocomplete="new-password"
-              placeholder="password"
-              minlength="8"
-              maxlength="1024"
-              aria-describedby="password-hint"
-              required
-            >
+
+          <div class="d-flex justify-content-end mt-4">
+            <button class="btn-subtle theme-inverse btn-lg" type="submit">
+              Сохранить
+            </button>
           </div>
-          <button class="btn btn-lg btn-dark btn-gradient btn-github w-100" type="submit">
-            Сохранить
-            <span class="bi bi-arrow-right" aria-hidden="true"></span>
-          </button>
         </form>
       </div>
 
+    </div>
+  </section>
+  <section style="margin: 5px 0">
+    <div class="container">
+      <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
     </div>
   </section>
 {% endblock %}

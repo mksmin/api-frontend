@@ -1002,3 +1002,7 @@ h1.xxl, .xxl {
         transition: none;
     }
 }
+
+.email-input-group .input-group-text {
+    background-color: var(--bs-btn-input-bg);
+}
