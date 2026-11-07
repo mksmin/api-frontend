@@ -590,6 +590,21 @@ h1.xxl, .xxl {
     animation: gradient-rotate-animation 12s linear infinite running
 }
 
+.gradient .element {
+    transition: background-color .5s ease;
+}
+
+.gradient .element:first-child::before,
+.gradient .element:nth-child(2)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--telegram-gradient);
+    opacity: 0;
+    transition: opacity .5s ease;
+}
+
 .element:first-child {
     background: var(--gb-color-1);
     top: 25%;
@@ -613,27 +628,32 @@ h1.xxl, .xxl {
 
 .gradient-telegram .element,
 .gradient-warning .element,
-.gradient-error .element {
+.gradient-error .element,
+.gradient-success .element {
     background: var(--base-text-color);
 }
 
-.gradient-telegram .element:first-child,
-.gradient-telegram .element:nth-child(2) {
-    background: var(--telegram-gradient);
+.gradient-telegram .element:first-child::before,
+.gradient-telegram .element:nth-child(2)::before {
+    opacity: 1;
 }
 
 .gradient-warning .element:first-child,
 .gradient-warning .element:nth-child(2) {
-    background: var(--color-warning);
+    background-color: var(--color-warning);
 }
 
 .gradient-error .element:first-child,
 .gradient-error .element:nth-child(2) {
-    background: var(--color-error);
+    background-color: var(--color-error);
+}
+
+.gradient-success .element:first-child,
+.gradient-success .element:nth-child(2) {
+    background-color: var(--color-success);
 }
 
 .gradient-telegram .element:first-child {
-    background: var(--telegram-gradient);
     top: 25%;
     left: 0;
     transform-origin: right
