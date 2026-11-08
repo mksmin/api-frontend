@@ -65,8 +65,27 @@
           outline-offset: 2px;
       }
 
-      #exampleDialogFullscreenLg:not([open]) {
+      .dialog {
           display: none;
+      }
+
+      .dialog[open] {
+          display: flex;
+      }
+
+      @starting-style {
+          .dialog[open]:not(.dialog-instant) {
+              opacity: 0;
+              visibility: hidden;
+          }
+
+          .dialog[open].dialog-slide-up:not(.dialog-instant) {
+              transform: translateY(3rem);
+          }
+
+          .dialog[open].dialog-slide-down:not(.dialog-instant) {
+              transform: translateY(-3rem);
+          }
       }
   </style>
 {% endblock %}
