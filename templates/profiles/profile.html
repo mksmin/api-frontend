@@ -67,6 +67,7 @@
 
       .dialog {
           display: none;
+          --bs-dialog-bg: var(--bg-color);
       }
 
       .dialog[open] {
@@ -98,12 +99,12 @@
         <div class="text-center z-1 mb-3 mx-auto"
              style="width: clamp(100px, 50%, 320px); aspect-ratio: 1/1;">
           <img
-              src="/static/media/nonePhoto.png"
-              id="userAvatar"
-              class="avatar rounded-pill"
-              alt="Аватар"
-              onerror="this.src='/static/media/nonePhoto.png'"
-              style="width: min(320px, 100%); height: auto; pointer-events: none;"/>
+            src="/static/media/nonePhoto.png"
+            id="userAvatar"
+            class="avatar rounded-pill"
+            alt="Аватар"
+            onerror="this.src='/static/media/nonePhoto.png'"
+            style="width: min(320px, 100%); height: auto; pointer-events: none;" />
         </div>
       </div>
       <div id="usernameBlock" class="visually-hidden">
@@ -168,10 +169,10 @@
     <div class="container">
       <div class="detail-card nw mb-3">
         <div class="row">
-          <div class="sm:col-8 align-self-center">
+          <div class="col-7 sm:col-8 align-self-center">
             Телеграм ID
           </div>
-          <div class="sm:col-4 sm:text-end detail-text">
+          <div class="col-5 sm:col-4 text-end detail-text">
             {{ user.tg_id }}
           </div>
         </div>
@@ -186,27 +187,56 @@
               {{ user.email }}
               {% if user.email_confirmed %}
                 <span
-                    class="fg-secondary ms-1"
-                    tabindex="0"
-                    aria-label="Email подтвержден"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    data-bs-title="Электронная почта подтверждена"
+                  class="fg-secondary ms-1"
+                  tabindex="0"
+                  aria-label="Email подтвержден"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="Электронная почта подтверждена"
                 >
             <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
           </span>
               {% else %}
                 <span
-                    class="fg-emphasis-accent ms-1"
-                    tabindex="0"
-                    aria-label="Email не подтвержден"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    data-bs-title="Проверьте почту и перейдите по ссылке из письма для подтверждения email"
+                  class="fg-emphasis-accent ms-1"
+                  tabindex="0"
+                  aria-label="Email не подтвержден"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="Проверьте почту и перейдите по ссылке из письма для подтверждения email"
                 >
             <i class="bi bi-question-circle-fill" aria-hidden="true"></i>
           </span>
               {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="detail-card nw mb-3">
+          <div class="row">
+            <div class="col-7 sm:col-8 align-self-center">
+              Пароль
+            </div>
+            <div class="col-5 sm:col-4 text-end detail-text">
+              <button type="button" class="btn-outline theme-inverse" data-bs-toggle="dialog" data-bs-backdrop="static"
+                      data-bs-target="#exampleDialogFullscreenLg">
+                Изменить
+              </button>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="detail-card nw mb-3">
+          <div class="row">
+            <div class="col-7 sm:col-8 align-self-center">
+              <button class="btn-outline theme-secondary me-1 border-0" disabled><i class="bi bi-envelope"></i></button>
+              Email/пароль
+            </div>
+            <div class="col-5 sm:col-4 text-end detail-text">
+              <button type="button" class="btn-outline theme-secondary" data-bs-toggle="dialog"
+                      data-bs-backdrop="static"
+                      data-bs-target="#exampleDialogFullscreenLg">
+                Добавить
+              </button>
             </div>
           </div>
         </div>
@@ -233,17 +263,15 @@
 
   <section id="dialog_change_password">
     <div class="container">
-      <button type="button" class="btn-solid theme-primary" data-bs-toggle="dialog" data-bs-backdrop="static"
-              data-bs-target="#exampleDialogFullscreenLg">
-        Вход по email
-      </button>
+
       <dialog class="dialog dialog-lg dialog-scrollable dialog-slide-up lg-down:dialog-fullscreen"
               id="exampleDialogFullscreenLg">
         <div class="dialog-header">
           <div>
             <h1 class="dialog-title">Вход по email</h1>
-            <small class="d-block mt-2 fg-secondary fs-sm">
+            <small class="d-block mt-2 me-2 fg-secondary fs-sm w-fit">
               Добавь email и пароль, чтобы входить не только с телеги
+              <i class="bi bi-cart2"></i>
             </small>
           </div>
           <button type="button" class="btn-close"
@@ -270,14 +298,14 @@
                   <div class="login-input-wrap">
                     <label for="credential-email" class="visually-hidden">Email</label>
                     <input
-                        id="credential-email"
-                        class="form-control"
-                        name="email"
-                        type="email"
-                        autocomplete="email"
-                        placeholder="Введи email"
-                        maxlength="254"
-                        required
+                      id="credential-email"
+                      class="form-control"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      placeholder="Введи email"
+                      maxlength="254"
+                      required
                     >
                     <div class="login-input-actions">
                       <button type="button" class="login-input-action" id="clear-credential-email"
@@ -294,16 +322,16 @@
                 <div class="mt-3">
                   <div class="login-input-wrap login-input-wrap--two-actions">
                     <input
-                        id="credential-password"
-                        class="form-control"
-                        name="password"
-                        type="password"
-                        autocomplete="new-password"
-                        placeholder="Новый пароль"
-                        minlength="8"
-                        maxlength="1024"
-                        aria-describedby="password-hint"
-                        required
+                      id="credential-password"
+                      class="form-control"
+                      name="password"
+                      type="password"
+                      autocomplete="new-password"
+                      placeholder="Новый пароль"
+                      minlength="8"
+                      maxlength="1024"
+                      aria-describedby="password-hint"
+                      required
                     >
 
                     <div class="login-input-actions">
@@ -330,16 +358,16 @@
 
                 <div class="mt-3 login-input-wrap">
                   <input
-                      id="credential-password-confirm"
-                      class="form-control"
-                      name="password_confirm"
-                      type="password"
-                      autocomplete="new-password"
-                      placeholder="Повтори пароль"
-                      minlength="8"
-                      maxlength="1024"
-                      aria-describedby="password-hint"
-                      required
+                    id="credential-password-confirm"
+                    class="form-control"
+                    name="password_confirm"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Повтори пароль"
+                    minlength="8"
+                    maxlength="1024"
+                    aria-describedby="password-hint"
+                    required
                   >
                   <div class="login-input-actions">
                     <button type="button" class="login-input-action" id="clear-credential-password-confirm"
@@ -356,12 +384,14 @@
           </form>
         </div>
 
-        <div class="dialog-footer">
-          <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Close</button>
-          <button id="credentials-submit" class="btn-subtle theme-inverse btn-lg"
-                  type="submit" form="credentials-form">
-            Сохранить
-          </button>
+        <div class="dialog-footer d-block">
+          <div class="d-grid gap-2 md:d-block md:text-end">
+            <button type="button" class="btn-text theme-secondary fs-sm" data-bs-dismiss="dialog">Закрыть</button>
+            <button id="credentials-submit" class="btn-text theme-success btn-lg border-1 sm:border-0"
+                    type="submit" form="credentials-form">
+              Сохранить
+            </button>
+          </div>
         </div>
 
       </dialog>
@@ -513,7 +543,7 @@
       });
       button.addEventListener('click', () => {
         input.value = '';
-        input.dispatchEvent(new Event('input', {bubbles: true}));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
         input.focus();
       });
 
