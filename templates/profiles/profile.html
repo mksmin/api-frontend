@@ -249,11 +249,10 @@
           <button type="button" class="btn-close"
                   data-bs-dismiss="dialog" aria-label="Закрыть"></button>
         </div>
-        <form id="credentials-form"
-              class=""
-              method="post"
-              action="{{ url_for('user:create-credentials') }}">
-          <div class="dialog-body">
+        <div class="dialog-body">
+          <form id="credentials-form"
+                method="post"
+                action="{{ url_for('user:create-credentials') }}">
 
             <div class="pt-1">
 
@@ -354,15 +353,16 @@
 
 
             </div>
-          </div>
+          </form>
+        </div>
 
-          <div class="dialog-footer">
-            <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Close</button>
-            <button class="btn-subtle theme-inverse btn-lg" type="submit">
-              Сохранить
-            </button>
-          </div>
-        </form>
+        <div class="dialog-footer">
+          <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Close</button>
+          <button id="credentials-submit" class="btn-subtle theme-inverse btn-lg"
+                  type="submit" form="credentials-form">
+            Сохранить
+          </button>
+        </div>
 
       </dialog>
     </div>
@@ -464,7 +464,7 @@
           return;
         }
 
-        const button = form.querySelector('[type="submit"]');
+        const button = form.elements.namedItem('credentials-submit');
         button.disabled = true;
 
         try {
