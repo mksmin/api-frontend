@@ -3,7 +3,71 @@
 {% import "partials/_macros_blocks.html" as details %}
 {% block head_extra %}
   <style>
-      .hidden
+      .login-input-wrap {
+          position: relative;
+      }
+
+      .login-input-wrap .form-control,
+      .login-input-wrap .form-control:focus {
+          background: transparent;
+          box-shadow: none;
+      }
+
+      .login-input-wrap .form-control {
+          padding-inline: 0 3rem;
+          border: 0;
+          border-bottom: 1px solid #555;
+          border-radius: 0;
+      }
+
+      .login-input-wrap--two-actions .form-control {
+          padding-inline-end: 5.5rem;
+      }
+
+      .login-input-wrap .form-control:focus {
+          outline: none;
+      }
+
+      .login-input-wrap:focus-within .form-control {
+          border-bottom-color: var(--color-secondary);
+      }
+
+      .login-input-wrap input {
+          font-size: clamp(1rem, 7vw, 3rem);
+      }
+
+      .login-input-actions {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+      }
+
+      .login-input-action {
+          width: 2.5rem;
+          height: 2.5rem;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: var(--base-text-color);
+          font-size: 1.25rem;
+          cursor: pointer;
+      }
+
+      .login-input-action[hidden] {
+          display: none;
+      }
+
+      .login-input-action:focus-visible {
+          outline: 2px solid var(--color-secondary);
+          outline-offset: 2px;
+      }
+
+      #exampleDialogFullscreenLg:not([open]) {
+          display: none;
+      }
   </style>
 {% endblock %}
 
@@ -15,12 +79,12 @@
         <div class="text-center z-1 mb-3 mx-auto"
              style="width: clamp(100px, 50%, 320px); aspect-ratio: 1/1;">
           <img
-            src="/static/media/nonePhoto.png"
-            id="userAvatar"
-            class="avatar rounded-pill"
-            alt="Аватар"
-            onerror="this.src='/static/media/nonePhoto.png'"
-            style="width: min(320px, 100%); height: auto; pointer-events: none;" />
+              src="/static/media/nonePhoto.png"
+              id="userAvatar"
+              class="avatar rounded-pill"
+              alt="Аватар"
+              onerror="this.src='/static/media/nonePhoto.png'"
+              style="width: min(320px, 100%); height: auto; pointer-events: none;"/>
         </div>
       </div>
       <div id="usernameBlock" class="visually-hidden">
@@ -103,23 +167,23 @@
               {{ user.email }}
               {% if user.email_confirmed %}
                 <span
-                  class="fg-secondary ms-1"
-                  tabindex="0"
-                  aria-label="Email подтвержден"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-title="Электронная почта подтверждена"
+                    class="fg-secondary ms-1"
+                    tabindex="0"
+                    aria-label="Email подтвержден"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    data-bs-title="Электронная почта подтверждена"
                 >
             <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
           </span>
               {% else %}
                 <span
-                  class="fg-emphasis-accent ms-1"
-                  tabindex="0"
-                  aria-label="Email не подтвержден"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-title="Проверьте почту и перейдите по ссылке из письма для подтверждения email"
+                    class="fg-emphasis-accent ms-1"
+                    tabindex="0"
+                    aria-label="Email не подтвержден"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    data-bs-title="Проверьте почту и перейдите по ссылке из письма для подтверждения email"
                 >
             <i class="bi bi-question-circle-fill" aria-hidden="true"></i>
           </span>
@@ -148,108 +212,143 @@
     </div>
   </section>
 
-  <section style="margin: 5px 0">
+  <section id="dialog_change_password">
     <div class="container">
-      <h4 class="header mt-4">
-        Добавить пароль
-      </h4>
-      <div class="pt-1">
+      <button type="button" class="btn-solid theme-primary" data-bs-toggle="dialog" data-bs-backdrop="static"
+              data-bs-target="#exampleDialogFullscreenLg">
+        Вход по email
+      </button>
+      <dialog class="dialog dialog-lg dialog-scrollable dialog-slide-up lg-down:dialog-fullscreen"
+              id="exampleDialogFullscreenLg">
+        <div class="dialog-header">
+          <div>
+            <h1 class="dialog-title">Вход по email</h1>
+            <small class="d-block mt-2 fg-secondary fs-sm">
+              Добавь email и пароль, чтобы входить не только с телеги
+            </small>
+          </div>
+          <button type="button" class="btn-close"
+                  data-bs-dismiss="dialog" aria-label="Закрыть"></button>
+        </div>
         <form id="credentials-form"
               class=""
               method="post"
               action="{{ url_for('user:create-credentials') }}">
-          <input type="hidden"
-                 name="token_key"
-                 value="{{ csrf_token }}">
+          <div class="dialog-body">
 
-          <div class="mt-3">
-            {% if user.email %}
+            <div class="pt-1">
+
               <input type="hidden"
-                     name="email"
-                     value="{{ user.email }}"
-              />
-            {% else %}
-              <div class="input-group email-input-group">
-                <div class="form-floating">
-                  <label for="credential-email" class="color-hint">
-                    Email
-                  </label>
+                     name="token_key"
+                     value="{{ csrf_token }}">
+
+              <div class="mt-3">
+                {% if user.email %}
+                  <input type="hidden"
+                         name="email"
+                         value="{{ user.email }}"
+                  />
+                {% else %}
+                  <div class="login-input-wrap">
+                    <label for="credential-email" class="visually-hidden">Email</label>
+                    <input
+                        id="credential-email"
+                        class="form-control"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="Введи email"
+                        maxlength="254"
+                        required
+                    >
+                    <div class="login-input-actions">
+                      <button type="button" class="login-input-action" id="clear-credential-email"
+                              aria-label="Очистить email" aria-controls="credential-email" hidden>
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="mt-5">
+
+                <div class="mt-3">
+                  <div class="login-input-wrap login-input-wrap--two-actions">
+                    <input
+                        id="credential-password"
+                        class="form-control"
+                        name="password"
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="Новый пароль"
+                        minlength="8"
+                        maxlength="1024"
+                        aria-describedby="password-hint"
+                        required
+                    >
+
+                    <div class="login-input-actions">
+                      <button type="button" class="login-input-action" id="clear-credential-password"
+                              aria-label="Очистить пароль" aria-controls="credential-password" hidden>
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" class="login-input-action" id="toggle-credential-password"
+                              aria-label="Показать оба пароля"
+                              aria-controls="credential-password credential-password-confirm" aria-pressed="false">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="strength" data-bs-strength>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                    <div class="strength-segment"></div>
+                  </div>
+                  <div class="text-end">
+                    <span id="password-hint" class="fs-sm color-hint">Не менее 8 символов</span></div>
+                </div>
+
+                <div class="mt-3 login-input-wrap">
                   <input
-                    id="credential-email"
-                    class="form-control"
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    placeholder="you@example.com"
-                    maxlength="254"
-                    required
-                  ></div>
-                <span class="input-group-text" aria-hidden="true">
-      <i class="bi bi-envelope"></i>
-    </span>
+                      id="credential-password-confirm"
+                      class="form-control"
+                      name="password_confirm"
+                      type="password"
+                      autocomplete="new-password"
+                      placeholder="Повтори пароль"
+                      minlength="8"
+                      maxlength="1024"
+                      aria-describedby="password-hint"
+                      required
+                  >
+                  <div class="login-input-actions">
+                    <button type="button" class="login-input-action" id="clear-credential-password-confirm"
+                            aria-label="Очистить повтор пароля" aria-controls="credential-password-confirm" hidden>
+                      <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <p id="credentials-status" class="mt-3" role="alert" hidden></p>
               </div>
-            {% endif %}
+
+
+            </div>
           </div>
 
-          <div class="mt-5">
-            <div class="mt-3">
-              <div class="form-floating">
-                <label for="credential-password"
-                       class="color-hint">
-                  Пароль
-                </label>
-                <input
-                  id="credential-password"
-                  class="form-control"
-                  name="password"
-                  type="password"
-                  autocomplete="new-password"
-                  placeholder="password"
-                  minlength="8"
-                  maxlength="1024"
-                  aria-describedby="password-hint"
-                  required
-                ></div>
-              <div class="strength" data-bs-strength>
-                <div class="strength-segment"></div>
-                <div class="strength-segment"></div>
-                <div class="strength-segment"></div>
-                <div class="strength-segment"></div>
-              </div>
-              <div class="text-end">
-                <span id="password-hint" class="fs-sm color-hint">Не менее 8 символов</span></div>
-            </div>
-            <div class="mt-3 form-floating">
-              <label for="credential-password-confirm" class="color-hint">
-                Повторите пароль
-              </label>
-              <input
-                id="credential-password-confirm"
-                class="form-control"
-                name="password_confirm"
-                type="password"
-                autocomplete="new-password"
-                placeholder="password"
-                minlength="8"
-                maxlength="1024"
-                aria-describedby="password-hint"
-                required
-              >
-            </div>
-            <p id="credentials-status" class="mt-3" role="alert" hidden></p>
-          </div>
-
-          <div class="d-flex justify-content-end mt-4">
+          <div class="dialog-footer">
+            <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Close</button>
             <button class="btn-subtle theme-inverse btn-lg" type="submit">
               Сохранить
             </button>
           </div>
-
         </form>
-      </div>
 
+      </dialog>
     </div>
   </section>
+
   <section style="margin: 5px 0">
     <div class="container">
       <div class="d-grid gap-2 mt-4 d-none" id="backButton"></div>
@@ -324,6 +423,8 @@
   <script>
     const form = document.getElementById('credentials-form');
     const statusBox = document.getElementById('credentials-status');
+    const password = form.elements.namedItem('password');
+    const confirmation = form.elements.namedItem('password_confirm');
 
     function showStatus(message, isError = true) {
       statusBox.textContent = message;
@@ -332,14 +433,11 @@
       statusBox.classList.toggle('fg-success', !isError);
     }
 
-    form?.addEventListener(
+    form.addEventListener(
       'submit',
       async (event) => {
         event.preventDefault();
         statusBox.hidden = true;
-
-        const password = form.elements.namedItem('password');
-        const confirmation = form.elements.namedItem('password_confirm');
 
         if (password.value !== confirmation.value) {
           showStatus('Пароли не совпадают');
@@ -384,5 +482,47 @@
       },
     );
 
+    function setupClearButton(input, button) {
+      function syncButton() {
+        button.hidden = !input.value;
+      }
+
+      input.addEventListener('input', () => {
+        syncButton();
+        statusBox.hidden = true;
+        confirmation.classList.remove('is-invalid');
+      });
+      button.addEventListener('click', () => {
+        input.value = '';
+        input.dispatchEvent(new Event('input', {bubbles: true}));
+        input.focus();
+      });
+
+      window.addEventListener('pageshow', syncButton);
+      window.addEventListener('load', syncButton);
+      syncButton();
+    }
+
+    const email = document.getElementById('credential-email');
+    if (email) {
+      setupClearButton(email, document.getElementById('clear-credential-email'));
+    }
+    setupClearButton(password, document.getElementById('clear-credential-password'));
+    setupClearButton(
+      confirmation,
+      document.getElementById('clear-credential-password-confirm'),
+    );
+
+    const togglePasswordButton = document.getElementById('toggle-credential-password');
+    const passwordToggleIcon = togglePasswordButton.querySelector('i');
+    togglePasswordButton.addEventListener('click', () => {
+      const visible = password.type === 'password';
+      const inputType = visible ? 'text' : 'password';
+      password.type = inputType;
+      confirmation.type = inputType;
+      togglePasswordButton.setAttribute('aria-pressed', String(visible));
+      passwordToggleIcon.classList.toggle('bi-eye', !visible);
+      passwordToggleIcon.classList.toggle('bi-eye-slash', visible);
+    });
   </script>
 {% endblock %}
