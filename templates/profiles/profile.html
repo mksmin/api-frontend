@@ -217,8 +217,8 @@
               Пароль
             </div>
             <div class="col-5 sm:col-4 text-end detail-text">
-              <button type="button" class="btn-outline theme-inverse" data-bs-toggle="dialog" data-bs-backdrop="static"
-                      data-bs-target="#exampleDialogFullscreenLg">
+              <button type="button" class="btn-text theme-inverse" data-bs-toggle="dialog" data-bs-backdrop="static"
+                      data-bs-target="#exampleDialogFullscreenLg" style="color: var(--hint-color);">
                 Изменить
               </button>
             </div>
@@ -268,11 +268,19 @@
               id="exampleDialogFullscreenLg">
         <div class="dialog-header">
           <div>
-            <h1 class="dialog-title">Вход по email</h1>
-            <small class="d-block mt-2 me-2 fg-secondary fs-sm w-fit">
-              Добавь email и пароль, чтобы входить не только с телеги
-              <i class="bi bi-cart2"></i>
-            </small>
+            {% if user.email %}
+              <h1 class="dialog-title">Изменить пароль</h1>
+              <small class="d-block mt-2 me-2 fg-secondary fs-sm w-fit">
+                Если старый надоел или старенький уже
+                <i class="bi bi-lock"></i>
+              </small>
+            {% else %}
+              <h1 class="dialog-title">Вход по email</h1>
+              <small class="d-block mt-2 me-2 fg-secondary fs-sm w-fit">
+                Добавь email и пароль, чтобы входить не только с телеги
+                <i class="bi bi-cart2"></i>
+              </small>
+            {% endif %}
           </div>
           <button type="button" class="btn-close"
                   data-bs-dismiss="dialog" aria-label="Закрыть"></button>
@@ -280,107 +288,134 @@
         <div class="dialog-body">
           <form id="credentials-form"
                 method="post"
+            {% if user.email %}
+                action="{{ url_for('user:change-password') }}">
+            {% else %}
                 action="{{ url_for('user:create-credentials') }}">
+            {% endif %}
 
-            <div class="pt-1">
+          <div class="pt-1">
 
-              <input type="hidden"
-                     name="token_key"
-                     value="{{ csrf_token }}">
+            <input type="hidden"
+                   name="token_key"
+                   value="{{ csrf_token }}">
 
-              <div class="mt-3">
-                {% if user.email %}
-                  <input type="hidden"
-                         name="email"
-                         value="{{ user.email }}"
-                  />
-                {% else %}
-                  <div class="login-input-wrap">
-                    <label for="credential-email" class="visually-hidden">Email</label>
-                    <input
-                      id="credential-email"
-                      class="form-control"
-                      name="email"
-                      type="email"
-                      autocomplete="email"
-                      placeholder="Введи email"
-                      maxlength="254"
-                      required
-                    >
-                    <div class="login-input-actions">
-                      <button type="button" class="login-input-action" id="clear-credential-email"
-                              aria-label="Очистить email" aria-controls="credential-email" hidden>
-                        <i class="bi bi-x-lg" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-                {% endif %}
-              </div>
+            <div class="mt-3 pb-5">
+              {% if user.email %}
+                <input type="hidden"
+                       name="email"
+                       value="{{ user.email }}"
+                />
 
-              <div class="mt-5">
-
-                <div class="mt-3">
-                  <div class="login-input-wrap login-input-wrap--two-actions">
-                    <input
-                      id="credential-password"
-                      class="form-control"
-                      name="password"
-                      type="password"
-                      autocomplete="new-password"
-                      placeholder="Новый пароль"
-                      minlength="8"
-                      maxlength="1024"
-                      aria-describedby="password-hint"
-                      required
-                    >
-
-                    <div class="login-input-actions">
-                      <button type="button" class="login-input-action" id="clear-credential-password"
-                              aria-label="Очистить пароль" aria-controls="credential-password" hidden>
-                        <i class="bi bi-x-lg" aria-hidden="true"></i>
-                      </button>
-                      <button type="button" class="login-input-action" id="toggle-credential-password"
-                              aria-label="Показать оба пароля"
-                              aria-controls="credential-password credential-password-confirm" aria-pressed="false">
-                        <i class="bi bi-eye" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="strength" data-bs-strength>
-                    <div class="strength-segment"></div>
-                    <div class="strength-segment"></div>
-                    <div class="strength-segment"></div>
-                    <div class="strength-segment"></div>
-                  </div>
-                  <div class="text-end">
-                    <span id="password-hint" class="fs-sm color-hint">Не менее 8 символов</span></div>
-                </div>
-
-                <div class="mt-3 login-input-wrap">
+                <div class="login-input-wrap login-input-wrap--two-actions">
                   <input
-                    id="credential-password-confirm"
+                    id="old-password"
                     class="form-control"
-                    name="password_confirm"
+                    name="old_password"
                     type="password"
-                    autocomplete="new-password"
-                    placeholder="Повтори пароль"
+                    autocomplete="current-password"
+                    placeholder="Старый пароль"
                     minlength="8"
                     maxlength="1024"
                     aria-describedby="password-hint"
                     required
                   >
+
                   <div class="login-input-actions">
-                    <button type="button" class="login-input-action" id="clear-credential-password-confirm"
-                            aria-label="Очистить повтор пароля" aria-controls="credential-password-confirm" hidden>
+                    <button type="button" class="login-input-action" id="clear-credential-old-password"
+                            aria-label="Очистить старый пароль" aria-controls="old-password" hidden>
                       <i class="bi bi-x-lg" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
-                <p id="credentials-status" class="mt-3" role="alert" hidden></p>
+
+              {% else %}
+                <div class="login-input-wrap">
+                  <label for="credential-email" class="visually-hidden">Email</label>
+                  <input
+                    id="credential-email"
+                    class="form-control"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="Введи email"
+                    maxlength="254"
+                    required
+                  >
+                  <div class="login-input-actions">
+                    <button type="button" class="login-input-action" id="clear-credential-email"
+                            aria-label="Очистить email" aria-controls="credential-email" hidden>
+                      <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="mt-5 pt-5">
+
+              <div class="mt-3">
+                <div class="login-input-wrap login-input-wrap--two-actions">
+                  <input
+                    id="credential-password"
+                    class="form-control"
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+                    placeholder="Новый пароль"
+                    minlength="8"
+                    maxlength="1024"
+                    aria-describedby="password-hint"
+                    required
+                  >
+
+                  <div class="login-input-actions">
+                    <button type="button" class="login-input-action" id="clear-credential-password"
+                            aria-label="Очистить пароль" aria-controls="credential-password" hidden>
+                      <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="login-input-action" id="toggle-credential-password"
+                            aria-label="Показать оба пароля"
+                            aria-controls="credential-password credential-password-confirm" aria-pressed="false">
+                      <i class="bi bi-eye" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="strength" data-bs-strength>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                  <div class="strength-segment"></div>
+                </div>
+                <div class="text-end">
+                  <span id="password-hint" class="fs-sm color-hint">Хотя бы 8 символов</span></div>
               </div>
 
-
+              <div class="mt-3 login-input-wrap">
+                <input
+                  id="credential-password-confirm"
+                  class="form-control"
+                  name="password_confirm"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="Повтори пароль"
+                  minlength="8"
+                  maxlength="1024"
+                  aria-describedby="password-hint"
+                  required
+                >
+                <div class="login-input-actions">
+                  <button type="button" class="login-input-action" id="clear-credential-password-confirm"
+                          aria-label="Очистить повтор пароля" aria-controls="credential-password-confirm" hidden>
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <p id="credentials-status" class="mt-3" role="alert" hidden></p>
             </div>
+
+
+          </div>
           </form>
         </div>
 
@@ -472,6 +507,7 @@
   <script>
     const form = document.getElementById('credentials-form');
     const statusBox = document.getElementById('credentials-status');
+    const oldPassword = form.elements.namedItem('old_password');
     const password = form.elements.namedItem('password');
     const confirmation = form.elements.namedItem('password_confirm');
 
@@ -503,14 +539,20 @@
             body: new FormData(form),
             credentials: 'same-origin',
           });
-          const data = await response.json().catch(() => ({}));
-
-          if (response.status === 201) {
-            showStatus('Пароль сохранен', false);
+          if (response.status === 201 || response.status === 204) {
+            showStatus('Пароль сохранён', false);
             window.location.reload();
+            return;
+          }
 
+          const data = await response.json().catch(() => ({}));
+          if (response.status === 403 && data.detail === 'invalid_current_password') {
+            showStatus('Старый пароль неверный');
+            oldPassword?.classList.add('is-invalid');
           } else if (response.status === 409) {
-            showStatus('Этот email уже используется или пароль уже задан');
+            showStatus(data.detail === 'password_change_conflict'
+              ? 'Обновите страницу и попробуйте сменить пароль снова'
+              : 'Этот email уже используется или пароль уже задан');
           } else if (response.status === 422) {
             const errors = Array.isArray(data.detail) ? data.detail : [];
             if (errors.some((error) => error.loc?.includes('email'))) {
@@ -540,6 +582,7 @@
         syncButton();
         statusBox.hidden = true;
         confirmation.classList.remove('is-invalid');
+        oldPassword?.classList.remove('is-invalid');
       });
       button.addEventListener('click', () => {
         input.value = '';
@@ -555,6 +598,9 @@
     const email = document.getElementById('credential-email');
     if (email) {
       setupClearButton(email, document.getElementById('clear-credential-email'));
+    }
+    if (oldPassword) {
+      setupClearButton(oldPassword, document.getElementById('clear-credential-old-password'));
     }
     setupClearButton(password, document.getElementById('clear-credential-password'));
     setupClearButton(
