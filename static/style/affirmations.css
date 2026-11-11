@@ -263,7 +263,7 @@
     font-weight: normal;
 }
 
-.modal-custom .modal-footer, .modal-custom .modal-header {
+.modal-custom .modal-footer, .modal-custom .modal-header, .modal-custom .dialog-footer {
     border-bottom: none;
     border-top: none;
 }

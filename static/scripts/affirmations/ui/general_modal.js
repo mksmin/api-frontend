@@ -1,3 +1,4 @@
+import {Dialog} from "bootstrap";
 import {DOMUtils} from "../utils/dom.js";
 import {TelegramService} from "../services/telegram.js";
 
@@ -9,7 +10,7 @@ export class GeneralModalManager {
     this.cancelBtn = this.modal.querySelector('#gModalCancelButton');
     this.telegramService = new TelegramService();
 
-    this.instance = bootstrap.Modal.getOrCreateInstance(this.modal);
+    this.instance = Dialog.getOrCreateInstance(this.modal);
 
     this.originalModal = {
       title: this.titleEl.textContent,
@@ -28,7 +29,7 @@ export class GeneralModalManager {
       },
     }
 
-    this.modal.addEventListener('hidden.bs.modal', () => this.reset());
+    this.modal.addEventListener(Dialog.eventName('hidden'), () => this.reset());
   }
 
   show({

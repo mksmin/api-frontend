@@ -209,13 +209,13 @@ export class AffirmationDetail {
       title: `Удалить аффирмацию (ID: ${this.selectedAffirmationId})?`,
       confirmBtn: {
         text: 'Да, удалить',
-        styleClasses: ['btn', 'btn-outline-danger', 'btn-c-lg'],
+        styleClasses: ['btn', 'btn-outline-danger', 'btn-outline', 'theme-danger', 'btn-c-lg'],
         disabled: false,
         onClick: async () => this.confirmDeletion(),
       },
       cancelBtn: {
         text: 'Не удалять',
-        styleClasses: ['btn', 'btn-outline-secondary', 'btn-c-lg'],
+        styleClasses: ['btn', 'btn-outline-secondary', 'btn-outline', 'theme-secondary', 'btn-c-lg'],
         disabled: false,
       },
     })

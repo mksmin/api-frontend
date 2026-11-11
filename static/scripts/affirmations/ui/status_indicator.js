@@ -1,4 +1,7 @@
+import {Toast} from "bootstrap";
 import {DOMUtils} from "../utils/dom.js";
+
+const statusColors = ['primary', 'success', 'info', 'warning', 'danger'];
 
 export class StatusIndicator {
   /**
@@ -21,7 +24,7 @@ export class StatusIndicator {
       return;
     }
 
-    this.toast = bootstrap.Toast.getOrCreateInstance(
+    this.toast = Toast.getOrCreateInstance(
       this.el,
       {
         autohide: false
@@ -30,26 +33,29 @@ export class StatusIndicator {
 
   /**
    * Показать тост
-   * @param {'success'|'info'|'warning'|'danger'} type - тип (цвет)
+   * @param {'primary'|'success'|'info'|'warning'|'danger'|'error'} type - тип (цвет)
    * @param {string} text - текст тоста
    * @param {number} duration - время отображения в мс
    * @param {boolean} autoHide - автоматически скрывать
    */
   show(
-    /** @type {'success'|'info'|'warning'|'danger'} */
     type = 'info',
     text = '',
     duration = 5000,
     autoHide = true
   ) {
-    if (!this.el) return;
+    if (!this.toast) return;
 
+    const color = type === 'error' ? 'danger' : type;
     this.body.textContent = text;
-    this.el.className = `toast align-items-center text-bg-${type} border-0`;
+    for (const previousColor of statusColors) {
+      this.el.classList.remove(`text-bg-${previousColor}`, `bg-${previousColor}`, `fg-contrast-${previousColor}`);
+    }
+    this.el.classList.add(`text-bg-${color}`, `bg-${color}`, `fg-contrast-${color}`);
     this.toast.show();
 
+    clearTimeout(this.el._timer);
     if (autoHide) {
-      clearTimeout(this.el._timer);
       this.el._timer = setTimeout(() => {
         this.hide();
       }, duration);
@@ -57,7 +63,7 @@ export class StatusIndicator {
   };
 
   hide() {
-    if (!this.el) return;
+    if (!this.toast) return;
     this.toast.hide();
     clearTimeout(this.el._timer);
   };

@@ -1,3 +1,4 @@
+import {Dialog} from "bootstrap";
 import {DOMUtils} from "../utils/dom.js";
 import {formatTime} from "../utils/helpers.js";
 import {ApiService} from "../services/api.js";
@@ -63,7 +64,7 @@ export class SettingsManager {
     let newValue = null;
 
     modalEl.addEventListener(
-      'show.bs.modal',
+      Dialog.eventName('show'),
       (event) => {
         const trigger = event.relatedTarget;
         const current = trigger?.dataset.currentCount;
@@ -85,7 +86,7 @@ export class SettingsManager {
     saveBtn.addEventListener(
       'click',
       async () => {
-        const modal = bootstrap.Modal.getInstance(modalEl);
+        const modal = Dialog.getInstance(modalEl);
         await this.saveCountTasks(
           saveBtn,
           newValue,
@@ -136,7 +137,7 @@ export class SettingsManager {
     if (!timeInput || !saveBtn || !modalEl) return;
 
     let newTime = timeInput.value;
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl); // eslint-disable-line no-undef
+    const modal = Dialog.getOrCreateInstance(modalEl);
 
     timeInput.addEventListener(
       'change',
@@ -157,7 +158,7 @@ export class SettingsManager {
       });
 
     modalEl.addEventListener(
-      'hidden.bs.modal',
+      Dialog.eventName('hidden'),
       () => {
         timeInput.value = timeDisplay?.textContent || timeDisplay.value;
       });
