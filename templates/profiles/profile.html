@@ -90,7 +90,9 @@
       }
   </style>
 {% endblock %}
-
+{% block navbar %}
+  {% include "components/navbar.html" %}
+{% endblock %}
 {% block content %}
   <section class="position-relative overflow-x-hidden py-5 mb-1 mb-sm-3">
     <div class="container">

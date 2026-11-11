@@ -33,6 +33,7 @@
   {% block head_extra %}{% endblock %}
 </head>
 <body>
+{% block navbar %}{% endblock %}
 <main>
   <div class="main-container-wrap">
     {% block content %}
@@ -58,7 +59,37 @@
         }
       }
     });
+
+    const logoutButton = document.getElementById('logout_button');
+    logoutButton?.addEventListener(
+      'click', async() =>
+    {
+      try {
+        const response = await fetch(
+          {{ url_for("user:logout").path | tojson }},
+          {
+            method: 'POST',
+            body: new URLSearchParams(
+              {
+                token_key: {{ csrf_token | default('') | tojson }},
+              },
+            ),
+          },
+        );
+
+        if (!response.ok || !response.redirected) {
+          throw new Error(`Logout failed (${response.status})`);
+        }
+        window.location.replace(response.url);
+      } catch (e) {
+        window.alert('Не удалось выйти. Обнови страницу и попробуй снова.');
+      }
+    }
+    )
+
+
   </script>
+
 </footer>
 </body>
 </html>
