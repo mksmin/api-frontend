@@ -1,0 +1,74 @@
+
+<header>
+  <nav class="navbar lg:navbar-expand bg-1 border-bottom"
+       aria-label="Навигация LMS">
+
+    <div class="container">
+
+      <!-- Логотип -->
+      <a class="navbar-brand fw-semibold" href="/lms">
+        LMS
+      </a>
+
+      <!-- Мобильная кнопка -->
+      <button
+        class="btn-icon navbar-toggler"
+        type="button"
+        data-bs-toggle="drawer"
+        data-bs-target="#lmsNavbar"
+        aria-controls="lmsNavbar"
+        aria-expanded="false"
+        aria-label="Открыть меню"
+      >
+        <span class="navbar-toggler-icon"
+              aria-hidden="true"></span>
+      </button>
+
+      <!-- Навигация -->
+      <dialog
+        class="drawer drawer-end"
+        id="lmsNavbar"
+        tabindex="-1"
+        aria-labelledby="lmsNavbarTitle"
+      >
+
+        <!-- Заголовок мобильного меню -->
+        <div class="drawer-header">
+          <h2 class="drawer-title h5" id="lmsNavbarTitle">
+            Меню
+          </h2>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="drawer"
+            aria-label="Закрыть меню"
+          ></button>
+        </div>
+
+        <!-- Ссылки -->
+        <div class="drawer-body">
+          <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item">
+              <a class="nav-link active"
+                 href="/lms"
+                 aria-current="page">
+                Мои проекты
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                Основной сайт
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+      </dialog>
+
+    </div>
+  </nav>
+</header>
