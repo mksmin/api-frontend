@@ -1,0 +1,31 @@
+{% extends "subprojects/lms/base.html" %}
+
+{% block title %}
+  {{ project.title }} — LMS
+{% endblock %}
+
+{% block content %}
+  <nav aria-label="Хлебные крошки">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="breadcrumb-link" href="/lms">Мои проекты</a>
+      </li>
+      <li class="breadcrumb-divider"></li>
+      <li class="breadcrumb-item" aria-current="page">
+        <a class="breadcrumb-link active"
+           href="{{ url_for("lms-project:detail", project_uuid=project.uuid) }}">{{ project.title }}</a>
+      </li>
+    </ol>
+  </nav>
+
+  <header class="m-4">
+    <h1 class="h2 mb-2">{{ project.title }}</h1>
+    <p class="fg-3 text-sm mb-0">
+      {{ project.description or "Образовательный проект" }}
+    </p>
+  </header>
+
+  {% include "subprojects/lms/components/project_nav.html" %}
+
+  {% block project_content %}{% endblock %}
+{% endblock %}

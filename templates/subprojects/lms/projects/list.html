@@ -40,40 +40,41 @@
               <!-- Роль -->
               <div class="d-flex justify-content-between align-items-center">
         <span class="fs-xl fw-semibold fg-primary">
-          {{ project.name[0] }}
+          {{ project.title[0] }}
         </span>
 
                 <span class="text-xs fg-3">
-          {{ project.role }}
+          role
         </span>
               </div>
 
               <!-- Название -->
               <div>
                 <h2 class="card-title fs-lg fw-semibold mb-1">
-                  {{ project.name }}
+                  {{ project.title }}
                 </h2>
 
-                <p class="text-sm fg-3 mb-0">
-                  Образовательный проектОбразовательный проектОбразовательный проектОбразовательный
-                  проектОбразовательный проектОбразовательный проект
-                </p>
+                {% if project.description %}
+                  <p class="text-sm fg-3 mb-0">
+                    {{ project.description }}
+                  </p>
+                {% endif %}
               </div>
 
               <!-- Показатели -->
               <div class="d-flex flex-wrap gap-3 text-sm fg-2">
         <span>
-          Потоков: {{ project.stream_count }}
+          Потоков: 1
         </span>
 
                 <span>
-          Участников: {{ project.participant_count }}
+          Участников: 1
         </span>
               </div>
 
               <div class="mt-auto pt-3">
                 <a
-                  href="/lms/projects/{{ project.id }}"
+                  href="/lms/projects/{{ project.uuid }}"
                   class="btn-solid theme-primary w-100"
                 >
                   Открыть проект

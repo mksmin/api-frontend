@@ -1,0 +1,33 @@
+{% set active = project_section | default("overview") %}
+
+<nav class="mb-4" aria-label="Разделы проекта">
+  <div class="overflow-x-auto">
+    <ul class="nav nav-underline flex-nowrap">
+
+      {% set items = [
+        ("overview", "Обзор", ""),
+        ("flows", "Потоки", "/flows"),
+        ("participants", "Слушатели", "/participants"),
+        ("sessions", "Расписание", "/sessions"),
+        ("attendance", "Журнал", "/attendance"),
+        ("reports", "Отчёты", "/reports")
+      ] %}
+
+      {% for key, label, path in items %}
+
+
+
+        <li class="nav-item">
+          <a
+            href="/lms/projects/{{ project.uuid }}{{ path }}"
+            class="nav-link text-nowrap {% if active == key %}active{% endif %}"
+            {% if active == key %}aria-current="page"{% endif %}
+          >
+            {{ label }}
+          </a>
+        </li>
+      {% endfor %}
+
+    </ul>
+  </div>
+</nav>

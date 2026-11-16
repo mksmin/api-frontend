@@ -16,13 +16,14 @@
   {% block extra_head %} {% endblock %}
 </head>
 <body>
+{% block navbar %}
   {% include "subprojects/lms/components/navbar.html" %}
+{% endblock %}
 
 
 <main id="main-content"
       class="
-{% block main_class %}container{% endblock %}
-py-4 md:py-5">
+{% block main_class %}container{% endblock %} py-4 md:py-5">
   {% block content %} {% endblock %}
 </main>
 

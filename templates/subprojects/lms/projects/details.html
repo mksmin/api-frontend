@@ -1,0 +1,42 @@
+{% extends "subprojects/lms/projects/base.html" %}
+
+{% block project_content %}
+
+  <section class="row g-4">
+
+    <div class="col-12 md:col-4">
+      <article class="card">
+        <div class="card-body p-4">
+          <p class="fg-3 text-sm mb-2">Потоки</p>
+          <div class="fs-2xl fw-semibold">
+            {{ flow_count | default(0) }}
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 md:col-4">
+      <article class="card">
+        <div class="card-body p-4">
+          <p class="fg-3 text-sm mb-2">Слушатели</p>
+          <div class="fs-2xl fw-semibold">
+            {{ participant_count | default(0) }}
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 md:col-4">
+      <article class="card">
+        <div class="card-body p-4">
+          <p class="fg-3 text-sm mb-2">Занятия</p>
+          <div class="fs-2xl fw-semibold">
+            {{ session_count | default(0) }}
+          </div>
+        </div>
+      </article>
+    </div>
+
+  </section>
+
+{% endblock %}
