@@ -1,0 +1,149 @@
+{% extends "subprojects/lms/base.html" %}
+
+{% block title %}
+  Создать проект — LMS
+{% endblock %}
+
+{% block content %}
+
+  <nav aria-label="Хлебные крошки">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a
+          class="breadcrumb-link"
+          href="{{ url_for('lms:index-page') }}"
+        >
+          Мои проекты
+        </a>
+      </li>
+
+      <li class="breadcrumb-divider"></li>
+
+      <li class="breadcrumb-item" aria-current="page">
+        <span class="breadcrumb-link active">
+          Создать проект
+        </span>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-12 md:col-10 lg:col-6">
+
+      <header class="m-4 mb-5">
+        <h1 class="h2 mb-2">
+          Новый проект
+        </h1>
+
+        <p class="fg-3 text-sm mb-0">
+          Создай образовательный проект.
+          Потоки и слушателей можно будет добавить позже.
+        </p>
+      </header>
+
+      <form
+        method="post"
+        action="{{ url_for('lms-projects:create:submit') }}"
+      >
+        <input
+          type="hidden"
+          name="token_key"
+          value="{{ csrf_token }}"
+        >
+        <div class="card">
+          <div class="card-body p-4">
+            {% for message in errors.get("_form", []) %}
+              <div class="alert theme-danger mb-4" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            <!-- Название проекта -->
+            <div class="mb-4">
+              {% set title_errors = errors.get("title", []) %}
+              <label
+                for="project-title"
+                class="form-label"
+              >
+                Название проекта
+              </label>
+
+              <input
+                type="text"
+                id="project-title"
+                name="title"
+                class="form-control{% if title_errors %} is-invalid{% endif %}"
+                placeholder="Например, Атом-лаб 2026"
+                value="{{ form.title }}"
+                maxlength="{{ title_max_length }}"
+                aria-describedby="project-title-hint{% if title_errors %} project-title-errors{% endif %}"
+                {% if title_errors %}aria-invalid="true"{% endif %}
+                autofocus
+              >
+
+              <div id="project-title-hint" class="form-text">
+                До {{ title_max_length }} символов
+              </div>
+              {% if title_errors %}
+                <div id="project-title-errors" class="invalid-feedback d-block">
+                  {% for message in title_errors %}<div>{{ message }}</div>{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Описание -->
+            <div class="mb-4">
+              {% set description_errors = errors.get("description", []) %}
+              <label
+                for="project-description"
+                class="form-label"
+              >
+                Описание
+              </label>
+
+              <textarea
+                id="project-description"
+                name="description"
+                class="form-control{% if description_errors %} is-invalid{% endif %}"
+                rows="4"
+                maxlength="{{ description_max_length }}"
+                aria-describedby="project-description-hint{% if description_errors %} project-description-errors{% endif %}"
+                {% if description_errors %}aria-invalid="true"{% endif %}
+                placeholder="Краткое описание образовательной программы"
+              >{{ form.description }}</textarea>
+
+              <div id="project-description-hint" class="form-text">
+                Необязательно, до {{ description_max_length }} символов
+              </div>
+              {% if description_errors %}
+                <div id="project-description-errors" class="invalid-feedback d-block">
+                  {% for message in description_errors %}<div>{{ message }}</div>{% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div
+              class="d-flex flex-wrap justify-content-end gap-2"
+            >
+              <a
+                href="{{ url_for('lms:index-page') }}"
+                class="btn-outline theme-secondary"
+              >
+                Отмена
+              </a>
+
+              <button
+                type="submit"
+                class="btn-solid theme-primary"
+              >
+                Создать проект
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
