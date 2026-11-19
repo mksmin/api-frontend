@@ -1,74 +1,60 @@
-
 <header>
-  <nav class="navbar lg:navbar-expand bg-1 border-bottom"
-       aria-label="Навигация LMS">
-
-    <div class="container">
-
-      <!-- Логотип -->
-      <a class="navbar-brand fw-semibold" href="/lms">
-        LMS
-      </a>
-
-      <!-- Мобильная кнопка -->
-      <button
-        class="btn-icon navbar-toggler"
-        type="button"
-        data-bs-toggle="drawer"
-        data-bs-target="#lmsNavbar"
-        aria-controls="lmsNavbar"
-        aria-expanded="false"
-        aria-label="Открыть меню"
-      >
-        <span class="navbar-toggler-icon"
-              aria-hidden="true"></span>
+  <nav class="navbar md:navbar-expand bg-1">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for("lms:index-page") }}">Mini LMS</a>
+      <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarDrawer"
+              aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" aria-hidden="true"></span>
       </button>
-
-      <!-- Навигация -->
-      <dialog
-        class="drawer drawer-end"
-        id="lmsNavbar"
-        tabindex="-1"
-        aria-labelledby="lmsNavbarTitle"
-      >
-
-        <!-- Заголовок мобильного меню -->
+      <dialog class="drawer drawer-end" tabindex="-1" id="navbarDrawer" aria-labelledby="navbarDrawerLabel">
         <div class="drawer-header">
-          <h2 class="drawer-title h5" id="lmsNavbarTitle">
-            Меню
-          </h2>
-
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="drawer"
-            aria-label="Закрыть меню"
-          ></button>
+          <h5 class="drawer-title" id="navbarDrawerLabel">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
         </div>
-
-        <!-- Ссылки -->
-        <div class="drawer-body">
-          <ul class="navbar-nav ms-auto">
-
+        <div class="drawer-body mb-2 md:mb-0">
+          <ul class="nav navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active"
-                 href="/lms"
-                 aria-current="page">
-                Мои проекты
-              </a>
+              <a class="nav-link active" aria-current="page" href="{{ url_for("lms:index-page") }}">Главная</a>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" href="/">
-                Основной сайт
-              </a>
+              <a class="nav-link" href="{{ url_for("profiles:user-profile") }}">Профиль</a>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
+                Menu
+              </button>
+              <div class="menu">
+                <a class="menu-item" href="#">Action</a>
+                <a class="menu-item" href="#">Another action</a>
+                <hr class="menu-divider">
+                <a class="menu-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
 
           </ul>
+
+          <form class="hstack gap-2 md:flex-grow-0" role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            <button class="btn-solid btn-icon theme-secondary" type="submit">
+              <i class="bi bi-search"> </i>
+            </button>
+          </form>
+
+          <div class="d-flex gap-2 justify-content-end md:ms-2">
+            <button
+              type="button"
+              id="theme-toggle"
+              class="btn-outline theme-secondary"
+            >
+              <i class="bi bi-circle-half" aria-hidden="true"></i>
+            </button>
+          </div>
+
         </div>
-
       </dialog>
-
     </div>
   </nav>
 </header>

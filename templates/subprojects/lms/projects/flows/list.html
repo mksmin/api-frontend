@@ -1,0 +1,106 @@
+{% extends "subprojects/lms/projects/base.html" %}
+
+{% block project_content %}
+
+  <!-- Заголовок раздела -->
+  <header class="d-flex flex-wrap justify-content-between
+                 align-items-center gap-3 m-4">
+
+    <div>
+      <h2 class="h3 mb-2">
+        Потоки
+      </h2>
+
+      <p class="fg-3 text-sm mb-0">
+        Всего потоков: {{ flows | length }}
+      </p>
+    </div>
+
+    {% if can_manage_flows and flows %}
+      <a
+        href="/lms/projects/{{ project.uuid }}/flows/new"
+        class="btn-solid theme-primary"
+      >
+        Добавить поток
+      </a>
+    {% endif %}
+
+  </header>
+
+  {% if flows %}
+
+    <!-- Карточки потоков -->
+    <section class="row row-cols-1 md:row-cols-2 xl:row-cols-3 g-4">
+
+      {% for flow in flows %}
+
+        <div class="col">
+          <article class="card h-100">
+
+            <div class="card-body p-4 d-flex flex-column gap-3">
+
+              <div class="d-flex align-items-start
+                          justify-content-between gap-3">
+
+                <h3 class="card-title fs-lg fw-semibold mb-0">
+                  {{ flow.title }}
+                </h3>
+
+                <span class="fg-3" aria-hidden="true">
+                  #{{ loop.index }}
+                </span>
+
+              </div>
+
+              <p class="fg-3 text-sm mb-0">
+                Образовательный поток
+              </p>
+
+              <div class="mt-auto pt-3">
+                <a
+                  href="/lms/projects/{{ project.uuid }}/flows/{{ flow.uuid }}"
+                  class="btn-solid theme-primary w-100"
+                >
+                  Открыть поток
+                </a>
+              </div>
+
+            </div>
+
+          </article>
+        </div>
+
+      {% endfor %}
+
+    </section>
+
+  {% else %}
+
+    <!-- Пустой список -->
+    <section class="card">
+      <div class="card-body p-5 text-center">
+
+        <h3 class="h5 mb-2">
+          Потоков пока нет
+        </h3>
+
+        <p class="fg-3 text-sm mb-4">
+          Создай первый поток, чтобы начать
+          формировать список слушателей.
+        </p>
+
+        {% if can_manage_flows %}
+          <a
+            href="/lms/projects/{{ project.uuid }}/flows/new"
+            class="btn-solid theme-primary align-self-center"
+          >
+            Создать первый поток
+          </a>
+        {% endif %}
+
+      </div>
+    </section>
+
+  {% endif %}
+
+{% endblock %}

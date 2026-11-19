@@ -1,0 +1,141 @@
+{% extends "subprojects/lms/projects/base.html" %}
+
+{% block project_content %}
+
+  <!-- Возврат к проекту -->
+  <div class="mb-4">
+    <a
+      href="{{ url_for('lms-project:detail', project_uuid=project.uuid) }}"
+      class="theme-secondary btn-text btn-sm rounded-pill"
+    >
+      <i class="bi bi-arrow-left"></i>
+      К проекту
+    </a>
+  </div>
+
+  <!-- Заголовок потока -->
+  <header class="d-flex flex-wrap justify-content-between
+                 align-items-start gap-3 m-4">
+
+    <div>
+      <h2 class="h3 mb-2">
+        {{ flow.title }}
+      </h2>
+
+      <p class="fg-3 text-sm mb-0">
+        Слушатели образовательного потока
+      </p>
+    </div>
+
+    {#
+      Здесь позже появится кнопка
+      "Изменить название потока".
+    #}
+
+  </header>
+
+  <!-- Статистика потока -->
+  <section class="row g-4 mb-4">
+
+    <!-- Количество слушателей -->
+    <div class="col-12 md:col-6">
+      <div class="card h-100">
+        <div class="card-body p-4">
+
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-people fg-3"></i>
+            <span class="fg-3 text-sm">
+            Слушателей
+          </span>
+          </div>
+
+          <div class="fs-2xl fw-semibold">
+            {{ participants | length | default("—") }}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Количество кураторов -->
+    <div class="col-12 md:col-6">
+      <div class="card h-100">
+        <div class="card-body p-4">
+
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-person-badge fg-3"></i>
+            <span class="fg-3 text-sm">
+            Кураторов
+          </span>
+          </div>
+
+          <div class="fs-2xl fw-semibold">
+            {{ curator_count | default("—") }}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Слушатели -->
+  <section class="card overflow-hidden">
+
+    <div class="card-header d-flex justify-content-between
+                align-items-center gap-2">
+
+      <h3 class="h5 mb-0">
+        Слушатели
+      </h3>
+
+      {#
+        Здесь позже появится кнопка
+        "Добавить слушателя".
+      #}
+
+    </div>
+
+    {% set participants = participants | default([]) %}
+
+    {% if participants %}
+
+      <div class="table-responsive">
+
+        <table class="table table-hover mb-0">
+          <thead>
+          <tr>
+            <th scope="col">ФИО</th>
+            <th scope="col">Email</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          {% for participant in participants %}
+            <tr>
+              <td>{{ participant.full_name }}</td>
+              <td>{{ participant.email }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+
+    {% else %}
+
+      <div class="card-body p-5 text-center">
+        <h4 class="h6 mb-2">
+          В потоке пока нет слушателей
+        </h4>
+
+        <p class="fg-3 text-sm mb-0">
+          После зачисления слушатели появятся здесь.
+        </p>
+      </div>
+
+    {% endif %}
+
+  </section>
+
+{% endblock %}

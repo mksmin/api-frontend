@@ -1,6 +1,6 @@
 {% set active = project_section | default("overview") %}
 
-<nav class="mb-4" aria-label="Разделы проекта">
+<nav class="m-4" aria-label="Разделы проекта">
   <div class="overflow-x-auto">
     <ul class="nav nav-underline flex-nowrap">
 
@@ -14,9 +14,6 @@
       ] %}
 
       {% for key, label, path in items %}
-
-
-
         <li class="nav-item">
           <a
             href="/lms/projects/{{ project.uuid }}{{ path }}"

@@ -1,0 +1,144 @@
+{% extends "subprojects/lms/base.html" %}
+
+{% block title %}
+  404 — Страница не найдена · LMS
+{% endblock %}
+
+{% block extra_head %}
+  <style>
+      .lms-not-found {
+          min-height: 70vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem 0;
+      }
+
+      .lms-not-found__content {
+          width: 100%;
+          max-width: 640px;
+          text-align: center;
+      }
+
+      .lms-not-found__icon {
+          width: 76px;
+          height: 76px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 1.25rem;
+          background: var(--bs-tertiary-bg);
+          color: var(--bs-secondary-color);
+          margin-bottom: 1.5rem;
+      }
+
+      .lms-not-found__code {
+          font-size: clamp(5rem, 18vw, 9rem);
+          font-weight: 800;
+          line-height: 1;
+          letter-spacing: -0.07em;
+          margin: 0 0 1.5rem;
+          color: var(--bs-secondary-color);
+      }
+
+      .lms-not-found__title {
+          font-size: clamp(1.5rem, 4vw, 2rem);
+          font-weight: 600;
+          margin-bottom: 1rem;
+      }
+
+      .lms-not-found__description {
+          max-width: 470px;
+          margin: 0 auto 2rem;
+          line-height: 1.7;
+      }
+
+      .lms-not-found__actions {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+      }
+
+      @media (max-width: 575px) {
+          .lms-not-found__actions > a {
+              width: 100%;
+          }
+      }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  <section
+    class="lms-not-found"
+    aria-labelledby="not-found-title"
+  >
+    <div class="lms-not-found__content">
+
+      <!-- Иконка -->
+      <div class="lms-not-found__icon" aria-hidden="true">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 6v12l6-3 6 3 6-3V3l-6 3-6-3-6 3Z" />
+          <path d="M9 3v12" />
+          <path d="M15 6v12" />
+          <path d="m3 3 18 18" />
+        </svg>
+      </div>
+
+      <!-- Код ошибки -->
+      <p class="lms-not-found__code" aria-label="Ошибка 404">
+        404
+      </p>
+
+      <!-- Заголовок -->
+      <h1
+        id="not-found-title"
+        class="lms-not-found__title"
+      >
+        Кажется, здесь ничего нет
+      </h1>
+
+      <!-- Описание -->
+      <p class="lms-not-found__description fg-3">
+        Страница не найдена. Возможно, ссылка устарела,
+        страница была удалена или у вас нет к ней доступа.
+      </p>
+
+      <!-- Действия -->
+      <div class="lms-not-found__actions">
+
+        <a
+          href="{{ url_for('lms:index-page') }}"
+          class="btn-solid theme-primary"
+        >
+          Мои проекты
+        </a>
+
+        <a
+          href="/"
+          class="btn-outline theme-secondary"
+        >
+          На основной сайт
+        </a>
+
+      </div>
+
+      <p class="fg-3 text-sm mt-4">
+        Ничего страшного, вернуться можно в один клик.
+      </p>
+
+    </div>
+  </section>
+
+{% endblock %}
