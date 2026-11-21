@@ -1,0 +1,126 @@
+{% extends "subprojects/lms/projects/base.html" %}
+
+{% block project_content %}
+
+  <div class="mb-4">
+    <a
+      href="{{ url_for(
+        'lms-flow:details',
+        project_uuid=project.uuid,
+        flow_uuid=flow.uuid
+      ) }}"
+      class="theme-secondary btn-text btn-sm rounded-pill"
+    >
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
+      К потоку
+    </a>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-12 md:col-10 lg:col-7">
+      <header class="mb-4">
+        <h2 class="h3 mb-2">
+          Изменить название потока
+        </h2>
+        <p class="fg-3 text-sm mb-0">
+          Проект «{{ project.title }}».
+        </p>
+      </header>
+
+      <form
+        method="post"
+        action="{{ url_for(
+          'lms-flow:edit:submit',
+          project_uuid=project.uuid,
+          flow_uuid=flow.uuid
+        ) }}"
+      >
+        <input
+          type="hidden"
+          name="token_key"
+          value="{{ csrf_token }}"
+        >
+
+        <div class="card">
+          <div class="card-body p-4">
+
+            {% for message in errors.get("_form", []) %}
+              <div
+                class="alert theme-danger mb-4"
+                role="alert"
+              >
+                {{ message }}
+              </div>
+            {% endfor %}
+
+            <div class="mb-4">
+              {% set title_errors = errors.get("title", []) %}
+
+              <label
+                for="flow-title"
+                class="form-label"
+              >
+                Название потока
+              </label>
+
+              <input
+                type="text"
+                id="flow-title"
+                name="flow_title"
+                class="form-control{% if title_errors %} is-invalid{% endif %}"
+                value="{{ form.title }}"
+                maxlength="254"
+                aria-describedby="flow-title-hint{% if title_errors %} flow-title-errors{% endif %}"
+                {% if title_errors %}aria-invalid="true"{% endif %}
+                required
+                autofocus
+              >
+
+              <div
+                id="flow-title-hint"
+                class="form-text"
+              >
+                От 1 до 254 символов.
+                Название должно быть уникальным среди активных
+                потоков проекта без учёта регистра.
+              </div>
+
+              {% if title_errors %}
+                <div
+                  id="flow-title-errors"
+                  class="invalid-feedback d-block"
+                >
+                  {% for message in title_errors %}
+                    <div>{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-end gap-2">
+              <a
+                href="{{ url_for(
+                  'lms-flow:details',
+                  project_uuid=project.uuid,
+                  flow_uuid=flow.uuid
+                ) }}"
+                class="btn-outline theme-secondary"
+              >
+                Отмена
+              </a>
+
+              <button
+                type="submit"
+                class="btn-solid theme-primary"
+              >
+                Сохранить
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

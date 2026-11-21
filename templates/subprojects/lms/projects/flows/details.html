@@ -27,10 +27,13 @@
       </p>
     </div>
 
-    {#
-      Здесь позже появится кнопка
-      "Изменить название потока".
-    #}
+    <a
+      href="/lms/projects/{{ project.uuid }}/flows/{{ flow.uuid }}/edit"
+      class="btn-outline theme-secondary"
+    >
+      <i class="bi bi-pencil" aria-hidden="true"></i>
+      Изменить название потока
+    </a>
 
   </header>
 
