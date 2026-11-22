@@ -1,0 +1,150 @@
+{% extends "subprojects/lms/projects/workspace.html" %}
+{% from "subprojects/lms/components/workspace_ui.html" import stat, empty, csrf_field, dialog_header %}
+{% set project_section = "participants" %}
+{% set enrollments = enrollments | default([], true) %}
+{% set flows = flows | default([], true) %}
+{% set can_manage_participants = can_manage_participants | default(false) %}
+{% set participant_form = participant_form | default({}, true) %}
+{# Enrollment rows: uuid, full_name, email, flow_uuid, flow_title, status. #}
+
+{% block title %}Слушатели — {{ project.title }} — LMS{% endblock %}
+
+{% block workspace_content %}
+  <header class="lms-page-header">
+    <div>
+      <span class="lms-eyebrow">Участники проекта</span>
+      <h2>Слушатели</h2>
+      <p>Список зачислений, распределение по потокам и текущий статус участия.</p>
+    </div>
+    {% if can_manage_participants %}
+      <div class="lms-actions">
+        <button type="button" class="btn-outline theme-secondary" data-lms-open-dialog="import-participants">
+          <i class="bi bi-upload" aria-hidden="true"></i>Импорт XLSX
+        </button>
+        <button type="button" class="btn-solid theme-primary" data-lms-open-dialog="enroll-participant" {% if not flows %}disabled title="Сначала добавь поток в проект"{% endif %}>
+          <i class="bi bi-person-plus" aria-hidden="true"></i>Зачислить слушателя
+        </button>
+      </div>
+    {% endif %}
+  </header>
+
+  <section class="lms-stats" aria-label="Состав проекта">
+    {{ stat("Активные слушатели", enrollments | selectattr("status", "equalto", "active") | list | length, "people", "lms-positive") }}
+    {{ stat("Потоки проекта", flows | length, "collection") }}
+    {{ stat("Исключены", enrollments | selectattr("status", "equalto", "excluded") | list | length, "person-dash") }}
+  </section>
+
+  <section class="lms-panel" aria-labelledby="participants-heading" data-lms-filter-scope>
+    <header class="lms-section-header">
+      <div>
+        <h3 id="participants-heading">Состав проекта</h3>
+        <p>Один слушатель — одно зачисление в этот проект.</p>
+      </div>
+      <span class="lms-badge lms-badge-plain">Зачислений: {{ enrollments | length }}</span>
+    </header>
+
+    {% if enrollments %}
+      <form class="lms-filters" data-lms-filter-form role="search" aria-label="Поиск слушателей">
+        <div class="lms-field lms-field-search">
+          <label for="participant-search">Поиск</label>
+          <div class="lms-search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <input class="form-control" id="participant-search" type="search" name="q" placeholder="ФИО или email" data-lms-filter="search">
+          </div>
+        </div>
+        <div class="lms-field">
+          <label for="participant-flow">Поток</label>
+          <select class="form-select" id="participant-flow" name="flow_uuid" data-lms-filter="flow">
+            <option value="">Все потоки</option>
+            {% for item in flows %}<option value="{{ item.uuid }}">{{ item.title }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="lms-field">
+          <label for="participant-status">Статус</label>
+          <select class="form-select" id="participant-status" name="status" data-lms-filter="status">
+            <option value="">Все зачисления</option>
+            <option value="active">Активные</option>
+            <option value="excluded">Исключённые</option>
+          </select>
+        </div>
+        <button type="reset" class="btn-text theme-secondary">Сбросить</button>
+      </form>
+
+      <div class="lms-table-scroll">
+        <table class="lms-table">
+          <caption class="visually-hidden">Слушатели, их потоки и статусы зачисления</caption>
+          <thead><tr><th scope="col">Слушатель</th><th scope="col">Поток</th><th scope="col">Статус</th>{% if can_manage_participants %}<th scope="col">Действия</th>{% endif %}</tr></thead>
+          <tbody>
+            {% for enrollment in enrollments %}
+              <tr data-lms-filter-row data-search="{{ enrollment.full_name }} {{ enrollment.email }}" data-flow="{{ enrollment.flow_uuid }}" data-status="{{ enrollment.status }}">
+                <td>
+                  <div class="lms-person">
+                    <span class="lms-avatar" aria-hidden="true">{{ enrollment.full_name[:1] | upper }}</span>
+                    <div><span class="lms-person-name">{{ enrollment.full_name }}</span><span class="lms-person-email">{{ enrollment.email }}</span></div>
+                  </div>
+                </td>
+                <td>{{ enrollment.flow_title | default("Без потока", true) }}</td>
+                <td><span class="lms-badge lms-badge-{{ enrollment.status }}">{{ "Активен" if enrollment.status == "active" else "Исключён" }}</span></td>
+                {% if can_manage_participants %}
+                  <td>
+                    {% if enrollment.status == "active" %}
+                      <button type="button" class="btn-text theme-secondary btn-sm" data-lms-open-dialog="transfer-participant" data-enrollment-uuid="{{ enrollment.uuid }}" data-participant-name="{{ enrollment.full_name }}" data-flow-uuid="{{ enrollment.flow_uuid }}" aria-label="Перевести слушателя {{ enrollment.full_name }}">Перевести</button>
+                    {% else %}
+                      <span class="lms-caption">Вне текущего состава</span>
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div data-lms-no-results hidden>{{ empty("Ничего не найдено", "Попробуй другое имя, email или сбрось фильтры.", "search") }}</div>
+      <footer class="lms-filter-footer"><span aria-live="polite">Показано: <span data-lms-visible-count>{{ enrollments | length }}</span> из {{ enrollments | length }}</span></footer>
+    {% else %}
+      {{ empty("В проекте пока нет слушателей", "Зачисли первого слушателя вручную или загрузи список из Excel. Для каждого зачисления потребуется поток.", "people") }}
+      {% if not flows and can_manage_participants %}
+        <div class="lms-form-actions lms-panel-body"><a class="btn-outline theme-secondary" href="{{ url_for('lms-flows:list', project_uuid=project.uuid) }}">Перейти к потокам</a></div>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  {% if can_manage_participants %}
+    <dialog class="lms-dialog" id="enroll-participant" aria-labelledby="enroll-participant-title">
+      {{ dialog_header("Зачислить слушателя", "enroll-participant-title") }}
+      <form class="lms-dialog-body" method="post" {% if enroll_url | default("") %}action="{{ enroll_url }}"{% else %}data-lms-unavailable{% endif %}>
+        {{ csrf_field(csrf_token | default("")) }}
+        <div class="lms-form-grid">
+          <div class="lms-field lms-field-wide"><label for="enroll-name">ФИО</label><input class="form-control" id="enroll-name" name="full_name" value="{{ participant_form.full_name | default('') }}" autocomplete="name" maxlength="254" required></div>
+          <div class="lms-field lms-field-wide"><label for="enroll-email">Email</label><input class="form-control" id="enroll-email" name="email" type="email" value="{{ participant_form.email | default('') }}" autocomplete="email" maxlength="254" required></div>
+          <div class="lms-field lms-field-wide"><label for="enroll-flow">Поток</label><select class="form-select" id="enroll-flow" name="flow_uuid" required><option value="">Выбери поток</option>{% for item in flows %}<option value="{{ item.uuid }}" {% if participant_form.flow_uuid | default('') | string == item.uuid | string %}selected{% endif %}>{{ item.title }}</option>{% endfor %}</select></div>
+        </div>
+        <p class="lms-help">Если слушатель с таким email уже есть в справочнике, будет использована существующая запись.</p>
+        <div class="lms-form-actions"><button type="button" class="btn-outline theme-secondary" data-lms-close-dialog>Отмена</button><button type="submit" class="btn-solid theme-primary" {% if not enroll_url | default('') or not csrf_token | default('') or not flows %}disabled{% endif %}>Зачислить</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="lms-dialog" id="import-participants" aria-labelledby="import-participants-title">
+      {{ dialog_header("Импорт слушателей", "import-participants-title") }}
+      <form class="lms-dialog-body" method="post" enctype="multipart/form-data" {% if import_url | default('') %}action="{{ import_url }}"{% else %}data-lms-unavailable{% endif %}>
+        {{ csrf_field(csrf_token | default('')) }}
+        <div class="lms-note"><i class="bi bi-file-earmark-spreadsheet" aria-hidden="true"></i><p>В файле должны быть колонки <strong>ФИО, email и поток</strong>. Повторные зачисления будут пропущены, ошибки — показаны по строкам.</p></div>
+        <div class="lms-field"><label for="import-file">Файл Excel</label><input class="form-control" id="import-file" name="file" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required></div>
+        {% if import_template_url | default('') %}<p class="lms-help"><a href="{{ import_template_url }}">Скачать шаблон импорта</a></p>{% endif %}
+        <div class="lms-form-actions"><button type="button" class="btn-outline theme-secondary" data-lms-close-dialog>Отмена</button><button type="submit" class="btn-solid theme-primary" {% if not import_url | default('') or not csrf_token | default('') %}disabled{% endif %}>Импортировать</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="lms-dialog" id="transfer-participant" aria-labelledby="transfer-participant-title">
+      {{ dialog_header("Перевести в другой поток", "transfer-participant-title") }}
+      <form class="lms-dialog-body" method="post" {% if transfer_url | default('') %}action="{{ transfer_url }}"{% else %}data-lms-unavailable{% endif %}>
+        {{ csrf_field(csrf_token | default('')) }}
+        <input type="hidden" name="enrollment_uuid" data-lms-enrollment-uuid>
+        <p class="lms-help mb-3" data-lms-participant-name></p>
+        <div class="lms-field"><label for="transfer-flow">Новый поток</label><select class="form-select" id="transfer-flow" name="flow_uuid" required data-lms-transfer-flow><option value="">Выбери поток</option>{% for item in flows %}<option value="{{ item.uuid }}">{{ item.title }}</option>{% endfor %}</select></div>
+        <p class="lms-help">Сохранённые отметки посещаемости останутся у слушателя после перевода.</p>
+        <div class="lms-form-actions"><button type="button" class="btn-outline theme-secondary" data-lms-close-dialog>Отмена</button><button type="submit" class="btn-solid theme-primary" {% if not transfer_url | default('') or not csrf_token | default('') or flows | length < 2 %}disabled{% endif %}>Перевести</button></div>
+      </form>
+    </dialog>
+  {% endif %}
+{% endblock %}

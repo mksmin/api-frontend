@@ -1,0 +1,106 @@
+{% extends "subprojects/lms/projects/workspace.html" %}
+{% from "subprojects/lms/components/workspace_ui.html" import stat, empty, csrf_field %}
+{% set project_section = "attendance" %}
+{% set sessions = sessions | default([], true) %}
+{% set flows = flows | default([], true) %}
+{% set attendance_rows = attendance_rows | default([], true) %}
+{% set attendance_history = attendance_history | default([], true) %}
+{% set selected_session = selected_session | default(none) %}
+{% set selected_flow_uuid = selected_flow_uuid | default('') | string %}
+{% set cancelled = selected_session and selected_session.status == "cancelled" %}
+{% set editable = can_edit_attendance | default(false) and (not cancelled or can_edit_cancelled_attendance | default(false)) %}
+{% set save_enabled = editable and attendance_url | default('') and csrf_token | default('') %}
+{% set present_count = attendance_rows | selectattr('attendance_status', 'equalto', 'present') | list | length %}
+{% set absent_count = attendance_rows | selectattr('attendance_status', 'equalto', 'absent') | list | length %}
+{# Rows use enrollment_uuid, full_name, email, flow_title, attendance_status.
+   No attendance record is represented by None or an empty string. #}
+
+{% block title %}Журнал — {{ project.title }} — LMS{% endblock %}
+
+{% block workspace_content %}
+  <header class="lms-page-header">
+    <div><span class="lms-eyebrow">Посещаемость</span><h2>Журнал</h2><p>Отмечай посещение занятий и проверяй историю изменений.</p></div>
+    {% if selected_session %}<span class="lms-badge {{ 'lms-badge-planned' if editable else 'lms-badge-plain' }}"><i class="bi bi-{{ 'pencil' if editable else 'lock' }}" aria-hidden="true"></i>{{ "Можно редактировать" if editable else "Только просмотр" }}</span>{% endif %}
+  </header>
+
+  <section class="lms-panel" aria-label="Выбор занятия и потока">
+    <form class="lms-filters lms-attendance-filters" method="get" action="/lms/projects/{{ project.uuid }}/attendance">
+      <div class="lms-field lms-field-search">
+        <label for="attendance-session">Занятие</label>
+        <select class="form-select" id="attendance-session" name="session_uuid" required>
+          <option value="">Выбери занятие</option>
+          {% for session in sessions %}<option value="{{ session.uuid }}" {% if selected_session and selected_session.uuid | string == session.uuid | string %}selected{% endif %}>{{ session.date_label }} · {{ session.title }}{% if session.status == 'cancelled' %} · Отменено{% endif %}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="lms-field"><label for="attendance-flow">Поток</label><select class="form-select" id="attendance-flow" name="flow_uuid"><option value="">Все доступные потоки</option>{% for item in flows %}<option value="{{ item.uuid }}" {% if selected_flow_uuid == item.uuid | string %}selected{% endif %}>{{ item.title }}</option>{% endfor %}</select></div>
+      <button type="submit" class="btn-solid theme-primary" {% if not sessions %}disabled{% endif %}>Показать журнал</button>
+    </form>
+  </section>
+
+  {% if selected_session %}
+    {% if cancelled %}
+      <aside class="lms-note lms-note-warning"><i class="bi bi-calendar-x" aria-hidden="true"></i><p><strong>Занятие отменено.</strong> Отметки сохранены. {% if editable %}Как владелец, ты можешь исправить их с записью в истории.{% else %}Журнал доступен только для просмотра.{% endif %}</p></aside>
+    {% endif %}
+
+    <section class="lms-stats" aria-label="Отметки выбранного занятия">
+      {{ stat("Был", present_count, "check2-circle", "lms-positive", "present") }}
+      {{ stat("Отсутствовал", absent_count, "x-circle", "lms-negative", "absent") }}
+      {{ stat("Не отмечен", attendance_rows | length - present_count - absent_count, "circle", "", "unmarked") }}
+    </section>
+
+    <section class="lms-panel" aria-labelledby="attendance-heading">
+      <header class="lms-section-header"><div><h3 id="attendance-heading">{{ selected_session.title }}</h3><p>{{ selected_session.date_label }} · {{ selected_session.starts_at_label }}–{{ selected_session.ends_at_label }} · {{ project.timezone | default('Europe/Moscow', true) }}</p></div><span class="lms-badge lms-badge-plain">Слушателей: {{ attendance_rows | length }}</span></header>
+
+      {% if attendance_rows %}
+        <form method="post" data-lms-attendance-form data-lms-save-enabled="{{ 'true' if save_enabled else 'false' }}" {% if attendance_url | default('') %}action="{{ attendance_url }}"{% else %}data-lms-unavailable{% endif %}>
+          {{ csrf_field(csrf_token | default('')) }}
+          <input type="hidden" name="session_uuid" value="{{ selected_session.uuid }}">
+          <input type="hidden" name="flow_uuid" value="{{ selected_flow_uuid }}">
+          <div class="lms-table-scroll">
+            <table class="lms-table lms-attendance-table">
+              <caption class="visually-hidden">Посещаемость занятия {{ selected_session.title }}</caption>
+              <thead><tr><th scope="col">Слушатель</th><th scope="col">Текущий поток</th><th scope="col">Посещаемость</th></tr></thead>
+              <tbody>
+                {% for row in attendance_rows %}
+                  {% set attendance_status = row.attendance_status | default('', true) %}
+                  <tr>
+                    <td><div class="lms-person"><span class="lms-avatar" aria-hidden="true">{{ row.full_name[:1] | upper }}</span><div><span class="lms-person-name">{{ row.full_name }}</span><span class="lms-person-email">{{ row.email }}</span><span class="lms-mobile-flow">{{ row.flow_title }}</span></div></div></td>
+                    <td>{{ row.flow_title }}</td>
+                    <td>
+                      <select class="form-select lms-attendance-select" name="attendance[{{ row.enrollment_uuid }}]" aria-label="Посещаемость: {{ row.full_name }}" data-lms-attendance data-original-status="{{ attendance_status }}" data-status="{{ attendance_status }}" {% if not editable %}disabled{% endif %}>
+                        <option value="" {% if not attendance_status %}selected{% endif %}>○ Не отмечен</option>
+                        <option value="present" {% if attendance_status == 'present' %}selected{% endif %}>✓ Был</option>
+                        <option value="absent" {% if attendance_status == 'absent' %}selected{% endif %}>× Отсутствовал</option>
+                      </select>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <footer class="lms-attendance-footer">
+            <span class="lms-caption" data-lms-clean-message>Изменений нет</span>
+            <span class="lms-dirty" data-lms-dirty-message hidden role="status" aria-live="polite"></span>
+            {% if editable %}<div class="lms-actions"><button type="reset" class="btn-outline theme-secondary" data-lms-reset-attendance disabled>Отменить изменения</button><button type="submit" class="btn-solid theme-primary" data-lms-save disabled><i class="bi bi-check2" aria-hidden="true"></i>Сохранить изменения</button></div>{% endif %}
+          </footer>
+        </form>
+      {% else %}
+        {{ empty("Нет активных слушателей", "В выбранном потоке пока нет активных зачислений. Выбери другой поток или добавь слушателей в проект.", "people") }}
+      {% endif %}
+
+      <details class="lms-history">
+        <summary>История изменений{% if attendance_history %} · {{ attendance_history | length }}{% endif %}</summary>
+        {% if attendance_history %}
+          <ul class="lms-history-list">
+            {% for event in attendance_history %}
+              <li><strong>{{ event.full_name }}</strong> · {{ {'present': 'Был', 'absent': 'Отсутствовал'}.get(event.old_status, 'Не отмечен') }} → {{ {'present': 'Был', 'absent': 'Отсутствовал'}.get(event.new_status, 'Не отмечен') }}<p>{{ event.author_name }} · {{ event.created_at_label }}</p></li>
+            {% endfor %}
+          </ul>
+        {% else %}<p class="lms-help lms-panel-body">Изменений посещаемости пока нет.</p>{% endif %}
+      </details>
+    </section>
+    <p class="lms-help">Журнал показывает текущий состав. После перевода слушателя его прежние отметки отображаются в новом потоке.</p>
+  {% else %}
+    <section class="lms-panel">{{ empty("Выбери занятие", "Открой журнал занятия из расписания или выбери его в списке выше. Затем можно будет отметить посещаемость.", "journal-check") }}</section>
+  {% endif %}
+{% endblock %}

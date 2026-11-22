@@ -1,0 +1,76 @@
+{% extends "subprojects/lms/projects/workspace.html" %}
+{% from "subprojects/lms/components/workspace_ui.html" import stat, empty %}
+{% set project_section = "reports" %}
+{% set summary_rows = summary_rows | default([], true) %}
+{% set report_totals = report_totals | default({}, true) %}
+{% set filters = filters | default({}, true) %}
+{% set can_export_reports = can_export_reports | default(false) %}
+{# Summary rows: flow_title, active_count, present_count, absent_count,
+   unmarked_count, attendance_rate (number, or None when denominator is zero).
+   Totals and percentages are supplied by the server, not inferred from DOM. #}
+
+{% block title %}Отчёты — {{ project.title }} — LMS{% endblock %}
+
+{% block workspace_content %}
+  <header class="lms-page-header">
+    <div><span class="lms-eyebrow">Итоги обучения</span><h2>Отчёты</h2><p>Посещаемость по потокам и выгрузка журнала за выбранный период.</p></div>
+    {% if period_label | default('') %}<span class="lms-badge lms-badge-plain"><i class="bi bi-calendar3" aria-hidden="true"></i>{{ period_label }}</span>{% endif %}
+  </header>
+
+  <section class="lms-panel" aria-label="Период отчёта">
+    <form class="lms-filters" method="get" action="/lms/projects/{{ project.uuid }}/reports" data-lms-period-form>
+      <div class="lms-field"><label for="report-date-from">С даты</label><input class="form-control" id="report-date-from" type="date" name="date_from" value="{{ filters.date_from | default('') }}" required data-lms-period-start></div>
+      <div class="lms-field"><label for="report-date-to">По дату включительно</label><input class="form-control" id="report-date-to" type="date" name="date_to" value="{{ filters.date_to | default('') }}" required data-lms-period-end></div>
+      <button type="submit" class="btn-solid theme-primary"><i class="bi bi-funnel" aria-hidden="true"></i>Показать отчёт</button>
+    </form>
+  </section>
+
+  <section class="lms-stats lms-stats-four" aria-label="Итоги выбранного периода">
+    {{ stat("Был", report_totals.present_count | default(none), "check2-circle", "lms-positive") }}
+    {{ stat("Отсутствовал", report_totals.absent_count | default(none), "x-circle", "lms-negative") }}
+    {{ stat("Не отмечен", report_totals.unmarked_count | default(none), "circle") }}
+    {% set total_rate = report_totals.attendance_rate | default(none) %}
+    {{ stat("Посещаемость", (("%.1f" | format(total_rate) | replace('.', ',')) ~ '%') if total_rate is not none else none, "bar-chart") }}
+  </section>
+
+  <div class="lms-reports-layout">
+    <div>
+      <section class="lms-panel" aria-labelledby="summary-heading">
+        <header class="lms-section-header"><div><h3 id="summary-heading">Сводка по потокам</h3><p>По завершённым занятиям выбранного периода</p></div></header>
+        {% if summary_rows %}
+          <div class="lms-table-scroll">
+            <table class="lms-table">
+              <caption class="visually-hidden">Сводка посещаемости по текущим потокам проекта</caption>
+              <thead><tr><th scope="col">Поток</th><th scope="col" class="lms-numeric">Слушатели</th><th scope="col" class="lms-numeric">Был</th><th scope="col" class="lms-numeric">Отсутствовал</th><th scope="col" class="lms-numeric">Не отмечен</th><th scope="col" class="lms-numeric">Посещаемость</th></tr></thead>
+              <tbody>
+                {% for row in summary_rows %}
+                  {% set rate = row.attendance_rate | default(none) %}
+                  <tr><th scope="row">{{ row.flow_title }}</th><td class="lms-numeric">{{ row.active_count }}</td><td class="lms-numeric lms-positive">{{ row.present_count }}</td><td class="lms-numeric lms-negative">{{ row.absent_count }}</td><td class="lms-numeric">{{ row.unmarked_count }}</td><td class="lms-numeric"><span class="lms-rate">{% if rate is not none %}<span class="lms-rate-track" aria-hidden="true"><span class="lms-rate-fill" style="width: {{ [0, [rate | float, 100] | min] | max }}%"></span></span>{{ "%.1f" | format(rate) | replace('.', ',') }}%{% else %}<span title="Нет ожидаемых отметок за завершённые занятия">—</span>{% endif %}</span></td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          {{ empty("Пока нет данных для сводки", "Выбери период с завершёнными занятиями. Когда в проекте появятся слушатели и занятия, здесь будут итоги посещаемости.", "bar-chart") }}
+        {% endif %}
+      </section>
+      <aside class="lms-note"><i class="bi bi-info-circle" aria-hidden="true"></i><div><p><strong>Как считается посещаемость</strong></p><p>«Был» / все ожидаемые отметки за завершённые занятия × 100%. Неотмеченные входят в расчёт, отменённые занятия — нет. Если ожидаемых отметок нет, показывается «—».</p></div></aside>
+      <p class="lms-help">Отчёт строится по текущему составу проекта. После зачисления, перевода или исключения повторная выгрузка за тот же период может измениться.</p>
+    </div>
+
+    <aside class="lms-panel lms-export-card" aria-labelledby="export-heading">
+      <span class="lms-stat-icon"><i class="bi bi-file-earmark-excel" aria-hidden="true"></i></span>
+      <h3 id="export-heading">Выгрузка в Excel</h3>
+      <p>Один файл XLSX с двумя листами за выбранный период.</p>
+      <ul>
+        <li><i class="bi bi-table me-2" aria-hidden="true"></i>Журнал<small>Слушатель, текущий поток, занятие, дата и отметка. Отменённые занятия помечены отдельно.</small></li>
+        <li><i class="bi bi-bar-chart me-2" aria-hidden="true"></i>Сводка<small>Присутствия, отсутствия, неотмеченные и процент посещаемости по каждому потоку.</small></li>
+      </ul>
+      {% if can_export_reports %}
+        <div class="lms-actions">
+          {% if export_url | default('') %}<a class="btn-solid theme-primary" href="{{ export_url }}"><i class="bi bi-download" aria-hidden="true"></i>Скачать XLSX</a>{% else %}<button type="button" class="btn-solid theme-primary" disabled><i class="bi bi-download" aria-hidden="true"></i>Скачать XLSX</button>{% endif %}
+        </div>
+      {% else %}<p class="lms-help">Выгрузка доступна владельцу и администратору проекта.</p>{% endif %}
+    </aside>
+  </div>
+{% endblock %}

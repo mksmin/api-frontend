@@ -1,0 +1,30 @@
+{% macro stat(label, value, icon, tone="", count_key="") %}
+  <article class="lms-stat">
+    <span class="lms-stat-icon {{ tone }}"><i class="bi bi-{{ icon }}" aria-hidden="true"></i></span>
+    <div>
+      <p class="lms-caption">{{ label }}</p>
+      <p class="lms-stat-value" {% if count_key %}data-lms-count="{{ count_key }}"{% endif %}>{{ value if value is not none else "—" }}</p>
+    </div>
+  </article>
+{% endmacro %}
+
+{% macro empty(title, text, icon="inbox") %}
+  <div class="lms-empty">
+    <span class="lms-empty-icon"><i class="bi bi-{{ icon }}" aria-hidden="true"></i></span>
+    <h3>{{ title }}</h3>
+    <p>{{ text }}</p>
+  </div>
+{% endmacro %}
+
+{% macro csrf_field(token) %}
+  <input type="hidden" name="token_key" value="{{ token }}">
+{% endmacro %}
+
+{% macro dialog_header(title, title_id) %}
+  <header class="lms-dialog-header">
+    <h3 id="{{ title_id }}">{{ title }}</h3>
+    <button type="button" class="lms-icon-button" data-lms-close-dialog aria-label="Закрыть окно">
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+    </button>
+  </header>
+{% endmacro %}

@@ -1,0 +1,75 @@
+{% extends "subprojects/lms/projects/workspace.html" %}
+{% from "subprojects/lms/components/workspace_ui.html" import stat, empty, csrf_field, dialog_header %}
+{% set project_section = "sessions" %}
+{% set sessions = sessions | default([], true) %}
+{% set can_manage_sessions = can_manage_sessions | default(false) %}
+{% set timezone = project.timezone | default("Europe/Moscow", true) %}
+{# Session rows: uuid, title, date (YYYY-MM-DD), date_label, day, month_label,
+   starts_at_label, ends_at_label, status (planned/completed/cancelled). #}
+
+{% block title %}Расписание — {{ project.title }} — LMS{% endblock %}
+
+{% block workspace_content %}
+  <header class="lms-page-header">
+    <div><span class="lms-eyebrow">Учебный план</span><h2>Расписание</h2><p>Занятия проекта для всех потоков. Время указано в часовом поясе {{ timezone }}.</p></div>
+    {% if can_manage_sessions %}<button type="button" class="btn-solid theme-primary" data-lms-open-dialog="create-session"><i class="bi bi-plus-lg" aria-hidden="true"></i>Добавить занятие</button>{% endif %}
+  </header>
+
+  <section class="lms-stats" aria-label="Занятия проекта">
+    {{ stat("Запланированы", sessions | selectattr("status", "equalto", "planned") | list | length, "calendar-event") }}
+    {{ stat("Завершены", sessions | selectattr("status", "equalto", "completed") | list | length, "check2-circle", "lms-positive") }}
+    {{ stat("Отменены", sessions | selectattr("status", "equalto", "cancelled") | list | length, "calendar-x") }}
+  </section>
+
+  <section class="lms-panel" aria-labelledby="schedule-heading" data-lms-filter-scope>
+    <header class="lms-section-header"><div><h3 id="schedule-heading">Занятия</h3><p>Единое расписание проекта</p></div><span class="lms-badge lms-badge-plain"><i class="bi bi-globe" aria-hidden="true"></i>{{ timezone }}</span></header>
+    {% if sessions %}
+      <form class="lms-filters" data-lms-filter-form role="search" aria-label="Поиск занятий">
+        <div class="lms-field lms-field-search"><label for="session-search">Поиск</label><div class="lms-search"><i class="bi bi-search" aria-hidden="true"></i><input class="form-control" id="session-search" type="search" name="q" placeholder="Название занятия" data-lms-filter="search"></div></div>
+        <div class="lms-field"><label for="session-date-from">С даты</label><input class="form-control" id="session-date-from" type="date" name="date_from" data-lms-filter="date-from"></div>
+        <div class="lms-field"><label for="session-date-to">По дату</label><input class="form-control" id="session-date-to" type="date" name="date_to" data-lms-filter="date-to"></div>
+        <div class="lms-field"><label for="session-status">Статус</label><select class="form-select" id="session-status" name="status" data-lms-filter="status"><option value="">Все занятия</option><option value="planned">Запланированы</option><option value="completed">Завершены</option><option value="cancelled">Отменены</option></select></div>
+        <button type="reset" class="btn-text theme-secondary">Сбросить</button>
+      </form>
+      <div class="lms-table-scroll">
+        <table class="lms-table">
+          <caption class="visually-hidden">Расписание занятий проекта, часовой пояс {{ timezone }}</caption>
+          <thead><tr><th scope="col">Дата</th><th scope="col">Занятие</th><th scope="col">Время</th><th scope="col">Статус</th><th scope="col">Журнал</th></tr></thead>
+          <tbody>
+            {% for session in sessions %}
+              <tr data-lms-filter-row data-search="{{ session.title }}" data-date="{{ session.date }}" data-status="{{ session.status }}">
+                <td><div class="lms-session-date"><span class="lms-date-tile" aria-hidden="true"><strong>{{ session.day }}</strong><span>{{ session.month_label }}</span></span><time datetime="{{ session.date }}">{{ session.date_label }}</time></div></td>
+                <td><span class="lms-person-name">{{ session.title }}</span><span class="lms-person-email">Для всех потоков</span></td>
+                <td class="lms-time">{{ session.starts_at_label }}–{{ session.ends_at_label }}</td>
+                <td><span class="lms-badge lms-badge-{{ session.status }}">{{ {"planned": "Запланировано", "completed": "Завершено", "cancelled": "Отменено"}.get(session.status, "—") }}</span></td>
+                <td><a class="btn-text theme-secondary btn-sm" href="/lms/projects/{{ project.uuid }}/attendance?{{ {'session_uuid': session.uuid | string} | urlencode }}" aria-label="Открыть журнал занятия {{ session.title }}">Открыть<i class="bi bi-arrow-up-right ms-1" aria-hidden="true"></i></a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div data-lms-no-results hidden>{{ empty("Занятия не найдены", "Измени период, название или статус занятия.", "calendar") }}</div>
+      <footer class="lms-filter-footer"><span aria-live="polite">Показано: <span data-lms-visible-count>{{ sessions | length }}</span> из {{ sessions | length }}</span><span>Все потоки проекта</span></footer>
+    {% else %}
+      {{ empty("Расписание пока пустое", "Добавь первое занятие: укажи название, дату и время. Оно появится в общем расписании и журнале проекта.", "calendar2-plus") }}
+    {% endif %}
+  </section>
+  <aside class="lms-note"><i class="bi bi-info-circle" aria-hidden="true"></i><p>При отмене занятия его отметки сохраняются. Отменённое занятие исключается из расчёта посещаемости.</p></aside>
+
+  {% if can_manage_sessions %}
+    <dialog class="lms-dialog" id="create-session" aria-labelledby="create-session-title">
+      {{ dialog_header("Новое занятие", "create-session-title") }}
+      <form class="lms-dialog-body" method="post" data-lms-session-form {% if create_session_url | default('') %}action="{{ create_session_url }}"{% else %}data-lms-unavailable{% endif %}>
+        {{ csrf_field(csrf_token | default('')) }}
+        <div class="lms-form-grid">
+          <div class="lms-field lms-field-wide"><label for="new-session-title">Название</label><input class="form-control" id="new-session-title" name="title" maxlength="254" placeholder="Например, Основы работы с данными" required></div>
+          <div class="lms-field lms-field-wide"><label for="new-session-date">Дата</label><input class="form-control" id="new-session-date" name="date" type="date" required></div>
+          <div class="lms-field"><label for="new-session-start">Начало</label><input class="form-control" id="new-session-start" name="starts_at" type="time" required data-lms-start-time></div>
+          <div class="lms-field"><label for="new-session-end">Окончание</label><input class="form-control" id="new-session-end" name="ends_at" type="time" required data-lms-end-time></div>
+        </div>
+        <p class="lms-help">Часовой пояс: {{ timezone }}. Занятие общее для всех потоков. Время окончания должно быть позже времени начала.</p>
+        <div class="lms-form-actions"><button type="button" class="btn-outline theme-secondary" data-lms-close-dialog>Отмена</button><button type="submit" class="btn-solid theme-primary" {% if not create_session_url | default('') or not csrf_token | default('') %}disabled{% endif %}>Добавить занятие</button></div>
+      </form>
+    </dialog>
+  {% endif %}
+{% endblock %}
