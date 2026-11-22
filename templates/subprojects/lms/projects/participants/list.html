@@ -1,5 +1,6 @@
 {% extends "subprojects/lms/projects/workspace.html" %}
 {% from "subprojects/lms/components/workspace_ui.html" import stat, empty, csrf_field, dialog_header %}
+
 {% set project_section = "participants" %}
 {% set enrollments = enrollments | default([], true) %}
 {% set flows = flows | default([], true) %}
