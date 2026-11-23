@@ -73,6 +73,13 @@ if (workspace) {
     });
   });
 
+  workspace.querySelectorAll('dialog[data-lms-auto-open]').forEach((dialog) => {
+    if (!(dialog instanceof HTMLDialogElement) || dialog.open) return;
+
+    dialog.showModal();
+    dialog.querySelector('[role="alert"]')?.focus();
+  });
+
   workspace.querySelectorAll('[data-lms-filter-scope]').forEach((scope) => {
     const form = scope.querySelector('[data-lms-filter-form]');
     if (!form) return;

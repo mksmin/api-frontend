@@ -53,7 +53,7 @@
           </div>
 
           <div class="fs-2xl fw-semibold">
-            {{ participants | length | default("—") }}
+            {{ participants | length }}
           </div>
 
         </div>
@@ -98,8 +98,6 @@
       #}
 
     </div>
-
-    {% set participants = participants | default([]) %}
 
     {% if participants %}
 

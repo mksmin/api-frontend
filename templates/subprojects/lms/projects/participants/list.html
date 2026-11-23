@@ -6,6 +6,7 @@
 {% set flows = flows | default([], true) %}
 {% set can_manage_participants = can_manage_participants | default(false) %}
 {% set participant_form = participant_form | default({}, true) %}
+{% set participant_error = participant_error | default("", true) %}
 {# Enrollment rows: uuid, full_name, email, flow_uuid, flow_title, status. #}
 
 {% block title %}Слушатели — {{ project.title }} — LMS{% endblock %}
@@ -111,10 +112,15 @@
   </section>
 
   {% if can_manage_participants %}
-    <dialog class="lms-dialog" id="enroll-participant" aria-labelledby="enroll-participant-title">
+    <dialog class="lms-dialog" id="enroll-participant" aria-labelledby="enroll-participant-title" {% if participant_error %}aria-describedby="enroll-participant-error" data-lms-auto-open{% endif %}>
       {{ dialog_header("Зачислить слушателя", "enroll-participant-title") }}
       <form class="lms-dialog-body" method="post" {% if enroll_url | default("") %}action="{{ enroll_url }}"{% else %}data-lms-unavailable{% endif %}>
         {{ csrf_field(csrf_token | default("")) }}
+        {% if participant_error %}
+          <div class="alert theme-danger" id="enroll-participant-error" role="alert" tabindex="-1">
+            {{ participant_error }}
+          </div>
+        {% endif %}
         <div class="lms-form-grid">
           <div class="lms-field lms-field-wide"><label for="enroll-name">ФИО</label><input class="form-control" id="enroll-name" name="full_name" value="{{ participant_form.full_name | default('') }}" autocomplete="name" maxlength="254" required></div>
           <div class="lms-field lms-field-wide"><label for="enroll-email">Email</label><input class="form-control" id="enroll-email" name="email" type="email" value="{{ participant_form.email | default('') }}" autocomplete="email" maxlength="254" required></div>
